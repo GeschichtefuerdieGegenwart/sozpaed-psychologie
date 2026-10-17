@@ -1,0 +1,2 @@
+# sozpaed-psychologie
+Digitaler Unterricht
