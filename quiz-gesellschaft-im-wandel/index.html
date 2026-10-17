@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Gesellschaft im Wandel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .quiz-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question {
+            display: none;
+            margin-bottom: 20px;
+        }
+        .question.active {
+            display: block;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .options {
+            margin: 15px 0;
+        }
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .option:hover {
+            background-color: #e0e0e0;
+        }
+        .option.selected {
+            background-color: #3498db;
+            color: white;
+        }
+        .option.correct {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .option.incorrect {
+            background-color: #e74c3c;
+            color: white;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .result {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .progress {
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz: Gesellschaft im Wandel</h1>
+        <p>Testen Sie Ihr Wissen über Individualisierung, Pluralisierung und Globalisierung!</p>
+        
+        <div class="progress">Frage 1 von 10</div>
+        
+        <!-- Frage 1 -->
+        <div class="question active" data-correct="b">
+            <h2>Frage 1:</h2>
+            <p>Was versteht man unter dem Begriff "Individualisierung" in der Soziologie?</p>
+            <div class="options">
+                <div class="option" data-option="a">Die zunehmende Bedeutung von Traditionen für die Lebensgestaltung</div>
+                <div class="option" data-option="b">Die Auflösung von Klassen und Schichten zugunsten selbstbestimmter Lebensgestaltung</div>
+                <div class="option" data-option="c">Die verstärkte Kontrolle des Einzelnen durch gesellschaftliche Normen</div>
+                <div class="option" data-option="d">Die Rückkehr zu mittelalterlichen Gemeinschaftsstrukturen</div>
+            </div>
+        </div>
+        
+        <!-- Frage 2 -->
+        <div class="question" data-correct="c">
+            <h2>Frage 2:</h2>
+            <p>Welche der folgenden Aussagen ist KEINE Voraussetzung für den Individualisierungsprozess?</p>
+            <div class="options">
+                <div class="option" data-option="a">Steigender Wohlstand in weiten Teilen der Bevölkerung</div>
+                <div class="option" data-option="b">Verkürzung der Arbeitszeit und mehr Freizeit</div>
+                <div class="option" data-option="c">Stärkere Bindung an traditionelle Familienstrukturen</div>
+                <div class="option" data-option="d">Gestiegenes Bildungsniveau</div>
+            </div>
+        </div>
+        
+        <!-- Frage 3 -->
+        <div class="question" data-correct="d">
+            <h2>Frage 3:</h2>
+            <p>Warum gelten Frauen als Hauptgewinnerinnen des Individualisierungsprozesses?</p>
+            <div class="options">
+                <div class="option" data-option="a">Weil sie heute weniger arbeiten müssen als früher</div>
+                <div class="option" data-option="b">Weil sie heute häufiger Hausfrauen sind als früher</div>
+                <div class="option" data-option="c">Weil sie heute weniger Bildungschancen haben als früher</div>
+                <div class="option" data-option="d">Weil sie heute bessere Bildungsabschlüsse und mehr berufliche Möglichkeiten haben</div>
+            </div>
+        </div>
+        
+        <!-- Frage 4 -->
+        <div class="question" data-correct="a">
+            <h2>Frage 4:</h2>
+            <p>Was versteht man unter "Pluralisierung der Lebensstile"?</p>
+            <div class="options">
+                <div class="option" data-option="a">Die zunehmende Vielfalt unterschiedlicher Lebenskonzepte und -entwürfe</div>
+                <div class="option" data-option="b">Die Rückkehr zu traditionellen Familienmodellen</div>
+                <div class="option" data-option="c">Die Vereinheitlichung kultureller Standards</div>
+                <div class="option" data-option="d">Die Abschaffung aller sozialen Milieus</div>
+            </div>
+        </div>
+        
+        <!-- Frage 5 -->
+        <div class="question" data-correct="c">
+            <h2>Frage 5:</h2>
+            <p>Welche der folgenden Lebensformen ist ein Beispiel für die Pluralisierung der Formen des Zusammenlebens?</p>
+            <div class="options">
+                <div class="option" data-option="a">Ausschließlich die traditionelle Kleinfamilie</div>
+                <div class="option" data-option="b">Nur eheliche Lebensgemeinschaften</div>
+                <div class="option" data-option="c">Wohngemeinschaften, Single-Haushalte und nicht-eheliche Partnerschaften</div>
+                <div class="option" data-option="d">Ausschließlich Mehrgenerationenhaushalte</div>
+            </div>
+        </div>
+        
+        <!-- Frage 6 -->
+        <div class="question" data-correct="b">
+            <h2>Frage 6:</h2>
+            <p>Was ist eine Schattenseite der Individualisierung?</p>
+            <div class="options">
+                <div class="option" data-option="a">Weniger Entscheidungsmöglichkeiten</div>
+                <div class="option" data-option="b">Zunehmende Entscheidungszumutungen und Selbstverantwortung</div>
+                <div class="option" data-option="c">Stärkere traditionelle Bindungen</div>
+                <div class="option" data-option="d">Weniger Bildungsmöglichkeiten</div>
+            </div>
+        </div>
+        
+        <!-- Frage 7 -->
+        <div class="question" data-correct="d">
+            <h2>Frage 7:</h2>
+            <p>Welches der folgenden Merkmale gehört NICHT zur Globalisierung?</p>
+            <div class="options">
+                <div class="option" data-option="a">Öffnung der nationalen Märkte</div>
+                <div class="option" data-option="b">Weltweite Mobilität und Kommunikation</div>
+                <div class="option" data-option="c">Abbau von Handelsbeschränkungen</div>
+                <div class="option" data-option="d">Stärkung nationalstaatlicher Grenzen</div>
+            </div>
+        </div>
+        
+        <!-- Frage 8 -->
+        <div class="question" data-correct="a">
+            <h2>Frage 8:</h2>
+            <p>Was ist ein möglicher negativer Aspekt der Globalisierung?</p>
+            <div class="options">
+                <div class="option" data-option="a">Zunehmende Ungleichheit und Armut in Entwicklungsländern</div>
+                <div class="option" data-option="b">Weniger kultureller Austausch</div>
+                <div class="option" data-option="c">Reduzierte Mobilität</div>
+                <div class="option" data-option="d">Geringere Umweltbelastung</div>
+            </div>
+        </div>
+        
+        <!-- Frage 9 -->
+        <div class="question" data-correct="c">
+            <h2>Frage 9:</h2>
+            <p>Was bedeutet der Begriff "Multioptionsgesellschaft" im Zusammenhang mit Individualisierung?</p>
+            <div class="options">
+                <div class="option" data-option="a">Eine Gesellschaft mit weniger Wahlmöglichkeiten</div>
+                <div class="option" data-option="b">Eine Gesellschaft mit strengen traditionellen Vorgaben</div>
+                <div class="option" data-option="c">Eine Gesellschaft mit explodierenden Entscheidungsmöglichkeiten und -zumutungen</div>
+                <div class="option" data-option="d">Eine Gesellschaft ohne soziale Mobilität</div>
+            </div>
+        </div>
+        
+        <!-- Frage 10 -->
+        <div class="question" data-correct="b">
+            <h2>Frage 10:</h2>
+            <p>Was ist ein Beispiel für den Verlust traditioneller Stabilitäten durch Individualisierung?</p>
+            <div class="options">
+                <div class="option" data-option="a">Stärkere Bindung an lokale Gemeinschaften</div>
+                <div class="option" data-option="b">Weniger Orientierung durch traditionelle Bindungen und mehr innere Heimatlosigkeit</div>
+                <div class="option" data-option="c">Mehr vorgegebene Lebenswege</div>
+                <div class="option" data-option="d">Reduzierte Bildungsmöglichkeiten</div>
+            </div>
+        </div>
+        
+        <!-- Ergebnisanzeige -->
+        <div class="result">
+            <h2>Quiz abgeschlossen!</h2>
+            <p>Sie haben <span id="score">0</span> von 10 Fragen richtig beantwortet.</p>
+            <button id="restart">Quiz neu starten</button>
+        </div>
+        
+        <button id="next" disabled>Weiter</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const questions = document.querySelectorAll('.question');
+            const nextButton = document.getElementById('next');
+            const restartButton = document.getElementById('restart');
+            const resultDiv = document.querySelector('.result');
+            const scoreSpan = document.getElementById('score');
+            const progressDiv = document.querySelector('.progress');
+            
+            let currentQuestion = 0;
+            let score = 0;
+            let selectedOption = null;
+            
+            // Initiale Anzeige
+            showQuestion(currentQuestion);
+            
+            // Event-Listener für Optionen
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Vorherige Auswahl entfernen
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Aktuelle Auswahl markieren
+                    this.classList.add('selected');
+                    selectedOption = this.getAttribute('data-option');
+                    nextButton.disabled = false;
+                });
+            });
+            
+            // Weiter-Button
+            nextButton.addEventListener('click', function() {
+                const question = questions[currentQuestion];
+                const correctAnswer = question.getAttribute('data-correct');
+                
+                // Überprüfung der Antwort
+                if (selectedOption === correctAnswer) {
+                    score++;
+                }
+                
+                // Farbliche Markierung der Antworten
+                question.querySelectorAll('.option').forEach(option => {
+                    option.classList.remove('selected');
+                    if (option.getAttribute('data-option') === correctAnswer) {
+                        option.classList.add('correct');
+                    } else if (option.getAttribute('data-option') === selectedOption && selectedOption !== correctAnswer) {
+                        option.classList.add('incorrect');
+                    }
+                });
+                
+                // Kurze Verzögerung vor nächster Frage
+                setTimeout(() => {
+                    currentQuestion++;
+                    
+                    if (currentQuestion < questions.length) {
+                        showQuestion(currentQuestion);
+                    } else {
+                        // Quiz beendet
+                        showResult();
+                    }
+                }, 1000);
+            });
+            
+            // Neustart-Button
+            restartButton.addEventListener('click', function() {
+                currentQuestion = 0;
+                score = 0;
+                selectedOption = null;
+                
+                // Zurücksetzen aller Fragen
+                questions.forEach(question => {
+                    question.querySelectorAll('.option').forEach(option => {
+                        option.classList.remove('selected', 'correct', 'incorrect');
+                    });
+                });
+                
+                // Erste Frage anzeigen
+                showQuestion(currentQuestion);
+                resultDiv.style.display = 'none';
+            });
+            
+            function showQuestion(index) {
+                // Alle Fragen ausblenden
+                questions.forEach(question => {
+                    question.classList.remove('active');
+                });
+                
+                // Aktuelle Frage anzeigen
+                questions[index].classList.add('active');
+                nextButton.disabled = true;
+                selectedOption = null;
+                
+                // Fortschritt aktualisieren
+                progressDiv.textContent = `Frage ${index + 1} von ${questions.length}`;
+            }
+            
+            function showResult() {
+                // Alle Fragen ausblenden
+                questions.forEach(question => {
+                    question.classList.remove('active');
+                });
+                
+                // Ergebnis anzeigen
+                resultDiv.style.display = 'block';
+                scoreSpan.textContent = score;
+            }
+        });
+    </script>
+</body>
+</html>

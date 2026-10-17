@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Der große Preis: Bindung und Eingewöhnung</title>
+<style>
+:root{--bg:#0f2a5c;--feld:#1d4ed8;--feld-h:#2563eb;--text:#fff;--gold:#fbbf24;--papier:#fff;--ink:#1f2937}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+header{text-align:center;padding:20px 16px 8px}
+h1{margin:0;font-size:clamp(1.4rem,1rem + 2vw,2.2rem)}
+.unter{margin:.3rem 0 0;opacity:.85}
+.einstellung{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;padding:8px 16px}
+.einstellung button,.einstellung select{font:inherit;padding:6px 12px;border-radius:6px;border:0}
+.brett{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:960px;margin:12px auto;padding:0 16px}
+.kopf{background:#173b86;text-align:center;font-weight:700;padding:12px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:.04em}
+.feld{background:var(--feld);color:var(--gold);font:700 clamp(1.3rem,1rem + 2vw,2.2rem)/1 system-ui,sans-serif;border:0;border-radius:8px;min-height:72px;cursor:pointer}
+.feld:hover{background:var(--feld-h)}
+.feld[disabled]{background:#24365e;color:#7d8db0;cursor:default}
+.teams{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:960px;margin:16px auto;padding:0 16px}
+.team{background:#173b86;border-radius:10px;padding:10px 14px;min-width:150px;text-align:center}
+.team input{font:inherit;background:transparent;color:#fff;border:0;border-bottom:1px dashed #94a3b8;text-align:center;width:100%}
+.team .stand{font-size:1.8rem;font-weight:700;color:var(--gold)}
+.team button{font:inherit;border:0;border-radius:6px;padding:4px 10px;margin:2px;cursor:pointer}
+dialog{max-width:760px;width:calc(100% - 32px);border:0;border-radius:12px;padding:0;color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.dlg{padding:20px 24px}
+.dlg h2{margin:0 0 8px;color:#1d4ed8}
+.frage{font-size:1.2rem}
+.antwort{margin-top:16px;padding:14px 16px;background:#f1f5f9;border-radius:8px}
+.antwort img,.frage img{max-width:100%;height:auto;display:block;margin:8px 0;border-radius:6px}
+.dlg-knoepfe{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.dlg-knoepfe button{font:inherit;border:0;border-radius:6px;padding:8px 14px;cursor:pointer;background:#e2e8f0}
+.dlg-knoepfe .haupt{background:#1d4ed8;color:#fff}
+.vergeben{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.vergeben button{font:inherit;border:0;border-radius:6px;padding:6px 10px;cursor:pointer;background:#dcfce7}
+footer{text-align:center;opacity:.8;font-size:.85rem;padding:16px}
+</style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+<header>
+  <h1>Der große Preis: Bindung und Eingewöhnung</h1>
+  <p class="unter">Wählt ein Feld. Je höher die Punktzahl, desto anspruchsvoller die Aufgabe.</p>
+</header>
+<div class="einstellung">
+  <label for="anzahl">Teams:</label>
+  <select id="anzahl"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select>
+  <button type="button" id="neu">Neues Spiel</button>
+</div>
+<div class="brett" id="brett" role="grid" aria-label="Spielbrett"></div>
+<div class="teams" id="teams" aria-label="Punktestand"></div>
+<dialog id="dlg" aria-labelledby="dlg-titel"><div class="dlg">
+  <h2 id="dlg-titel"></h2>
+  <div class="frage" id="dlg-frage"></div>
+  <div class="antwort" id="dlg-antwort" hidden></div>
+  <div class="vergeben" id="dlg-vergeben" hidden></div>
+  <div class="dlg-knoepfe">
+    <button type="button" class="haupt" id="zeigen">Lösung zeigen</button>
+    <button type="button" id="schliessen">Zurück zum Brett</button>
+  </div>
+</div></dialog>
+<footer>Eigene Umsetzung (Oktober 2026) der früheren Jeopardy-Vorlage. Läuft ohne Anmeldung und ohne Internet.</footer>
+<script>
+const KATEGORIEN=["Bindung I","Bindung II","Bindung III"];
+const FELDER=[[{"punkte": 100, "frage": "<p>Vervollständigen Sie den Satz: „Bindung ist …“</p>", "antwort": "<p>„Bindung ist ein gefühlsgetragenes Band, das eine Person zu einer anderen spezifischen Person anknüpft, das sie über Raum und Zeit hinweg miteinander verbindet.“</p><p>John Bowlby (1907 – 1990), Begründer der Bindungstheorie</p>"}, {"punkte": 100, "frage": "<p>Wer gilt als Begründer der Bindungstheorie? (Britischer Kinderpsychiater und Psychoanalytiker, 1907–1990)</p>", "antwort": "<p>John Bowlby</p>"}, {"punkte": 100, "frage": "<p>Bindung hat nichts mit genetischer Vorprogrammierung zu tun. Ist diese Aussage richtig oder falsch?</p>", "antwort": "<p>falsch. </p>"}], [{"punkte": 200, "frage": "<p>Welche Verhaltensweisen einer Bezugsperson führen zu einer sicheren Bindung und welche zu einer unsicheren Bindung?</p>", "antwort": "<p>Feinfühligkeit bedeutet, dass die Signale des Kindes (z.B. sein Weinen) von der Bezugsperson wahrgenommen und richtig interpretiert werden (z.B. als Suche nach Nähe und Körperkontakt) und eine angemessene und prompte Reaktion darauf erfolgt.</p><p>Verbundenheit, Nähe, Zärtlichkeit, Fürsorge, Schutz, Körperkontakt und An-sprache führen somit zu einer sicheren Bindung zur Bezugsperson.</p>"}, {"punkte": 200, "frage": "<p>Welches Verhalten führt zu einer unsicher-vermeidende Bindung?</p>", "antwort": "<p>Verhalten zur Ausbildung einer unsicher-vermeidende Bindung</p><p>Werden dagegen die kindlichen Bedürfnisse gar nicht, nur unzureichend oder unregelmäßig beantwortet, entwickelt sich häufiger eine</p><p>unsicher-vermeidende oder eine unsicher ambivalente Bindung oder gar eine unsicher-desorganisierte, bzw. desorientierte Bindung</p>"}, {"punkte": 200, "frage": "<p>Welche Verhaltensweisen zeigt ein Kind mit einer unsicher-vermeidenden Bindung? </p>", "antwort": "<ul><li>Es zeigt bei der Trennung kaum sichtbaren Kummer.</li><li>Bei der Rückkehr der Bezugsperson meidet oder ignoriert es sie.</li><li>Es wendet sich eher dem Spielzeug zu als der Bezugsperson.</li><li>Äußerlich wirkt es unbeeindruckt. Körperlich ist es trotzdem gestresst.</li></ul>"}], [{"punkte": 300, "frage": "<p>Was versteht man unter dem fremde-Situationstest und vom wem wurde er durchgeführt? </p>", "antwort": "<p>Mary Ainsworth entwickelte ein standardisiertes Untersuchungsverfahren, mit dem sie das Bindungs-verhalten zunächst bei Kindern im Alter von etwa 12 bis 18 Monaten beobachtete und erfasste (Baltimore-Studie, 1970er Jahre). Später wurde der Test in vielen Ländern und Kulturen eingesetzt: Der sogenannte „Fremde-Situation-Test“ Der Test besteht aus einer Abfolge von je dreiminütigen Episoden, wobei Mutter, Kind und eine fremde Person beteiligt sind.</p>"}, {"punkte": 300, "frage": "<p>Bindungserfahrungen haben Einfluss auf die Gehirnentwicklung – Welcher Einfluss ist das?</p>", "antwort": "<p>1. Emotionale Regulation</p><ul><li>Einfluss: Eine sichere Bindung fördert die Entwicklung von Fähigkeiten zur emotionalen Regulation. Kinder, die stabile Bindungen erfahren, lernen, ihre Emotionen besser zu steuern und zu verarbeiten.</li></ul><p>2. Neurale Vernetzung</p><ul><li>Einfluss: Positive Bindungserfahrungen fördern die Bildung und Vernetzung von Neuronen im Gehirn, insbesondere in Bereichen, die für soziale Interaktionen und emotionale Verarbeitung zuständig sind, wie der präfrontalen Cortex und das limbische System.</li></ul><p>3. Stressbewältigung</p><ul><li>Einfluss: Kinder mit sicheren Bindungen entwickeln bessere Bewältigungsmechanismen für Stress. Sie haben niedrigere Cortisolspiegel (das Stresshormon), was langfristig ihre psychische Gesundheit unterstützt.</li></ul><p>4. Kognitive Entwicklung</p><ul><li>Einfluss: Eine sichere Bindung kann auch die kognitive Entwicklung unterstützen. Kinder, die sich sicher fühlen, sind eher bereit, ihre Umgebung zu erkunden und zu lernen, was ihre kognitiven Fähigkeiten fördert.</li></ul><p>5. Soziale Fähigkeiten</p><ul><li>Einfluss: Kinder mit sicheren Bindungen entwickeln bessere soziale Fähigkeiten. Sie lernen, Beziehungen aufzubauen, Empathie zu zeigen und Konflikte zu lösen.</li></ul>"}, {"punkte": 300, "frage": "<ul><li>Weinen, Schreien, Arme ausstrecken, Klammern, Protestieren </li></ul><p>Formulieren Sie eine passende Frage in Zusammenhang mit der Bindungsforschung, auf die die aufgelisteten Verhaltensweisen die richtige Antwort wären.</p>", "antwort": "<p>„Welche Verhaltensweisen zeigen Kinder, wenn sie sich in einer belastenden oder unsicheren Situation befinden und Unterstützung von ihren Bezugspersonen suchen?“ </p>"}], [{"punkte": 400, "frage": "<p>Warum lässt sich ein 6 Monate altes Kind eher von einer fremden Person halten als ein 12 Monate altes? Begründen Sie ihre Antwort fachlich.</p>", "antwort": "<p>Zum Zeitpunkt der Geburt hat der Säugling noch keine enge emotionale Beziehung zu den ihn umgebenden Erwachsenen. Er erkennt zwar die Stimme der Mutter (aus der vorgeburtlichen Zeit), ihren Geruch, aber ansonsten gibt es noch keine festen „Verbindungen“. Erst im Laufe des ersten Lebensjahres finden die Bindungspersonen und das Kind Stück für Stück emotional zueinander</p><p>Phasenmodell zur Entwicklung der Bindung</p><p>Der Weg zu einer Bindung wird typischerweise in vier Phasen beschrieben.</p><ol><li>der unspezifischen sozialen Reaktion</li><li>der unterschiedlichen sozialen Reaktionsbereitschaft</li><li>des aktiven und initiierten zielkorrigierten Bindungs-verhaltens </li><li>der zielkorrigierten Partnerschaft</li></ol>"}, {"punkte": 400, "frage": "<p>Erläutern Sie anhand einer Waage den Zusammenhang von Bindungs- und Explorationsverhalten.</p>", "antwort": "<p>Bindung und Erkundung (Exploration) stehen wie auf einer Waage im Gleichgewicht:</p><ul><li>Fühlt sich das Kind sicher, ist das Bindungsverhalten ruhig. Dann überwiegt die Erkundung.</li><li>Bei Angst, Trennung, Schmerz oder Müdigkeit wird das Bindungsverhalten aktiviert. Die Erkundung nimmt ab, das Kind sucht die Nähe der Bezugsperson.</li><li>Die Bezugsperson ist die »sichere Basis«, von der aus das Kind die Welt erkundet.</li></ul>"}, {"punkte": 400, "frage": "<p>Bindungstypen richtig zuordnen: </p><p>Ich bin gut, so wie ich bin.</p><p>Ich habe keinen Anspruch auf Liebe.</p>", "antwort": "<p>Sichere Bindung</p><p>Unsicher-vermeidende </p>"}], [{"punkte": 500, "frage": "<p>Bindungstypen richtig zuordnen: </p><p>Ich bin nicht gut genug.</p><p>Die Welt ist ein bedrohlicher Ort.</p>", "antwort": "<p>Unsicher-Ambivalent</p>Desorganisiert"}, {"punkte": 500, "frage": "<p>Wie haben sich die Eltern bei diesen Bindungstypen verhalten?</p><p>Ich bin gut, so wie ich bin.</p>", "antwort": "<p>Verhaltensmerkmale für eine sichere Bindung</p><ol><li><p>Feinfühligkeit:</p><ul><li>Die Bezugsperson reagiert prompt und angemessen auf die Bedürfnisse und Signale des Kindes (z.B. Weinen, Lächeln).</li></ul></li><li><p>Verfügbarkeit:</p><ul><li>Die Bezugsperson ist emotional und physisch präsent, wenn das Kind Unterstützung benötigt.</li></ul></li><li><p>Konstanz:</p><ul><li>Stabile und vorhersehbare Reaktionen der Bezugsperson fördern ein Gefühl von Sicherheit.</li></ul></li><li><p>Wärme und Zuneigung:</p><ul><li>Körperlicher Kontakt (z.B. Umarmungen, Streicheln) und verbale Zuwendung stärken die emotionale Verbindung.</li></ul></li><li><p>Ermutigung zur Exploration:</p><ul><li>Die Bezugsperson fördert das Explorationsverhalten des Kindes, indem sie ihm Sicherheit bietet, während es die Umgebung erkundet.</li></ul></li><li><p>Emotionale Unterstützung:</p><ul><li>Die Bezugsperson hilft dem Kind, seine Emotionen zu erkennen und zu verarbeiten, ohne sie zu minimieren oder abzulehnen.</li></ul></li><li><p>Aktive Beteiligung:</p><ul><li>Gemeinsame Aktivitäten und Interaktionen stärken die Bindung und fördern das Vertrauen.</li></ul></li><li><p>Offene Kommunikation:</p><ul><li>Die Bezugsperson spricht offen über Gefühle und ermutigt das Kind, seine Gedanken und Emotionen auszudrücken.</li></ul></li><li><p>Respekt vor Grenzen:</p><ul><li>Die Bezugsperson respektiert die Bedürfnisse des Kindes nach Nähe und Distanz und fördert so ein Gefühl von Sicherheit.</li></ul></li><li><p>Positive Verstärkung:</p><ul><li>Lob und Anerkennung für positive Verhaltensweisen helfen dem Kind, ein gesundes Selbstwertgefühl zu entwickeln.</li></ul></li></ol>"}, {"punkte": 500, "frage": "<ul><li>Halten Sie einen Vortrag von 60 Sekunden, warum sich Erzieher*innen mit dem Thema Bindung befassen sollten. </li></ul>", "antwort": "<p>Offene Aufgabe: Die Klasse gibt dem Vortrag eine kurze Rückmeldung. Wurden Fachbegriffe genutzt? Wurde ein Praxisbezug hergestellt?</p>"}]];
+let teams=[],aktuell=null;
+function baueBrett(){
+  const b=document.getElementById('brett');b.innerHTML='';
+  KATEGORIEN.forEach(k=>{const d=document.createElement('div');d.className='kopf';d.textContent=k;b.appendChild(d);});
+  FELDER.forEach((reihe,r)=>reihe.forEach((f,c)=>{const btn=document.createElement('button');btn.className='feld';btn.type='button';
+    btn.textContent=f.punkte;btn.setAttribute('aria-label',KATEGORIEN[c]+', '+f.punkte+' Punkte');btn.onclick=()=>oeffne(r,c,btn);b.appendChild(btn);}));
+}
+function baueTeams(n){
+  teams=Array.from({length:n},(_,i)=>({name:'Team '+(i+1),punkte:0}));zeigeTeams();
+}
+function zeigeTeams(){
+  const t=document.getElementById('teams');t.innerHTML='';
+  teams.forEach((tm,i)=>{const d=document.createElement('div');d.className='team';
+    d.innerHTML='<input aria-label="Name von Team '+(i+1)+'" value="'+tm.name.replace(/"/g,'&quot;')+'"><div class="stand" aria-live="polite">'+tm.punkte+'</div>'+
+      '<button type="button" aria-label="100 Punkte abziehen">− 100</button><button type="button" aria-label="100 Punkte dazu">+ 100</button>';
+    d.querySelector('input').oninput=e=>{tm.name=e.target.value;};
+    const [minus,plus]=d.querySelectorAll('button');minus.onclick=()=>{tm.punkte-=100;zeigeTeams();};plus.onclick=()=>{tm.punkte+=100;zeigeTeams();};
+    t.appendChild(d);});
+}
+function oeffne(r,c,btn){
+  const f=FELDER[r][c];aktuell={f,btn};
+  document.getElementById('dlg-titel').textContent=KATEGORIEN[c]+' · '+f.punkte+' Punkte';
+  document.getElementById('dlg-frage').innerHTML=f.frage;
+  const a=document.getElementById('dlg-antwort');a.innerHTML=f.antwort;a.hidden=true;
+  document.getElementById('dlg-vergeben').hidden=true;document.getElementById('zeigen').hidden=false;
+  document.getElementById('dlg').showModal();
+}
+document.getElementById('zeigen').onclick=()=>{
+  document.getElementById('dlg-antwort').hidden=false;document.getElementById('zeigen').hidden=true;
+  const v=document.getElementById('dlg-vergeben');v.hidden=false;v.innerHTML='<span>Punkte an:</span>';
+  teams.forEach(tm=>{const b=document.createElement('button');b.type='button';b.textContent=tm.name;
+    b.onclick=()=>{tm.punkte+=aktuell.f.punkte;zeigeTeams();schliesse();};v.appendChild(b);});
+  const k=document.createElement('button');k.type='button';k.textContent='niemand';k.onclick=schliesse;v.appendChild(k);
+};
+function schliesse(){if(aktuell&&!document.getElementById('dlg-antwort').hidden){aktuell.btn.disabled=true;}document.getElementById('dlg').close();}
+document.getElementById('schliessen').onclick=schliesse;
+document.getElementById('neu').onclick=()=>{baueBrett();baueTeams(+document.getElementById('anzahl').value);};
+baueBrett();baueTeams(3);
+</script>
+
+</body>
+</html>

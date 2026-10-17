@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professionelle Haltung zu sozialer Ungleichheit - Selbsttest für Erzieher*innen</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 40px;
+            padding-left: 10px;
+            border-left: 4px solid #3498db;
+        }
+        .intro {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .question {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .question p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .scale-option {
+            text-align: center;
+            width: 18%;
+        }
+        .scale-option label {
+            display: block;
+            font-size: 0.9em;
+            margin-top: 5px;
+            color: #555;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 40px auto;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #results {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .category {
+            margin-bottom: 25px;
+        }
+        .category h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 10px;
+            height: 25px;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #3498db;
+            border-radius: 10px;
+            text-align: right;
+            padding-right: 10px;
+            line-height: 25px;
+            color: white;
+            font-weight: bold;
+            transition: width 1s ease-in-out;
+        }
+        .interpretation {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            font-size: 0.95em;
+        }
+        @media (max-width: 600px) {
+            .scale {
+                flex-wrap: wrap;
+            }
+            .scale-option {
+                width: 33%;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="mdl-hinweis" role="note"><b>Zur Einordnung:</b> Dieser Selbsttest ist kein wissenschaftliches Messinstrument. Er ist ein Anlass, über die eigene Haltung nachzudenken. Deine Antworten bleiben auf diesem Gerät und werden nirgends gespeichert oder gesendet.</div>
+    <h1>Was für eine Erzieher*in möchten Sie sein?</h1>
+    
+    <div class="intro">
+        <p>Dieser Test hilft Ihnen, Ihre professionelle Haltung im Umgang mit sozialer Ungleichheit zu reflektieren. Beantworten Sie die Fragen spontan und ehrlich. Am Ende erhalten Sie eine Auswertung in sechs zentralen Kategorien.</p>
+    </div>
+    
+    <form id="questionnaire">
+        <h2>1. Wahrnehmung und Sensibilität für soziale Unterschiede</h2>
+        
+        <div class="question">
+            <p>Wie aufmerksam nehmen Sie Unterschiede in Herkunft, Sprache und materiellen Ressourcen der Kinder wahr?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="1" id="q1_1_1" required>
+                    <label for="q1_1_1">Kaum</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="2" id="q1_1_2">
+                    <label for="q1_1_2">Selten</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="3" id="q1_1_3">
+                    <label for="q1_1_3">Manchmal</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="4" id="q1_1_4">
+                    <label for="q1_1_4">Oft</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="5" id="q1_1_5">
+                    <label for="q1_1_5">Sehr aufmerksam</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>Wie gehen Sie mit Kindern aus unterschiedlichen sozialen Milieus um?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="1" id="q1_2_1" required>
+                    <label for="q1_2_1">Unterschiedlich</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="2" id="q1_2_2">
+                    <label for="q1_2_2">Meist gleich</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="3" id="q1_2_3">
+                    <label for="q1_2_3">Gleich mit Anpassungen</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="4" id="q1_2_4">
+                    <label for="q1_2_4">Gleich mit Förderung</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="5" id="q1_2_5">
+                    <label for="q1_2_5">Individuell & gerecht</label>
+                </div>
+            </div>
+        </div>
+        
+        <h2>2. Haltung zur Chancengleichheit</h2>
+        
+        <div class="question">
+            <p>Wie wichtig ist Ihnen gleiche Entwicklungschancen unabhängig von Herkunft?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="1" id="q2_1_1" required>
+                    <label for="q2_1_1">Unwichtig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="2" id="q2_1_2">
+                    <label for="q2_1_2">Eher unwichtig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="3" id="q2_1_3">
+                    <label for="q2_1_3">Wichtig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="4" id="q2_1_4">
+                    <label for="q2_1_4">Sehr wichtig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="5" id="q2_1_5">
+                    <label for="q2_1_5">Zentrales Ziel</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>Wie wichtig sind Ihnen gezielte Förderung und kompensatorische Maßnahmen?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="1" id="q2_2_1" required>
+                    <label for="q2_2_1">Unnötig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="2" id="q2_2_2">
+                    <label for="q2_2_2">Optional</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="3" id="q2_2_3">
+                    <label for="q2_2_3">Wichtig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="4" id="q2_2_4">
+                    <label for="q2_2_4">Sehr wichtig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="5" id="q2_2_5">
+                    <label for="q2_2_5">Unverzichtbar</label>
+                </div>
+            </div>
+        </div>
+        
+        <h2>3. Umgang mit Vorurteilen und Stereotypen</h2>
+        
+        <div class="question">
+            <p>Wie reflektieren Sie eigene Vorannahmen im pädagogischen Alltag?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="1" id="q3_1_1" required>
+                    <label for="q3_1_1">Nie</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="2" id="q3_1_2">
+                    <label for="q3_1_2">Selten</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="3" id="q3_1_3">
+                    <label for="q3_1_3">Manchmal</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="4" id="q3_1_4">
+                    <label for="q3_1_4">Oft</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="5" id="q3_1_5">
+                    <label for="q3_1_5">Systematisch</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>Wie gehen Sie mit Diskriminierung oder Ausgrenzung in der Gruppe um?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="1" id="q3_2_1" required>
+                    <label for="q3_2_1">Ignoriere ich</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="2" id="q3_2_2">
+                    <label for="q3_2_2">Reagiere passiv</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="3" id="q3_2_3">
+                    <label for="q3_2_3">Unterbinde ich</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="4" id="q3_2_4">
+                    <label for="q3_2_4">Thematisiere aktiv</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="5" id="q3_2_5">
+                    <label for="q3_2_5">Bearbeite präventiv</label>
+                </div>
+            </div>
+        </div>
+        
+        <h2>4. Zusammenarbeit mit Familien</h2>
+        
+        <div class="question">
+            <p>Wie gestalten Sie die Partnerschaft mit Eltern aus verschiedenen sozialen Lagen?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="1" id="q4_1_1" required>
+                    <label for="q4_1_1">Einheitlich</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="2" id="q4_1_2">
+                    <label for="q4_1_2">Angebotsorientiert</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="3" id="q4_1_3">
+                    <label for="q4_1_3">Bedarfsorientiert</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="4" id="q4_1_4">
+                    <label for="q4_1_4">Individuell</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="5" id="q4_1_5">
+                    <label for="q4_1_5">Empowernd</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>Wie gehen Sie auf unterschiedliche Lebensrealitäten der Familien ein?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="1" id="q4_2_1" required>
+                    <label for="q4_2_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="2" id="q4_2_2">
+                    <label for="q4_2_2">Auf Nachfrage</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="3" id="q4_2_3">
+                    <label for="q4_2_3">Flexibel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="4" id="q4_2_4">
+                    <label for="q4_2_4">Aktiv</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="5" id="q4_2_5">
+                    <label for="q4_2_5">Systematisch</label>
+                </div>
+            </div>
+        </div>
+        
+        <h2>5. Engagement für Gerechtigkeit und Empowerment</h2>
+        
+        <div class="question">
+            <p>Wie setzen Sie sich für Gerechtigkeit und Teilhabe aller Kinder ein?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="1" id="q5_1_1" required>
+                    <label for="q5_1_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="2" id="q5_1_2">
+                    <label for="q5_1_2">Selten</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="3" id="q5_1_3">
+                    <label for="q5_1_3">Bei Bedarf</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="4" id="q5_1_4">
+                    <label for="q5_1_4">Regelmäßig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="5" id="q5_1_5">
+                    <label for="q5_1_5">Konsequent</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>Wie fördern Sie die Fähigkeit der Kinder, Ungleichheiten zu erkennen?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="1" id="q5_2_1" required>
+                    <label for="q5_2_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="2" id="q5_2_2">
+                    <label for="q5_2_2">Indirekt</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="3" id="q5_2_3">
+                    <label for="q5_2_3">Gelegentlich</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="4" id="q5_2_4">
+                    <label for="q5_2_4">Explizit</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="5" id="q5_2_5">
+                    <label for="q5_2_5">Integriert</label>
+                </div>
+            </div>
+        </div>
+        
+        <h2>6. Reflexionsfähigkeit und Weiterentwicklung</h2>
+        
+        <div class="question">
+            <p>Wie reflektieren Sie Ihre eigene Rolle bei der Reproduktion von Ungleichheiten?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="1" id="q6_1_1" required>
+                    <label for="q6_1_1">Nie</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="2" id="q6_1_2">
+                    <label for="q6_1_2">Selten</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="3" id="q6_1_3">
+                    <label for="q6_1_3">Manchmal</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="4" id="q6_1_4">
+                    <label for="q6_1_4">Regelmäßig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="5" id="q6_1_5">
+                    <label for="q6_1_5">Systematisch</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="question">
+            <p>Wie offen sind Sie für Fortbildung und Austausch zu diesem Thema?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="1" id="q6_2_1" required>
+                    <label for="q6_2_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="2" id="q6_2_2">
+                    <label for="q6_2_2">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="3" id="q6_2_3">
+                    <label for="q6_2_3">Bereit</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="4" id="q6_2_4">
+                    <label for="q6_2_4">Aktiv</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="5" id="q6_2_5">
+                    <label for="q6_2_5">Suchend</label>
+                </div>
+            </div>
+        </div>
+        
+        <button type="button" onclick="calculateResults()">Ergebnisse anzeigen</button>
+    </form>
+    
+    <div id="results">
+        <h2>Ihre professionelle Haltung zu sozialer Ungleichheit</h2>
+        
+        <div class="category">
+            <h3>1. Wahrnehmung und Sensibilität: <span id="score1">0</span>/10</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress1" style="width: 0%">0%</div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h3>2. Haltung zur Chancengleichheit: <span id="score2">0</span>/10</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress2" style="width: 0%">0%</div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h3>3. Umgang mit Vorurteilen: <span id="score3">0</span>/10</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress3" style="width: 0%">0%</div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h3>4. Zusammenarbeit mit Familien: <span id="score4">0</span>/10</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress4" style="width: 0%">0%</div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h3>5. Engagement für Gerechtigkeit: <span id="score5">0</span>/10</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress5" style="width: 0%">0%</div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h3>6. Reflexion & Weiterentwicklung: <span id="score6">0</span>/10</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress6" style="width: 0%">0%</div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h3>Gesamtpunktzahl: <span id="totalScore">0</span>/60</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="totalProgress" style="width: 0%">0%</div>
+            </div>
+        </div>
+        
+        <div class="interpretation">
+            <h3>Interpretationshilfe:</h3>
+            <p><strong>0-20 Punkte:</strong> Sie sollten Ihre Haltung zu sozialer Ungleichheit dringend reflektieren und weiterentwickeln.</p>
+            <p><strong>21-40 Punkte:</strong> Sie zeigen Grundsensibilität, haben aber noch deutliches Entwicklungspotenzial.</p>
+            <p><strong>41-50 Punkte:</strong> Sie verfügen über eine gute professionelle Haltung zu sozialer Ungleichheit.</p>
+            <p><strong>51-60 Punkte:</strong> Sie haben eine ausgeprägte Sensibilität und aktive Haltung für Chancengerechtigkeit.</p>
+        </div>
+    </div>
+    
+    <script>
+        function calculateResults() {
+            // Check if all questions are answered
+            const allQuestions = document.querySelectorAll('input[type="radio"]:required');
+            let allAnswered = true;
+            
+            for (let i = 0; i < allQuestions.length; i++) {
+                const name = allQuestions[i].name;
+                if (!document.querySelector(`input[name="${name}"]:checked`)) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+            
+            if (!allAnswered) {
+                alert("Bitte beantworten Sie alle Fragen, bevor Sie die Ergebnisse anzeigen.");
+                return;
+            }
+            
+            // Calculate scores for each category
+            const scores = [0, 0, 0, 0, 0, 0];
+            
+            // Category 1 (2 questions)
+            for (let i = 1; i <= 2; i++) {
+                const selected = document.querySelector(`input[name="q1_${i}"]:checked`);
+                scores[0] += parseInt(selected.value);
+            }
+            
+            // Category 2 (2 questions)
+            for (let i = 1; i <= 2; i++) {
+                const selected = document.querySelector(`input[name="q2_${i}"]:checked`);
+                scores[1] += parseInt(selected.value);
+            }
+            
+            // Category 3 (2 questions)
+            for (let i = 1; i <= 2; i++) {
+                const selected = document.querySelector(`input[name="q3_${i}"]:checked`);
+                scores[2] += parseInt(selected.value);
+            }
+            
+            // Category 4 (2 questions)
+            for (let i = 1; i <= 2; i++) {
+                const selected = document.querySelector(`input[name="q4_${i}"]:checked`);
+                scores[3] += parseInt(selected.value);
+            }
+            
+            // Category 5 (2 questions)
+            for (let i = 1; i <= 2; i++) {
+                const selected = document.querySelector(`input[name="q5_${i}"]:checked`);
+                scores[4] += parseInt(selected.value);
+            }
+            
+            // Category 6 (2 questions)
+            for (let i = 1; i <= 2; i++) {
+                const selected = document.querySelector(`input[name="q6_${i}"]:checked`);
+                scores[5] += parseInt(selected.value);
+            }
+            
+            // Calculate total score
+            const totalScore = scores.reduce((a, b) => a + b, 0);
+            
+            // Display results
+            for (let i = 0; i < 6; i++) {
+                document.getElementById(`score${i+1}`).textContent = scores[i];
+                const percentage = (scores[i] / 10) * 100;
+                document.getElementById(`progress${i+1}`).style.width = `${percentage}%`;
+                document.getElementById(`progress${i+1}`).textContent = `${Math.round(percentage)}%`;
+            }
+            
+            // Total score
+            document.getElementById('totalScore').textContent = totalScore;
+            const totalPercentage = (totalScore / 60) * 100;
+            document.getElementById('totalProgress').style.width = `${totalPercentage}%`;
+            document.getElementById('totalProgress').textContent = `${Math.round(totalPercentage)}%`;
+            
+            // Show results
+            document.getElementById('results').style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    </script>
+</body>
+</html>

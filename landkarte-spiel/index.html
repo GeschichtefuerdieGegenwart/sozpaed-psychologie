@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orientierung: Spiel als kindliche Ausdrucksform erfassen (BEF I, LF 1)</title>
+<style>
+  :root{
+    --ink:#1f2a2e; --muted:#5b676b; --line:#d9dcd6; --paper:#fbfaf7; --card:#ffffff;
+    --a:#3f6f5a; --a-bg:#e8f1ec;   /* Phase A: grün */
+    --b:#2f6480; --b-bg:#e6eff5;   /* Phase B: blau */
+    --c:#8a5a1f; --c-bg:#f6eee2;   /* Phase C: ocker */
+    --d:#6d3f6b; --d-bg:#f1e8f0;   /* Phase D: pflaume */
+    --ka:#44494b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#eceae4;color:var(--ink);
+    font-family:"Segoe UI","Calibri","Helvetica Neue",Arial,sans-serif;line-height:1.3}
+  .toolbar{max-width:297mm;margin:12px auto 0;display:flex;gap:8px;justify-content:flex-end;padding:0 4px}
+  .toolbar button{font:inherit;font-size:14px;padding:7px 14px;border:1px solid #9aa3a6;background:#fff;border-radius:6px;cursor:pointer}
+  .toolbar button:hover{background:#f3f3f0}
+  .page{width:297mm;min-height:210mm;margin:12px auto;background:var(--paper);padding:10mm 11mm;
+    box-shadow:0 1px 6px rgba(0,0,0,.12);position:relative}
+  .kicker{font-size:9.5pt;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+  h1{font-size:21pt;margin:1mm 0 1mm;font-weight:700;letter-spacing:-.01em}
+  h2{font-size:14pt;margin:0 0 3mm}
+  .lead{font-size:10.5pt;color:var(--muted);margin:0;max-width:200mm}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:8mm;border-bottom:1.5px solid var(--ink);padding-bottom:3mm;margin-bottom:4mm}
+  .head .right{font-size:9pt;color:var(--muted);text-align:right;white-space:nowrap}
+
+  /* ---------- Seite 1: Landkarte ---------- */
+  .map{display:grid;grid-template-columns:1fr 1fr 3fr 9mm 1fr;gap:3mm}
+  .phase{border-radius:3mm;padding:2.5mm;display:flex;flex-direction:column}
+  .phase .ph-head{display:flex;align-items:baseline;gap:2mm;margin-bottom:2mm}
+  .phase .ph-letter{font-weight:800;font-size:13pt}
+  .phase .ph-title{font-weight:700;font-size:9.5pt;line-height:1.15}
+  .phase .ph-sub{font-size:8pt;color:var(--muted);margin:-1mm 0 2mm}
+  .A{background:var(--a-bg)} .A .ph-letter,.A .ds-no{color:var(--a)} .A .card{border-top-color:var(--a)}
+  .B{background:var(--b-bg)} .B .ph-letter,.B .ds-no{color:var(--b)} .B .card{border-top-color:var(--b)}
+  .C{background:var(--c-bg)} .C .ph-letter,.C .ds-no{color:var(--c)} .C .card{border-top-color:var(--c)}
+  .D{background:var(--d-bg)} .D .ph-letter,.D .ds-no{color:var(--d)} .D .card{border-top-color:var(--d)}
+  .cards{display:grid;gap:2.5mm;grid-auto-rows:1fr;flex:1}
+  .C .cards{grid-template-columns:repeat(3,1fr)}
+  .card{background:var(--card);border-radius:2mm;border-top:1.2mm solid;padding:2mm 2.3mm;display:flex;flex-direction:column;gap:1mm;min-height:52mm}
+  .ds-no{font-weight:800;font-size:8.5pt;letter-spacing:.03em}
+  .ds-title{font-weight:700;font-size:10pt;line-height:1.15}
+  .ds-q{font-size:8.6pt;color:#3a4447;line-height:1.25}
+  .chips{display:flex;flex-wrap:wrap;gap:1mm;margin-top:auto}
+  .chip{font-size:7.6pt;background:#f1f1ee;border:1px solid #e2e2dc;border-radius:5mm;padding:.4mm 1.8mm;white-space:nowrap}
+  .marks{display:flex;flex-wrap:wrap;gap:1mm;margin-top:1mm}
+  .mark{font-size:7.4pt;font-weight:600;border-radius:1mm;padding:.3mm 1.4mm;border:1px solid}
+  .mark.p{color:#1f5c46;border-color:#8fbca9;background:#eef7f2}
+  .mark.i{color:#2f4f7a;border-color:#9db4d3;background:#eef3fa}
+  .mark.t{color:#7a2f2f;border-color:#d7a6a6;background:#fbefef}
+  .ka{background:var(--ka);color:#fff;border-radius:3mm;display:flex;align-items:center;justify-content:center}
+  .ka span{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:700;font-size:9.5pt;letter-spacing:.04em;white-space:nowrap}
+  .card.final{border:1.2px solid var(--d);border-top-width:1.2mm}
+  .strip{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;margin-top:4mm}
+  .tool{border:1px solid var(--line);background:#fff;border-radius:2mm;padding:2mm 2.5mm}
+  .tool b{display:block;font-size:9pt;margin-bottom:.6mm}
+  .tool p{margin:0;font-size:8.2pt;color:#3a4447}
+  .flow{display:flex;align-items:center;gap:2mm;margin:0 0 3mm;font-size:8.6pt;color:var(--muted)}
+  .flow .step{padding:.6mm 2.2mm;border-radius:5mm;font-weight:600;color:var(--ink)}
+  .flow .arrow{color:#9aa3a6}
+
+  /* ---------- Seite 2: Ich-kann-Liste ---------- */
+  .two{display:grid;grid-template-columns:1fr 70mm;gap:6mm}
+  table.can{width:100%;border-collapse:collapse;font-size:8.8pt}
+  table.can th{font-size:8pt;text-align:left;color:var(--muted);font-weight:600;border-bottom:1.2px solid var(--ink);padding:1.2mm 1.5mm}
+  table.can th.c,table.can td.c{text-align:center;width:17mm;white-space:nowrap}
+  table.can td{border-bottom:1px solid var(--line);padding:.8mm 1.5mm;vertical-align:middle}
+  table.can tr.grp td{background:#f3f2ee;font-weight:700;font-size:8.6pt;padding:1mm 1.5mm;border-bottom:none}
+  .dot{display:inline-block;width:5mm;height:5mm;border:1.2px solid #7d878a;border-radius:1mm;cursor:pointer;
+    font-size:8.5pt;line-height:4.4mm;text-align:center;font-weight:700;user-select:none;background:#fff}
+  .dot[data-v="1"]{background:#e3f2e8;border-color:#3f6f5a;color:#2b5a45}
+  .dot[data-v="2"]{background:#fbf1dc;border-color:#a8792c;color:#7a5413}
+  .dot[data-v="3"]{background:#f9e5e5;border-color:#a44;color:#8a2c2c}
+  .where{font-size:7.8pt;color:var(--muted);white-space:nowrap}
+  .legend{display:flex;gap:4mm;font-size:8pt;color:var(--muted);margin:0 0 2mm;align-items:center;flex-wrap:wrap}
+  .legend .dot{cursor:default}
+  .box{border:1px solid var(--line);background:#fff;border-radius:2mm;padding:3mm;margin-bottom:4mm}
+  .box h3{font-size:10pt;margin:0 0 2mm}
+  .op{display:grid;grid-template-columns:22mm 1fr;gap:1mm 2mm;font-size:8.2pt}
+  .op b{font-weight:700}
+  .afb{font-size:7.2pt;color:var(--muted);font-weight:600}
+  .box ul{margin:0;padding-left:4mm;font-size:8.3pt}
+  .box li{margin-bottom:1mm}
+
+  /* ---------- Seite 3: Begriffe ---------- */
+  .gloss{columns:3;column-gap:6mm;font-size:8.5pt}
+  .g-grp{break-inside:avoid;margin-bottom:3mm}
+  .g-grp h3{font-size:9.5pt;margin:0 0 1.2mm;padding:.8mm 2mm;border-radius:1mm}
+  .g-grp.A h3{background:var(--a-bg);color:var(--a)} .g-grp.B h3{background:var(--b-bg);color:var(--b)}
+  .g-grp.C h3{background:var(--c-bg);color:var(--c)} .g-grp.D h3{background:var(--d-bg);color:var(--d)}
+  .g-grp{background:none}
+  dl{margin:0} dt{font-weight:700;margin-top:1.2mm} dd{margin:0 0 .6mm 0;color:#34403f}
+  .art{font-weight:400;color:var(--muted)}
+  .foot{position:absolute;bottom:5mm;left:11mm;right:11mm;font-size:7.4pt;color:var(--muted);display:flex;justify-content:space-between}
+
+  @media screen and (max-width:1150px){
+    .page{width:auto;min-height:0;margin:10px}
+    .map{grid-template-columns:1fr}
+    .ka{min-height:12mm} .ka span{writing-mode:horizontal-tb;transform:none}
+    .C .cards{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+    .strip{grid-template-columns:1fr 1fr}
+    .two{grid-template-columns:1fr}
+    .gloss{columns:1}
+    .foot{position:static;margin-top:6mm}
+  }
+  @page{size:A4 landscape;margin:0}
+  @media print{
+    html,body{background:#fff}
+    .toolbar{display:none}
+    .page{margin:0;box-shadow:none;width:297mm;height:210mm;min-height:0;overflow:hidden;page-break-after:always;break-after:page}
+    .page:last-child{page-break-after:auto;break-after:auto}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+<style>/* Darstellung auf dem Smartphone */@media screen and (max-width:1150px){.flow{flex-wrap:wrap}.head{flex-wrap:wrap}.head .right{white-space:normal;text-align:left}.two>div:first-child{overflow-x:auto}table.can{min-width:520px}}</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button type="button" onclick="resetDots()">Einschätzungen zurücksetzen</button>
+  <button type="button" onclick="window.print()">Drucken / als PDF speichern</button>
+</div>
+
+<!-- ======================= SEITE 1 ======================= -->
+<section class="page" aria-label="Landkarte der Einheit">
+  <div class="head">
+    <div>
+      <p class="kicker">BEF I · Lernfeld 1 · Spiel als kindliche Ausdrucksform erfassen</p>
+      <h1>„Spielen die nur – oder bilden die sich auch?“</h1>
+      <p class="lead">Josefs Mutter stellt diese Frage beim Eltern-Infotag. In 12 Doppelstunden sammeln Sie Wissen, Beobachtungen und Argumente, um ihr am Ende fachlich überzeugend zu antworten.</p>
+    </div>
+    <div class="right">Name: ______________________<br><br>Klasse: 1BKSP ______</div>
+  </div>
+
+  <div class="flow" aria-label="Weg durch die Einheit">
+    <span class="step" style="background:var(--a-bg)">A · Erleben und Begriffe klären</span><span class="arrow">→</span>
+    <span class="step" style="background:var(--b-bg)">B · Beobachten und Deuten</span><span class="arrow">→</span>
+    <span class="step" style="background:var(--c-bg)">C · Begleiten und Beurteilen</span><span class="arrow">→</span>
+    <span class="step" style="background:#e4e5e5">Klassenarbeit</span><span class="arrow">→</span>
+    <span class="step" style="background:var(--d-bg)">D · Gestalten und Begründen</span>
+  </div>
+
+  <div class="map">
+    <!-- Phase A -->
+    <div class="phase A">
+      <div class="ph-head"><span class="ph-letter">A</span><span class="ph-title">Erleben und Begriffe klären</span></div>
+      <div class="cards">
+        <div class="card">
+          <span class="ds-no">DS 1</span>
+          <span class="ds-title">Was ist Spiel?</span>
+          <span class="ds-q">Woran erkenne ich, dass ein Kind spielt?</span>
+          <div class="chips"><span class="chip">Merkmale des Spiels</span><span class="chip">Selbstzweck</span><span class="chip">Spiel und Arbeit</span></div>
+        </div>
+        <div class="card">
+          <span class="ds-no">DS 2</span>
+          <span class="ds-title">Warum spielen Kinder?</span>
+          <span class="ds-q">Was lernt ein Kind, wenn es „nur“ spielt?</span>
+          <div class="chips"><span class="chip">Piaget</span><span class="chip">Wygotski</span><span class="chip">Krappmann</span><span class="chip">Aussage und Beleg</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Phase B -->
+    <div class="phase B">
+      <div class="ph-head"><span class="ph-letter">B</span><span class="ph-title">Beobachten und Deuten</span></div>
+      <div class="cards">
+        <div class="card">
+          <span class="ds-no">DS 3</span>
+          <span class="ds-title">Spielformen 0–3 Jahre</span>
+          <span class="ds-q">Spielt Kaio „planlos“ – muss seine Mutter sich Sorgen machen?</span>
+          <div class="chips"><span class="chip">Funktionsspiel</span><span class="chip">Konstruktionsspiel</span><span class="chip">Symbolspiel</span></div>
+          <div class="marks"><span class="mark p">Praxis-Mini 1</span></div>
+        </div>
+        <div class="card">
+          <span class="ds-no">DS 4</span>
+          <span class="ds-title">Spielformen 3–6 Jahre und soziale Spielformen</span>
+          <span class="ds-q">Braucht ein allein spielendes Kind Hilfe?</span>
+          <div class="chips"><span class="chip">Rollenspiel</span><span class="chip">Regelspiel</span><span class="chip">Parallelspiel</span></div>
+          <div class="marks"><span class="mark i">Ich-kann-Check 1</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Phase C -->
+    <div class="phase C">
+      <div class="ph-head"><span class="ph-letter">C</span><span class="ph-title">Begleiten und Beurteilen</span></div>
+      <div class="cards">
+        <div class="card">
+          <span class="ds-no">DS 5</span>
+          <span class="ds-title">Freispiel: Rechte und Rahmen</span>
+          <span class="ds-q">Wie frei ist das Freispiel?</span>
+          <div class="chips"><span class="chip">Freispiel</span><span class="chip">Rechte des Kindes</span><span class="chip">Grenzen der Freiheit</span></div>
+        </div>
+        <div class="card">
+          <span class="ds-no">DS 6</span>
+          <span class="ds-title">Freispiel: Rolle der Fachkraft</span>
+          <span class="ds-q">Wann greife ich ein – und wann nicht?</span>
+          <div class="chips"><span class="chip">Handlungskreislauf</span><span class="chip">begleitetes Spiel</span></div>
+          <div class="marks"><span class="mark p">Praxis-Mini 2</span></div>
+        </div>
+        <div class="card">
+          <span class="ds-no">DS 7</span>
+          <span class="ds-title">Spiele früher und heute</span>
+          <span class="ds-q">Spielen Kinder heute schlechter – oder anders?</span>
+          <div class="chips"><span class="chip">Verhäuslichung</span><span class="chip">digitales Spiel</span><span class="chip">Spielbiografie</span></div>
+        </div>
+        <div class="card">
+          <span class="ds-no">DS 8</span>
+          <span class="ds-title">Spielzeug und Spielmaterial</span>
+          <span class="ds-q">Was braucht ein Kind zum Spielen?</span>
+          <div class="chips"><span class="chip">Beurteilungskriterien</span><span class="chip">„Zeug zum Spielen“</span></div>
+        </div>
+        <div class="card">
+          <span class="ds-no">DS 9</span>
+          <span class="ds-title">Vorurteilsbewusst spielen</span>
+          <span class="ds-q">Barbie und Spielzeugpistole – gut für Kinder?</span>
+          <div class="chips"><span class="chip">vorurteilsbewusste Erziehung</span><span class="chip">Vielfalt</span></div>
+          <div class="marks"><span class="mark i">Ich-kann-Check 2</span></div>
+        </div>
+        <div class="card" style="background:transparent;border:1.2px dashed #c9a877;border-top:1.2mm solid #c9a877">
+          <span class="ds-no">Rückblick</span>
+          <span class="ds-title" style="font-size:9pt">Themen der Klassenarbeit</span>
+          <span class="ds-q">Alles aus DS 1–9: Merkmale, Erklärungsansätze, Spielformen, Freispiel, Material. Wichtig sind Fälle analysieren und begründet Stellung nehmen.</span>
+        </div>
+      </div>
+    </div>
+    <!-- Klassenarbeit -->
+    <div class="ka" aria-label="Klassenarbeit in DS 10"><span>DS 10 · Klassenarbeit (90 Min.)</span></div>
+    <!-- Phase D -->
+    <div class="phase D">
+      <div class="ph-head"><span class="ph-letter">D</span><span class="ph-title">Gestalten und Begründen</span></div>
+      <div class="cards">
+        <div class="card">
+          <span class="ds-no">DS 11</span>
+          <span class="ds-title">Spielimpulse gestalten</span>
+          <span class="ds-q">Warum wird ein Spiel öde – und wie führe ich es gut ein?</span>
+          <div class="chips"><span class="chip">DDADA-Modell</span><span class="chip">MAPP</span><span class="chip">Spielimpuls</span></div>
+          <div class="marks"><span class="mark p">Praxis-Mini 3</span></div>
+        </div>
+        <div class="card final">
+          <span class="ds-no">DS 12 · Ziel</span>
+          <span class="ds-title">Josef: das Elterngespräch</span>
+          <span class="ds-q">Sie beantworten die Frage der Mutter – mit Fachbegriffen, Beispielen und Ihrem Logbuch.</span>
+          <div class="chips"><span class="chip">Spiel als Bildung</span></div>
+          <div class="marks"><span class="mark t">Abschluss</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="tool"><b>Josef-Logbuch</b><p>Am Ende jeder Doppelstunde schreiben Sie 2–3 Sätze: „Was antworte ich der Mutter jetzt?“. Ihr Logbuch wächst zur Antwort in DS 12.</p></div>
+    <div class="tool"><b>Spielbiografie-Karte</b><p>Sie wählen: eigene Erinnerung, ein beobachtetes Kind oder eine erfundene Figur. Was Sie erzählen, entscheiden Sie selbst.</p></div>
+    <div class="tool"><b>Praxis-Mini (3×)</b><p>Nach DS 3, 6 und 11: höchstens 10 Minuten am Mittwoch, eine Karteikarte, ohne Namen, Fotos und Videos. Auswertung am Donnerstag.</p></div>
+    <div class="tool"><b>Ich-kann-Check</b><p>Nach DS 4 und DS 9 schätzen Sie sich auf Seite 2 ein und sehen, wo Sie Hilfe finden.</p></div>
+    <div class="tool"><b>Streitfragen</b><p>Jede Doppelstunde endet mit einer These. Sie bilden ein begründetes Urteil mit Fachbegriffen.</p></div>
+  </div>
+  <div class="foot"><span>Seite 1 · Landkarte der Einheit</span><span>Lehrplan BEF I, LF 1 (Berufskolleg für Sozialpädagogik, BW)</span></div>
+</section>
+
+<!-- ======================= SEITE 2 ======================= -->
+<section class="page" aria-label="Ich-kann-Liste">
+  <div class="head">
+    <div>
+      <p class="kicker">Ziele der Einheit</p>
+      <h1 style="font-size:17pt">Das kann ich am Ende der Einheit</h1>
+    </div>
+    <div class="right">Einschätzung: in die Kästchen tippen oder von Hand eintragen</div>
+  </div>
+  <div class="two">
+    <div>
+      <div class="legend">
+        <span><span class="dot" data-v="1">✓</span> sicher</span>
+        <span><span class="dot" data-v="2">~</span> teilweise</span>
+        <span><span class="dot" data-v="3">?</span> noch unsicher</span>
+      </div>
+      <table class="can">
+        <thead><tr><th>Ich kann …</th><th class="c">nach DS 4</th><th class="c">nach DS 9</th><th class="c">nach DS 12</th><th>Hilfe finde ich in</th></tr></thead>
+        <tbody>
+          <tr class="grp"><td colspan="5" style="color:var(--a)">A · Erleben und Begriffe klären</td></tr>
+          <tr><td>… die Merkmale des Spiels nennen und an einem Beispiel erklären.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 1 · Merkmalstext</td></tr>
+          <tr><td>… begründen, ob eine Tätigkeit ein Spiel ist, und Spiel von Arbeit abgrenzen.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 1 · Grenzfall-Karten</td></tr>
+          <tr><td>… mit Piaget, Wygotski und Krappmann erklären, was Kinder im Spiel lernen.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 2 · Vergleichsraster</td></tr>
+          <tr><td>… Aussagen über Spiel und Gehirn daraufhin prüfen, ob sie belegt sind.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 2</td></tr>
+          <tr class="grp"><td colspan="5" style="color:var(--b)">B · Beobachten und Deuten</td></tr>
+          <tr><td>… Funktions-, Konstruktions- und Symbolspiel in Beobachtungen erkennen und ihre Bedeutung erklären.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 3 · Raster, Praxis-Mini 1</td></tr>
+          <tr><td>… Rollen- und Regelspiel beschreiben und die Rolle der Sprache darin erklären.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 4</td></tr>
+          <tr><td>… soziale Spielformen unterscheiden und einer Situation begründet zuordnen.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 4 · Tafelbild</td></tr>
+          <tr class="grp"><td colspan="5" style="color:var(--c)">C · Begleiten und Beurteilen</td></tr>
+          <tr><td>… die Rechte des Kindes im Freispiel darstellen und Konflikte zwischen ihnen erkennen.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 5 · Rechte-Karte</td></tr>
+          <tr><td>… mit dem Handlungskreislauf begründen, wann und wie ich im Freispiel handle.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 6 · Praxis-Mini 2</td></tr>
+          <tr><td>… Spiel früher und heute vergleichen und zu digitalem Spiel Stellung nehmen.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 7</td></tr>
+          <tr><td>… Spielzeug und Spielmaterial nach Kriterien beurteilen.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 8 · Einkaufsliste</td></tr>
+          <tr><td>… erklären, wie Spielmaterial und Raum Vorurteile verstärken oder abbauen.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 9 · Checkliste</td></tr>
+          <tr class="grp"><td colspan="5" style="color:var(--d)">D · Gestalten und Begründen</td></tr>
+          <tr><td>… einen Spielimpuls nach dem DDADA-Modell planen, anleiten und reflektieren.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 11 · Planungsraster</td></tr>
+          <tr><td>… Eltern fachlich begründen, warum Spielen Bildung ist.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 12 · Logbuch</td></tr>
+          <tr><td>… eigene oder beobachtete Spielerfahrungen mit Fachbegriffen deuten.</td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="c"><span class="dot"></span></td><td class="where">DS 1, 7, 12 · Spielbiografie</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="box">
+        <h3>Operatoren: Was wird verlangt?</h3>
+        <div class="op">
+          <b>nennen</b><span>ohne Erklärung aufzählen <span class="afb">I</span></span>
+          <b>beschreiben</b><span>Sachverhalte strukturiert, fachsprachlich richtig und in eigenen Worten wiedergeben <span class="afb">I</span></span>
+          <b>erklären</b><span>Zusammenhänge und Gründe verständlich machen <span class="afb">II</span></span>
+          <b>herausarbeiten, analysieren</b><span>eine Situation nach Kriterien untersuchen und Belege aus dem Text angeben <span class="afb">II</span></span>
+          <b>beurteilen, Stellung nehmen</b><span>ein eigenes Urteil mit Fachbegriffen begründen und Gegenargumente abwägen <span class="afb">III</span></span>
+          <b>planen, entwickeln</b><span>eine eigene Handlung begründet entwerfen <span class="afb">III</span></span>
+        </div>
+      </div>
+      <div class="box">
+        <h3>So bilde ich ein Urteil</h3>
+        <ul>
+          <li>Ich stimme … zu / nicht zu, weil … (Fachbegriff).</li>
+          <li>Ein Beispiel dafür ist …</li>
+          <li>Dagegen spricht …</li>
+          <li>Als Fachkraft folgere ich …</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Wenn ich unsicher bin</h3>
+        <ul>
+          <li>Grüne Hilfekarten: Satzanfänge und Wortspeicher</li>
+          <li>Orange Expertenkarten: zum Weiterdenken</li>
+          <li>Begriffe auf Seite 3 nachschlagen</li>
+          <li>Logbuch lesen: Was habe ich schon verstanden?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Seite 2 · Ziele und Selbsteinschätzung</span><span>Auf dem Bildschirm: Kästchen antippen (✓ → ~ → ? → leer)</span></div>
+</section>
+
+<!-- ======================= SEITE 3 ======================= -->
+<section class="page" aria-label="Wichtige Begriffe">
+  <div class="head">
+    <div>
+      <p class="kicker">Wortspeicher</p>
+      <h1 style="font-size:17pt">Die wichtigsten Begriffe der Einheit</h1>
+    </div>
+    <div class="right">Mit Artikel lernen: <b>das</b> Spiel, <b>die</b> Spielform, <b>der</b> Impuls</div>
+  </div>
+  <div class="gloss">
+    <div class="g-grp A">
+      <h3>A · Spiel und seine Bedeutung</h3>
+      <dl>
+        <dt>das Spiel</dt><dd>Tätigkeit, die freiwillig, selbstbestimmt und um ihrer selbst willen ausgeführt wird – allein oder mit anderen.</dd>
+        <dt>der Selbstzweck <span class="art">(Zweckfreiheit)</span></dt><dd>Der Sinn liegt im Spielen selbst, nicht in einem Ergebnis danach.</dd>
+        <dt>die Umdeutung der Realität <span class="art">(Als-ob)</span></dt><dd>Das Kind verwandelt die Wirklichkeit: Der Stock wird zum Pferd.</dd>
+        <dt>die Wiederholung</dt><dd>Kinder wiederholen Handlungen und Rituale oft und mit Freude.</dd>
+        <dt>die Spannung und Entspannung</dt><dd>Spiel lebt vom Wechsel zwischen Aufregung und Lösung.</dd>
+        <dt>die Geschlossenheit</dt><dd>Spiel hat eigene Regeln, einen eigenen Raum und eine eigene Zeit.</dd>
+        <dt>die Arbeit <span class="art">(Abgrenzung)</span></dt><dd>Tätigkeit mit Zweck außerhalb der Handlung; sie wird wegen des Ergebnisses ausgeführt.</dd>
+        <dt>der Erklärungsansatz</dt><dd>Wissenschaftliche Antwort auf die Frage, warum Kinder spielen und was sie dabei lernen.</dd>
+        <dt>die Assimilation / die Akkommodation <span class="art">(Piaget)</span></dt><dd>Neues in vorhandenes Wissen einordnen / vorhandenes Wissen an Neues anpassen.</dd>
+        <dt>die Zone der nächsten Entwicklung <span class="art">(Wygotski)</span></dt><dd>Das, was ein Kind noch nicht allein, aber mit Unterstützung schafft.</dd>
+        <dt>die Sozialisation <span class="art">(Krappmann)</span></dt><dd>Hineinwachsen in die Gesellschaft; im Spiel werden Rollen und Regeln erprobt.</dd>
+      </dl>
+    </div>
+    <div class="g-grp B">
+      <h3>B · Spielformen</h3>
+      <dl>
+        <dt>das Funktionsspiel <span class="art">(Explorationsspiel)</span></dt><dd>Freude an Bewegung und Wirkung: greifen, schütteln, werfen, ausprobieren.</dd>
+        <dt>das Konstruktionsspiel</dt><dd>Etwas nach einer Vorstellung bauen oder gestalten.</dd>
+        <dt>das Symbolspiel</dt><dd>Ein Gegenstand steht für etwas anderes: Der Bauklotz ist ein Telefon.</dd>
+        <dt>das Rollenspiel</dt><dd>Kinder übernehmen Rollen und spielen gemeinsam eine Geschichte.</dd>
+        <dt>die Drehbuchbesprechung <span class="art">(Metakommunikation)</span></dt><dd>Kinder sprechen außerhalb der Rolle ab, wie das Spiel weitergeht.</dd>
+        <dt>das Regelspiel</dt><dd>Spiel nach festen, gemeinsam anerkannten Regeln, oft mit Gewinnen und Verlieren.</dd>
+        <dt>die sozialen Spielformen</dt><dd>Allein-, Zuschauer-, Parallel-, Zusammen- und kooperatives Spiel: Wie spielen Kinder miteinander?</dd>
+      </dl>
+    </div>
+    <div class="g-grp C">
+      <h3>C · Freispiel, Material, Vielfalt</h3>
+      <dl>
+        <dt>das Freispiel</dt><dd>Zeitraum im Kita-Alltag, in dem Kinder Ort, Partner, Material und Dauer selbst wählen – keine Spielform.</dd>
+        <dt>die Rechte des Kindes im Freispiel</dt><dd>z. B. freie Wahl, Achtung von Gefühlen und Entscheidungen – im Rahmen der Gruppenregeln.</dd>
+        <dt>der Handlungskreislauf</dt><dd>Beobachten → Analysieren → Handeln → Reflektieren.</dd>
+        <dt>das begleitete Spiel</dt><dd>Das Kind bestimmt das Spiel; die Fachkraft unterstützt gezielt, ohne es zu übernehmen.</dd>
+        <dt>die Verhäuslichung</dt><dd>Kinderspiel verlagert sich von draußen nach drinnen.</dd>
+        <dt>das Spielzeug / das Spielmaterial</dt><dd>Für das Spiel hergestellt / Dinge, die Kinder zum Spielen nutzen („Zeug zum Spielen“).</dd>
+        <dt>die Beurteilungskriterien</dt><dd>z. B. Alter, Spielwert, Sicherheit, Haltbarkeit, Umweltverträglichkeit.</dd>
+        <dt>die vorurteilsbewusste Erziehung</dt><dd>Kinder in ihrer Identität stärken, Vielfalt erfahrbar machen, Fairness bedenken, gegen Diskriminierung handeln.</dd>
+      </dl>
+    </div>
+    <div class="g-grp D">
+      <h3>D · Spielimpulse</h3>
+      <dl>
+        <dt>der Spielimpuls / der Materialimpuls</dt><dd>Gezielte Anregung der Fachkraft, die neues Spiel ermöglicht.</dd>
+        <dt>das DDADA-Modell</dt><dd>Describe (erklären), Demonstrate (zeigen), Ask for questions (Fragen klären), Do it (spielen), Adapt it (anpassen).</dd>
+        <dt>das MAPP-Konzept</dt><dd>„Maximum Activity Per Person“: Alle sollen möglichst viel aktiv mitspielen.</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="foot"><span>Seite 3 · Wortspeicher</span><span>Quellen der Begriffe: Unterrichtsmaterialien der Einheit (u. a. Gartinger, Jaszus et al., Wessel 2017, Hechenberger 2001)</span></div>
+</section>
+
+<script>
+  const KEY='bef1-spiel-ichkann';
+  const dots=[...document.querySelectorAll('table.can .dot')];
+  const sym={0:'',1:'✓',2:'~',3:'?'};
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  dots.forEach((d,i)=>{
+    const v=saved[i]||0; d.dataset.v=v; d.textContent=sym[v];
+    d.setAttribute('role','button'); d.setAttribute('tabindex','0');
+    const step=()=>{const n=(+d.dataset.v+1)%4; d.dataset.v=n; d.textContent=sym[n]; saved[i]=n;
+      try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}};
+    d.addEventListener('click',step);
+    d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();step();}});
+  });
+  function resetDots(){saved={};try{localStorage.removeItem(KEY)}catch(e){}
+    dots.forEach(d=>{d.dataset.v=0;d.textContent='';});}
+</script>
+</body>
+</html>

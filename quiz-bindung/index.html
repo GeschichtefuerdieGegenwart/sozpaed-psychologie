@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktives Quiz: Bindung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+    <h1>Der große Preis zum Thema Bindung</h1>
+
+    <div id="quizContainer"></div>
+    <div id="result"></div>
+
+    <script>
+        const quizData = [
+            {
+                question: "1. Vervollständigen Sie den Satz: „Bindung ist …“",
+                options: [
+                    "eine emotionale Beziehung",
+                    "genetisch vorprogrammiert",
+                    "eine Phase der Kindheit",
+                    "irrelevant für die Entwicklung"
+                ],
+                answer: 0 // Index der richtigen Antwort
+            },
+            {
+                question: "2. Wer ist das? (Bitte Namen eingeben)",
+                options: [],
+                answer: "John Bowlby" // Beispielantwort
+            },
+            {
+                question: "3. Bindung hat nichts mit genetischer Vorprogrammierung zu tun. Ist diese Aussage richtig oder falsch?",
+                options: [
+                    "Richtig",
+                    "Falsch"
+                ],
+                answer: 1 // Index der richtigen Antwort
+            },
+            {
+                question: "4. Wie heißt das Bilderbuch, in dem die Bindungstypen am Beispiel von vier Kindern verdeutlicht werden?",
+                options: [
+                    "Der Weg zum eigenen Ich",
+                    "Die vier Bindungstypen",
+                    "Bindung und Beziehung",
+                    "Die Kinder und ihre Bindungen"
+                ],
+                answer: 0 // Index der richtigen Antwort
+            },
+            {
+                question: "5. Welche Verhaltensweisen einer Bezugsperson führen zu einer sicheren Bindung und welche zu einer unsicheren Bindung?",
+                options: [],
+                answer: "Feinfühligkeit fördert sichere Bindung, Ignorieren führt zu unsicherer Bindung." // Beispielantwort
+            },
+            {
+                question: "6. Bindungserfahrungen haben Einfluss auf die Gehirnentwicklung – Welcher Einfluss ist das?",
+                options: [],
+                answer: "Förderung emotionaler und sozialer Entwicklung." // Beispielantwort
+            },
+            {
+                question: "7. Was versteht man unter dem fremde-Situationstest und von wem wurde er durchgeführt?",
+                options: [],
+                answer: "Ein Test zur Untersuchung des Bindungsverhaltens, durchgeführt von Mary Ainsworth." // Beispielantwort
+            },
+            {
+                question: "8. Weinen, Schreien, Arme ausstrecken, Klammern, Protestieren. Formulieren Sie eine passende Frage in Zusammenhang mit der Bindungsforschung.",
+                options: [],
+                answer: "Welche Verhaltensweisen deuten auf ein starkes Bindungsbedürfnis hin?" // Beispielantwort
+            },
+            {
+                question: "9. Was hat dieses Bild mit dem Thema Bindung zu tun? (Bitte Beschreibung eingeben)",
+                options: [],
+                answer: "Das Bild zeigt eine emotionale Verbindung zwischen Kind und Bezugsperson." // Beispielantwort
+            },
+            {
+                question: "10. Erläutern Sie anhand einer Waage den Zusammenhang von Bindungs- und Explorationsverhalten.",
+                options: [],
+                answer: "Eine sichere Bindung fördert das Explorationsverhalten, während unsicheres Verhalten es einschränkt." // Beispielantwort
+            },
+            {
+                question: "11. Bindungstypen richtig zuordnen (jeweils zwei Aussagen).",
+                options: [],
+                answer: "Bindungstyp A: unsicher-vermeidende Bindung; Bindungstyp B: sichere Bindung." // Beispielantwort
+            },
+            {
+                question: "12. Wie haben sich die Eltern bei diesen Bindungstypen verhalten?",
+                options: [],
+                answer: "Sichere Bindung: konsistent; Unsicher-vermeidende Bindung: inkonsistent." // Beispielantwort
+            },
+            {
+                question: "13. Halten Sie einen Vortrag von 60 Sekunden, warum sich Erzieher*innen mit dem Thema Bindung befassen sollten.",
+                options: [],
+                answer: "Bindung ist entscheidend für die emotionale und soziale Entwicklung von Kindern." // Beispielantwort
+            }
+        ];
+
+        function loadQuiz() {
+            const quizContainer = document.getElementById('quizContainer');
+            quizData.forEach((item, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                questionDiv.innerHTML = `<p>${item.question}</p>`;
+                
+                if (item.options.length > 0) {
+                    item.options.forEach((option, i) => {
+                        questionDiv.innerHTML += `
+                            <div class="options">
+                                <button onclick="checkAnswer(${index}, ${i})">${option}</button>
+                            </div>
+                        `;
+                    });
+                } else {
+                    questionDiv.innerHTML += `<input type="text" id="answer${index}" placeholder="Ihre Antwort">`;
+                }
+
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswer(questionIndex, selectedIndex) {
+            const question = quizData[questionIndex];
+            const resultDiv = document.getElementById('result');
+
+            if (question.options.length > 0) {
+                if (selectedIndex === question.answer) {
+                    resultDiv.innerHTML = `<p>Richtig!</p>`;
+                } else {
+                    resultDiv.innerHTML = `<p>Leider falsch. Die richtige Antwort ist: ${question.options[question.answer]}</p>`;
+                }
+            } else {
+                const userInput = document.getElementById(`answer${questionIndex}`).value;
+                if (userInput.toLowerCase() === question.answer.toLowerCase()) {
+                    resultDiv.innerHTML = `<p>Richtig!</p>`;
+                } else {
+                    resultDiv.innerHTML = `<p>Leider falsch. Die richtige Antwort ist: ${question.answer}</p>`;
+                }
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+</html>

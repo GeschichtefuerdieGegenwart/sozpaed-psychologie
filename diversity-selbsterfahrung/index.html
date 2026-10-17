@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diversity Selbsterfahrung - Vielfaltsdimensionen</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            margin: 0; 
+            padding: 20px; 
+            color: #333; 
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        h1 { 
+            text-align: center; 
+            color: white; 
+            margin-bottom: 30px; 
+            font-size: 2.5em; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
+        }
+        
+        .section { 
+            background: white; 
+            padding: 30px; 
+            margin-bottom: 25px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
+            transition: transform 0.3s ease; 
+        }
+        
+        .section:hover { transform: translateY(-5px); }
+        
+        h2 { 
+            color: #4a5568; 
+            margin-bottom: 15px; 
+            font-size: 1.5em; 
+            border-bottom: 3px solid #667eea; 
+            padding-bottom: 5px; 
+        }
+        
+        .definition-box { 
+            background: #f7fafc; 
+            border-left: 5px solid #667eea; 
+            padding: 20px; 
+            margin: 15px 0; 
+            border-radius: 0 10px 10px 0; 
+        }
+        
+        .form-group { 
+            margin-bottom: 20px; 
+            position: relative; 
+        }
+        
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #4a5568; 
+            font-size: 1.1em; 
+        }
+        
+        select { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            background: white; 
+            transition: border-color 0.3s ease; 
+        }
+        
+        select:focus { 
+            border-color: #667eea; 
+            outline: none; 
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); 
+        }
+        
+        .help-btn { 
+            background: #667eea; 
+            color: white; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            font-size: 12px; 
+            margin-left: 8px; 
+            transition: background 0.3s ease; 
+        }
+        
+        .help-btn:hover { background: #5a67d8; }
+        
+        .tooltip { 
+            display: none; 
+            position: absolute; 
+            background: #2d3748; 
+            color: white; 
+            padding: 10px; 
+            border-radius: 6px; 
+            font-size: 14px; 
+            width: 300px; 
+            z-index: 1000; 
+            top: 100%; 
+            left: 0; 
+        }
+        
+        .tooltip.show { display: block; }
+        
+        .submit-btn { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 18px; 
+            cursor: pointer; 
+            width: 100%; 
+            transition: transform 0.3s ease; 
+        }
+        
+        .submit-btn:hover { transform: scale(1.05); }
+        
+        .result { 
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
+            color: white; 
+            padding: 25px; 
+            border-radius: 15px; 
+            margin-top: 25px; 
+            display: none; 
+        }
+        
+        .risk-meter { 
+            background: white; 
+            border-radius: 10px; 
+            padding: 20px; 
+            margin: 15px 0; 
+            color: #333; 
+        }
+        
+        .progress-bar { 
+            background: #e2e8f0; 
+            height: 20px; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            margin: 10px 0; 
+        }
+        
+        .progress-fill { 
+            height: 100%; 
+            border-radius: 10px; 
+            transition: width 0.5s ease; 
+        }
+        
+        .risk-low { background: #48bb78; }
+        .risk-medium { background: #ed8936; }
+        .risk-high { background: #f56565; }
+        
+        .data-source { 
+            background: #edf2f7; 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            margin: 15px 0; 
+            border-left: 4px solid #667eea; 
+        }
+        
+        .risk-list { 
+            background: rgba(255,255,255,0.1); 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin: 10px 0; 
+        }
+        
+        .dimension-tag { 
+            display: inline-block; 
+            background: rgba(255,255,255,0.2); 
+            padding: 4px 8px; 
+            border-radius: 15px; 
+            font-size: 12px; 
+            margin: 2px; 
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            h1 { font-size: 2em; }
+            .tooltip { width: 250px; }
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="mdl-hinweis" role="note"><b>Zur Einordnung:</b> Dieser Selbsttest ist kein wissenschaftliches Messinstrument. Er ist ein Anlass, über die eigene Haltung nachzudenken. Deine Antworten bleiben auf diesem Gerät und werden nirgends gespeichert oder gesendet. <b>Alle Angaben sind freiwillig.</b> Niemand muss Antworten oder Ergebnisse zeigen.</div>
+    <div class="container">
+        <h1>🌟 Diversity Selbsterfahrung 🌟</h1>
+        
+        <div class="section">
+            <h2>📚 Definitionen der Vielfaltsdimensionen</h2>
+            <div class="definition-box">
+                <strong>Primärdimensionen der Vielfalt</strong> sind angeborene oder sehr früh erworbene Merkmale, die dauerhaft und meist unveränderbar sind. Sie wirken sich kontinuierlich auf das Selbstbild und die soziale Zugehörigkeit aus. Dazu gehören: Geschlecht, Alter, Ethnie/Hautfarbe, Religion, sexuelle Orientierung und Behinderung[2].
+            </div>
+            <div class="definition-box">
+                <strong>Sekundärdimensionen der Vielfalt</strong> sind veränderbare oder erworbene Merkmale wie Bildungsstand, Wohnort, sozialer Status, Familienstand, Beruf und Lebenserfahrungen. Sie können während des Lebens modifiziert werden und haben tendenziell weniger Einfluss als Primärdimensionen[2].
+            </div>
+        </div>
+
+        <form id="diversityForm" class="section">
+            <h2>🔍 Selbsteinschätzung</h2>
+            
+            <div class="form-group">
+                <label for="geschlecht">
+                    Geschlecht 
+                    <button type="button" class="help-btn" onclick="toggleTooltip('tooltip-geschlecht')">?</button>
+                    <div class="tooltip" id="tooltip-geschlecht">
+                        Geschlechtsidentität umfasst sowohl biologisches als auch soziales Geschlecht. Trans* und nicht-binäre Personen erfahren überdurchschnittlich häufig Diskriminierung.
+                    </div>
+                </label>
+                <select id="geschlecht" name="geschlecht">
+                    <option value="keine_angabe">möchte ich nicht angeben</option>
+                    <option value="cis_mann">Cis-Mann</option>
+                    <option value="cis_frau">Cis-Frau</option>
+                    <option value="trans">Trans*</option>
+                    <option value="nonbinary">Nicht-binär/divers</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="alter">
+                    Alter 
+                    <button type="button" class="help-btn" onclick="toggleTooltip('tooltip-alter')">?</button>
+                    <div class="tooltip" id="tooltip-alter">
+                        Altersdiskriminierung betrifft besonders junge Menschen (unter 18) und ältere Menschen (über 50). Diese werden oft aufgrund von Vorurteilen benachteiligt.
+                    </div>
+                </label>
+                <select id="alter" name="alter">
+                    <option value="keine_angabe">möchte ich nicht angeben</option>
+                    <option value="unter18">Unter 18</option>
+                    <option value="18_25">18–25</option>
+                    <option value="25_40">26–40</option>
+                    <option value="40plus">Über 40</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="ethnie">
+                    Ethnizität/Hautfarbe 
+                    <button type="button" class="help-btn" onclick="toggleTooltip('tooltip-ethnie')">?</button>
+                    <div class="tooltip" id="tooltip-ethnie">
+                        Rassistische Diskriminierung ist mit 43% der häufigste Grund für Diskriminierung in Deutschland (ADS 2024). Besonders betroffen sind People of Color und Menschen mit Migrationshintergrund.
+                    </div>
+                </label>
+                <select id="ethnie" name="ethnie">
+                    <option value="keine_angabe">möchte ich nicht angeben</option>
+                    <option value="weiss">Weiß</option>
+                    <option value="poc">Person of Color</option>
+                    <option value="migrantisch">Migrationshintergrund</option>
+                    <option value="asylsuchend">Geflüchtet/Asylsuchend</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="religion">
+                    Religiöse Zugehörigkeit 
+                    <button type="button" class="help-btn" onclick="toggleTooltip('tooltip-religion')">?</button>
+                    <div class="tooltip" id="tooltip-religion">
+                        Religiöse Diskriminierung betrifft vor allem muslimische und jüdische Menschen. 2024 wurden über 3.000 antimuslimische Vorfälle dokumentiert.
+                    </div>
+                </label>
+                <select id="religion" name="religion">
+                    <option value="keine_angabe">möchte ich nicht angeben</option>
+                    <option value="none">Keine/Atheistisch</option>
+                    <option value="christlich">Christlich</option>
+                    <option value="muslimisch">Muslimisch</option>
+                    <option value="jüdisch">Jüdisch</option>
+                    <option value="andere">Andere Religion</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="behinderung">
+                    Behinderung/Beeinträchtigung 
+                    <button type="button" class="help-btn" onclick="toggleTooltip('tooltip-behinderung')">?</button>
+                    <div class="tooltip" id="tooltip-behinderung">
+                        27% aller Diskriminierungsanfragen bei der ADS betreffen Behinderungen. Dies umfasst körperliche, geistige und psychische Beeinträchtigungen.
+                    </div>
+                </label>
+                <select id="behinderung" name="behinderung">
+                    <option value="keine_angabe">möchte ich nicht angeben</option>
+                    <option value="nein">Keine</option>
+                    <option value="ja">Ja</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="sex_ort">
+                    Sexuelle Orientierung 
+                    <button type="button" class="help-btn" onclick="toggleTooltip('tooltip-sexorient')">?</button>
+                    <div class="tooltip" id="tooltip-sexorient">
+                        LGBTI+ Personen erfahren häufig Diskriminierung. 68% der EU-Befragten nahmen negative Kommentare gegenüber LGBTI+ Menschen in Schulen wahr (FRA 2013).
+                    </div>
+                </label>
+                <select id="sex_ort" name="sex_ort">
+                    <option value="keine_angabe">möchte ich nicht angeben</option>
+                    <option value="hetero">Heterosexuell</option>
+                    <option value="homo">Homosexuell</option>
+                    <option value="bi">Bisexuell</option>
+                    <option value="other">Andere/Pansexuell</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bildungsgrad">
+                    Bildungsstand 
+                    <button type="button" class="help-btn" onclick="toggleTooltip('tooltip-bildung')">?</button>
+                    <div class="tooltip" id="tooltip-bildung">
+                        Bildungsdiskriminierung zeigt sich z.B. bei der Leistungsbewertung: Arbeiten unter dem Namen "Kevin" erhalten schlechtere Noten als unter "Maximilian" (Uni Oldenburg 2010).
+                    </div>
+                </label>
+                <select id="bildungsgrad" name="bildungsgrad">
+                    <option value="keine_angabe">möchte ich nicht angeben</option>
+                    <option value="hoch">Hoch (Abitur, Studium)</option>
+                    <option value="mittel">Mittel (Mittlere Reife, Ausbildung)</option>
+                    <option value="niedrig">Niedrig (Hauptschule/kein Abschluss)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="status">
+                    Sozialer Status 
+                    <button type="button" class="help-btn" onclick="toggleTooltip('tooltip-status')">?</button>
+                    <div class="tooltip" id="tooltip-status">
+                        Soziale Herkunft beeinflusst Bildungschancen erheblich. Kinder aus sozial schwächeren Familien erhalten seltener Gymnasialempfehlungen trotz gleicher Leistungen.
+                    </div>
+                </label>
+                <select id="status" name="status">
+                    <option value="keine_angabe">möchte ich nicht angeben</option>
+                    <option value="hoch">Eher hoch</option>
+                    <option value="mittel">Mittel</option>
+                    <option value="niedrig">Eher niedrig</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="wohnort">Wohnort</label>
+                <select id="wohnort" name="wohnort">
+                    <option value="keine_angabe">möchte ich nicht angeben</option>
+                    <option value="stadt">Großstadt</option>
+                    <option value="kleinstadt">Kleinstadt</option>
+                    <option value="dorf">Ländliche Region</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">🔍 Diskriminierungsrisiko analysieren</button>
+        </form>
+
+        <div id="result" class="result">
+            <h2>📊 Ihr persönliches Diskriminierungsprofil</h2>
+            <div id="risk-meter" class="risk-meter">
+                <h3>Wahrscheinlichkeit für Diskriminierungserfahrungen:</h3>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div id="percentage-text"></div>
+            </div>
+            
+            <div id="diskriminierungen" class="risk-list"></div>
+            
+            <div class="data-source">
+                <h3>📈 Datengrundlagen:</h3>
+                <p><strong>Antidiskriminierungsstelle des Bundes (ADS) 2024:</strong> 11.405 Beratungsanfragen, 43% rassistische Diskriminierung, 27% Behinderung, 24% Geschlecht[3][6][12]</p>
+                <p><strong>FRA-Studie 2022:</strong> 76% der Schwarzen Menschen in Deutschland erlebten Diskriminierung (EU-Höchstwert)[8]</p>
+                <p><strong>Bildungsbereich:</strong> 46% der Schwarzen Menschen erfahren Diskriminierung im deutschen Bildungssystem[8]</p>
+                <p><strong>CLAIM-Bericht 2024:</strong> 3.080 antimuslimische Vorfälle (+60% zum Vorjahr)[18]</p>
+            </div>
+            
+            <div class="definition-box">
+                <h3>🔄 Intersektionalität beachten</h3>
+                <p>Mehrfachdiskriminierung entsteht durch das Zusammenwirken verschiedener Merkmale. So erfahren z.B. Schwarze Frauen spezielle Diskriminierungen, die weder weiße Frauen noch Schwarze Männer erleben[2].</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTooltip(id) {
+            const tooltip = document.getElementById(id);
+            tooltip.classList.toggle('show');
+            
+            // Schließe andere Tooltips
+            document.querySelectorAll('.tooltip').forEach(t => {
+                if (t.id !== id) t.classList.remove('show');
+            });
+        }
+
+        // Schließe Tooltips beim Klicken außerhalb
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('help-btn')) {
+                document.querySelectorAll('.tooltip').forEach(t => {
+                    t.classList.remove('show');
+                });
+            }
+        });
+
+        document.getElementById("diversityForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const f = e.target.elements;
+            let diskris = [];
+            let chance = 20; // Basischance für alle Menschen
+            let primaryRisk = 0;
+            let secondaryRisk = 0;
+
+            // Primärdimensionen-Auswertung
+            if(f.geschlecht.value === "trans" || f.geschlecht.value === "nonbinary") {
+                diskris.push("🏳️‍⚧️ <span class='dimension-tag'>Primär</span> <strong>Geschlechtsidentität:</strong> Trans* und nicht-binäre Personen erleben überdurchschnittlich häufig Diskriminierung in Bildung und Beruf");
+                chance += 25;
+                primaryRisk += 25;
+            }
+            
+            if(f.ethnie.value !== "weiss" && f.ethnie.value !== "keine_angabe") {
+                diskris.push("🌍 <span class='dimension-tag'>Primär</span> <strong>Rassismus:</strong> Als häufigster Diskriminierungsgrund (43% aller ADS-Fälle) besonders problematisch");
+                chance += 30;
+                primaryRisk += 30;
+            }
+            
+            if(f.religion.value === "muslimisch") {
+                diskris.push("🕌 <span class='dimension-tag'>Primär</span> <strong>Antimuslimischer Rassismus:</strong> 3.080 dokumentierte Vorfälle 2024 (+60% zum Vorjahr)");
+                chance += 20;
+                primaryRisk += 20;
+            } else if(f.religion.value === "jüdisch") {
+                diskris.push("✡️ <span class='dimension-tag'>Primär</span> <strong>Antisemitismus:</strong> Stark ansteigende Tendenz, besonders seit 2023");
+                chance += 18;
+                primaryRisk += 18;
+            }
+            
+            if(f.behinderung.value === "ja") {
+                diskris.push("♿ <span class='dimension-tag'>Primär</span> <strong>Behinderung:</strong> 27% aller Diskriminierungsanfragen betreffen Behinderungen");
+                chance += 22;
+                primaryRisk += 22;
+            }
+            
+            if(f.sex_ort.value !== "hetero" && f.sex_ort.value !== "keine_angabe") {
+                diskris.push("🏳️‍🌈 <span class='dimension-tag'>Primär</span> <strong>Sexuelle Orientierung:</strong> LGBTI+ Personen erleben häufig Ausgrenzung, besonders im Bildungsbereich");
+                chance += 15;
+                primaryRisk += 15;
+            }
+            
+            if(f.alter.value === "unter18") {
+                diskris.push("👶 <span class='dimension-tag'>Primär</span> <strong>Altersdiskriminierung:</strong> Adultismus - systematische Benachteiligung junger Menschen");
+                chance += 12;
+                primaryRisk += 12;
+            } else if(f.alter.value === "40plus") {
+                diskris.push("👴 <span class='dimension-tag'>Primär</span> <strong>Altersdiskriminierung:</strong> Besonders im Arbeitsleben ab 50 Jahren");
+                chance += 10;
+                primaryRisk += 10;
+            }
+
+            // Sekundärdimensionen-Auswertung
+            if(f.status.value === "niedrig") {
+                diskris.push("📉 <span class='dimension-tag'>Sekundär</span> <strong>Sozialer Status:</strong> Klassismus - Kinder aus sozial schwächeren Familien erhalten seltener Gymnasialempfehlungen");
+                chance += 15;
+                secondaryRisk += 15;
+            }
+            
+            if(f.bildungsgrad.value === "niedrig") {
+                diskris.push("🎓 <span class='dimension-tag'>Sekundär</span> <strong>Bildungsstand:</strong> Vorurteile bei Leistungsbewertung (Kevin-Maximilian-Studie)");
+                chance += 12;
+                secondaryRisk += 12;
+            }
+            
+            if(f.wohnort.value === "dorf") {
+                diskris.push("🏘️ <span class='dimension-tag'>Sekundär</span> <strong>Wohnort:</strong> In ländlichen Regionen weniger Diversität, möglicherweise mehr Vorurteile");
+                chance += 8;
+                secondaryRisk += 8;
+            }
+
+            // Intersektionalität berücksichtigen
+            if(primaryRisk > 40) {
+                diskris.push("⚠️ <strong>Intersektionalität:</strong> Mehrfachdiskriminierung durch Kombination verschiedener Primärmerkmale verstärkt das Risiko überproportional");
+                chance += 15;
+            }
+
+            if (diskris.length === 0) {
+                diskris.push("✅ <strong>Geringes statistisches Risiko:</strong> Basierend auf Ihren Angaben haben Sie ein unterdurchschnittliches Diskriminierungsrisiko. Dennoch kann jede*r Diskriminierung erfahren.");
+            }
+
+            // Begrenze auf realistischen Bereich
+            let finalChance = Math.min(Math.max(chance, 20), 85);
+            
+            // Risiko-Kategorisierung
+            let riskClass, riskText;
+            if(finalChance <= 35) {
+                riskClass = "risk-low";
+                riskText = "Niedriges Risiko";
+            } else if(finalChance <= 60) {
+                riskClass = "risk-medium";
+                riskText = "Mittleres Risiko";
+            } else {
+                riskClass = "risk-high";
+                riskText = "Hohes Risiko";
+            }
+
+            // Ergebnisse anzeigen
+            document.getElementById("diskriminierungen").innerHTML = "<ul><li>" + diskris.join("</li><li>") + "</li></ul>";
+            document.getElementById("progress-fill").className = `progress-fill ${riskClass}`;
+            document.getElementById("progress-fill").style.width = finalChance + "%";
+            document.getElementById("percentage-text").innerHTML = `<strong>${finalChance}%</strong> - ${riskText}<br><em>Basiert auf aktuellen empirischen Studien der ADS, FRA und weiteren Forschungseinrichtungen</em>`;
+            
+            document.getElementById("result").style.display = "block";
+            document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>

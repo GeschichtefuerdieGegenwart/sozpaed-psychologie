@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Vielfaltsdimensionen-Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+            padding: 20px; 
+            color: #333; 
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        h1 { 
+            text-align: center; 
+            color: white; 
+            margin-bottom: 30px; 
+            font-size: 2.5em; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e1e7f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .question-card { 
+            background: white; 
+            padding: 30px; 
+            margin-bottom: 25px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .question-card.active { 
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .scenario {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+        
+        .option:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+        
+        .option.correct {
+            border-color: #48bb78;
+            background: #c6f6d5;
+        }
+        
+        .option.incorrect {
+            border-color: #f56565;
+            background: #fed7d7;
+        }
+        
+        .dimension-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 2px;
+        }
+        
+        .primary { background: #fed7e2; color: #97266d; }
+        .secondary { background: #bee3f8; color: #2c5282; }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        
+        .btn:hover { transform: scale(1.05); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .feedback {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .feedback.show { display: block; }
+        
+        .results {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+        
+        .results.show { display: block; }
+        
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .excellent { background: linear-gradient(135deg, #48bb78, #38a169); }
+        .good { background: linear-gradient(135deg, #ed8936, #dd6b20); }
+        .needs-improvement { background: linear-gradient(135deg, #f56565, #e53e3e); }
+        
+        @media (max-width: 768px) {
+            .options { grid-template-columns: 1fr; }
+            h1 { font-size: 2em; }
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌈 Vielfaltsdimensionen erkennen</h1>
+        
+        <div class="progress-container">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Fortschritt:</span>
+                <span id="progress-text">0 / 8</span>
+            </div>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div id="question-container"></div>
+        
+        <div id="results" class="results">
+            <h2>🎉 Test abgeschlossen!</h2>
+            <div id="score-circle" class="score-circle">
+                <span id="final-score">0/8</span>
+            </div>
+            <div id="score-text"></div>
+            <div id="detailed-feedback"></div>
+            <button class="btn" onclick="restartTest()">🔄 Nochmal versuchen</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                text: "Welche Vielfaltsdimension ist hier hauptsächlich betroffen?",
+                scenario: "Ahmed ist 8 Jahre alt und spricht zu Hause Arabisch. In der Schule fällt es ihm schwer, komplexe deutsche Texte zu verstehen. Seine Lehrerin bewertet seine Leistungen als schlecht, obwohl er in Mathematik sehr gut ist.",
+                options: ["Alter", "Sprache/Kultur", "Geschlecht", "Behinderung"],
+                correct: 1,
+                dimension: "primary",
+                feedback: "Richtig! Sprache/Kultur ist eine Primärdimension. Ahmed wird aufgrund seiner sprachlichen Herkunft benachteiligt, obwohl seine mathematischen Fähigkeiten zeigen, dass er intellektuell sehr wohl in der Lage ist zu lernen."
+            },
+            {
+                text: "Identifizieren Sie die betroffene Dimension:",
+                scenario: "Lisa ist 25 Jahre alt und bewirbt sich als Erzieherin. Im Vorstellungsgespräch wird sie gefragt: 'Planen Sie denn in den nächsten Jahren Kinder zu bekommen? Das wäre für uns problematisch wegen der Ausfälle.'",
+                options: ["Alter", "Geschlecht", "Familienstand", "Beruf"],
+                correct: 1,
+                dimension: "primary",
+                feedback: "Korrekt! Geschlecht ist eine Primärdimension. Lisa wird aufgrund ihres Geschlechts diskriminiert, da von Frauen automatisch erwartet wird, dass sie Kinder bekommen und dann ausfallen könnten."
+            },
+            {
+                text: "Welche Vielfaltsdimension steht im Fokus?",
+                scenario: "Kevin kommt aus einer Familie mit niedrigem Einkommen. Seine Klassenarbeit wird von der Lehrerin schlechter bewertet als die identische Arbeit von Maximilian, dessen Eltern Akademiker sind.",
+                options: ["Sozialer Status", "Bildungsstand", "Name/Herkunft", "Alle genannten"],
+                correct: 3,
+                dimension: "secondary",
+                feedback: "Richtig! Hier wirken mehrere Sekundärdimensionen zusammen: Der soziale Status der Familie, der implizierte Bildungsstand und die vornamensbasierte Diskriminierung (Kevin-Maximilian-Studie der Uni Oldenburg)."
+            },
+            {
+                text: "Welche Dimension ist hier betroffen?",
+                scenario: "Fatima trägt ein Kopftuch und wird deshalb von anderen Kindern gehänselt. Die Erzieherin sagt: 'Fatima, kannst du nicht einfach das Kopftuch abnehmen, dann hören die anderen auf dich zu ärgern?'",
+                options: ["Religion", "Geschlecht", "Kultur", "Religion und Geschlecht"],
+                correct: 3,
+                dimension: "primary",
+                feedback: "Ausgezeichnet! Religion und Geschlecht wirken hier intersektional zusammen. Fatima wird als muslimische Frau doppelt diskriminiert. Das Kopftuch ist Ausdruck ihrer religiösen Überzeugung und ihres Geschlechts."
+            },
+            {
+                text: "Identifizieren Sie die hauptsächliche Dimension:",
+                scenario: "Tom ist 16 Jahre alt und sitzt im Rollstuhl. Bei einem Klassenausflug sagt die Lehrerin: 'Tom kann leider nicht mit ins Museum, da sind zu viele Treppen. Er bleibt mit einer Kollegin in der Schule.'",
+                options: ["Alter", "Behinderung", "Geschlecht", "Bildungsstand"],
+                correct: 1,
+                dimension: "primary",
+                feedback: "Richtig! Behinderung ist eine Primärdimension. Tom wird exkludiert statt dass nach inklusiven Lösungen gesucht wird (z.B. barrierefreier Zugang, Aufzug, alternative Route)."
+            },
+            {
+                text: "Welche Vielfaltsdimension ist hier relevant?",
+                scenario: "Jana ist 17 Jahre alt und lebt bei ihrer alleinerziehenden Mutter, die Hartz IV bezieht. Sie kann nicht an der Klassenfahrt teilnehmen, weil das Geld fehlt. Ihre Mitschüler fragen: 'Warum arbeitest du nicht einfach?'",
+                options: ["Alter", "Familienstand", "Sozialer Status", "Geschlecht"],
+                correct: 2,
+                dimension: "secondary",
+                feedback: "Korrekt! Der soziale Status ist eine Sekundärdimension. Jana wird aufgrund der finanziellen Situation ihrer Familie benachteiligt und zusätzlich stigmatisiert."
+            },
+            {
+                text: "Welche Dimension steht im Mittelpunkt?",
+                scenario: "Alex outet sich in der Klasse als nicht-binär und möchte mit 'they/them' Pronomen angesprochen werden. Einige Lehrkräfte weigern sich und sagen: 'Das ist zu kompliziert, wir bleiben bei er oder sie.'",
+                options: ["Geschlechtsidentität", "Sexuelle Orientierung", "Alter", "Sprache"],
+                correct: 0,
+                dimension: "primary",
+                feedback: "Richtig! Geschlechtsidentität ist eine Primärdimension. Alex wird aufgrund ihrer nicht-binären Identität diskriminiert, indem ihre Geschlechtsidentität nicht anerkannt wird."
+            },
+            {
+                text: "Identifizieren Sie die betroffene Dimension:",
+                scenario: "Herr Müller ist 55 Jahre alt und bewirbt sich als Erzieher. Im Gespräch hört er: 'In unserem jungen Team wären Sie eher fehl am Platz. Außerdem - ein Mann im Kindergarten? Das finden Eltern oft komisch.'",
+                options: ["Nur Alter", "Nur Geschlecht", "Alter und Geschlecht", "Beruf"],
+                correct: 2,
+                dimension: "primary",
+                feedback: "Hervorragend! Hier wirken zwei Primärdimensionen zusammen: Alter (Altersdiskriminierung ab 50+) und Geschlecht (Männer in typischen 'Frauenberufen'). Das ist intersektionale Diskriminierung."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+
+        function loadQuestion() {
+            const questionContainer = document.getElementById('question-container');
+            const question = questions[currentQuestion];
+            
+            questionContainer.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-header">
+                        <div class="question-number">${currentQuestion + 1}</div>
+                        <div class="question-text">${question.text}</div>
+                    </div>
+                    
+                    <div class="scenario">${question.scenario}</div>
+                    
+                    <div class="options" id="options">
+                        ${question.options.map((option, index) => 
+                            `<div class="option" onclick="selectOption(${index})" data-index="${index}">
+                                ${option}
+                                <div class="dimension-tag ${question.dimension}">${question.dimension === 'primary' ? 'Primärdimension' : 'Sekundärdimension'}</div>
+                            </div>`
+                        ).join('')}
+                    </div>
+                    
+                    <div id="feedback" class="feedback">
+                        <strong>Erklärung:</strong> ${question.feedback}
+                    </div>
+                    
+                    <button id="next-btn" class="btn" onclick="nextQuestion()" disabled>
+                        ${currentQuestion === questions.length - 1 ? 'Ergebnis anzeigen' : 'Nächste Frage'}
+                    </button>
+                </div>
+            `;
+            
+            updateProgress();
+        }
+
+        function selectOption(selectedIndex) {
+            const options = document.querySelectorAll('.option');
+            const question = questions[currentQuestion];
+            
+            // Remove previous selections
+            options.forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Mark selected option
+            options[selectedIndex].classList.add('selected');
+            
+            // Show correct/incorrect
+            options.forEach((option, index) => {
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Store answer
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            // Update score
+            if (selectedIndex === question.correct) {
+                score++;
+            }
+            
+            // Show feedback and enable next button
+            document.getElementById('feedback').classList.add('show');
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= questions.length) {
+                showResults();
+            } else {
+                loadQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const percentage = (currentQuestion / questions.length) * 100;
+            document.getElementById('progress-fill').style.width = percentage + '%';
+            document.getElementById('progress-text').textContent = `${currentQuestion} / ${questions.length}`;
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            document.getElementById('results').classList.add('show');
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+            
+            const scoreCircle = document.getElementById('score-circle');
+            const scoreText = document.getElementById('score-text');
+            
+            if (percentage >= 80) {
+                scoreCircle.classList.add('excellent');
+                scoreText.innerHTML = `<h3>🎉 Ausgezeichnet! ${percentage}%</h3><p>Sie haben ein sehr gutes Verständnis für Vielfaltsdimensionen!</p>`;
+            } else if (percentage >= 60) {
+                scoreCircle.classList.add('good');
+                scoreText.innerHTML = `<h3>👍 Gut! ${percentage}%</h3><p>Sie kennen sich gut aus, aber es gibt noch Raum für Verbesserungen.</p>`;
+            } else {
+                scoreCircle.classList.add('needs-improvement');
+                scoreText.innerHTML = `<h3>📚 Übung macht den Meister! ${percentage}%</h3><p>Wiederholen Sie die Theorie zu Primär- und Sekundärdimensionen.</p>`;
+            }
+            
+            // Detailed feedback
+            let detailedFeedback = '<h4>📋 Detailliertes Feedback:</h4><ul>';
+            questions.forEach((q, index) => {
+                const isCorrect = userAnswers[index] === q.correct;
+                detailedFeedback += `<li><strong>Frage ${index + 1}:</strong> ${isCorrect ? '✅ Richtig' : '❌ Falsch'} 
+                                    <br><small>${q.feedback}</small></li>`;
+            });
+            detailedFeedback += '</ul>';
+            
+            document.getElementById('detailed-feedback').innerHTML = detailedFeedback;
+            
+            updateProgress();
+        }
+
+        function restartTest() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            document.getElementById('question-container').style.display = 'block';
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('score-circle').className = 'score-circle';
+            loadQuestion();
+        }
+
+        // Initialize test
+        loadQuestion();
+    </script>
+</body>
+</html>

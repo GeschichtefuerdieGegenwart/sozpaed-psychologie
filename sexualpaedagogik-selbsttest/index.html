@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selbsttest: Sexualpädagogische Haltung</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .intro {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .intro h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .intro ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .intro li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .intro li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .question {
+            padding: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .question-header {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question-header h3 {
+            font-size: 1.3em;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            margin-top: 2px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #e8eaf6;
+            border-width: 3px;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-label {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .option-text {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.3em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 30px;
+            width: calc(100% - 60px);
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result {
+            padding: 40px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-card {
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .result-repressive {
+            background: #ffebee;
+            border: 3px solid #f44336;
+        }
+
+        .result-scheinaffirmative {
+            background: #fff8e1;
+            border: 3px solid #ff9800;
+        }
+
+        .result-emanzipatorisch {
+            background: #e8f5e9;
+            border: 3px solid #4caf50;
+        }
+
+        .result-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .result-title {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .result-subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .result-section {
+            margin: 20px 0;
+        }
+
+        .result-section h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .result-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .result-section li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .result-repressive li:before {
+            content: "❌";
+            position: absolute;
+            left: 0;
+        }
+
+        .result-scheinaffirmative li:before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+        }
+
+        .result-emanzipatorisch li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .recommendation {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 5px;
+            margin: 20px 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .question {
+                padding: 20px;
+            }
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="mdl-hinweis" role="note"><b>Zur Einordnung:</b> Dieser Selbsttest ist kein wissenschaftliches Messinstrument. Er ist ein Anlass, über die eigene Haltung nachzudenken. Deine Antworten bleiben auf diesem Gerät und werden nirgends gespeichert oder gesendet.</div>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Selbsttest</h1>
+            <p>Welche sexualpädagogische Haltung habe ich?</p>
+        </div>
+
+        <div class="intro">
+            <h2>📋 Anleitung</h2>
+            <ul>
+                <li>Lesen Sie die folgenden 10 Situationen aus dem Kita-Alltag</li>
+                <li>Wählen Sie spontan die Reaktion, die Ihrem ersten Impuls am nächsten kommt</li>
+                <li>Seien Sie ehrlich zu sich selbst</li>
+                <li>Am Ende erhalten Sie eine ausführliche Auswertung Ihrer Haltung</li>
+            </ul>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <form id="testForm">
+            <!-- Fragen werden dynamisch eingefügt -->
+            <div id="questionsContainer"></div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">📊 Auswertung anzeigen</button>
+        </form>
+
+        <div id="result" class="result">
+            <!-- Ergebnis wird hier dynamisch eingefügt -->
+        </div>
+    </div>
+
+    <script>
+        // Fragen-Datenbank mit allen Antwortmöglichkeiten
+        const questions = [
+            {
+                id: 1,
+                title: "Situation 1: Doktorspiel",
+                text: "Zwei 5-jährige Kinder spielen in der Puppenecke Doktor und untersuchen gegenseitig ihre Genitalien. Beide lachen und wirken entspannt.<br><br><strong>Wie reagieren Sie?</strong>",
+                answers: [
+                    { value: 'A', text: 'Ich greife sofort ein und beende das Spiel: "So etwas macht man nicht!" Ich erkläre den Kindern, dass ihr Verhalten unangemessen ist.' },
+                    { value: 'B', text: 'Ich lenke die Kinder geschickt ab: "Kommt, wir machen jetzt was anderes!" Ich vermeide eine direkte Auseinandersetzung.' },
+                    { value: 'C', text: 'Ich akzeptiere das Spiel und lasse den Kindern Freiraum. Ich halte andere Kinder zurück, damit die beiden ungestört spielen können.' }
+                ]
+            },
+            {
+                id: 2,
+                title: "Situation 2: Selbstberührung",
+                text: "Ein 4-jähriges Kind berührt beim Stuhlkreis unauffällig sein Genital und wirkt dabei entspannt.<br><br><strong>Wie reagieren Sie?</strong>",
+                answers: [
+                    { value: 'A', text: 'Ich sage laut: "Hände auf den Schoß! Das macht man nicht!" Ich erkläre dem Kind, dass so ein Verhalten nicht in Ordnung ist.' },
+                    { value: 'B', text: 'Ich lenke das Kind ab, indem ich es bitte, mir etwas zu holen. Ich vermeide, das Verhalten direkt anzusprechen.' },
+                    { value: 'C', text: 'Ich lasse das Kind gewähren, da Selbstberührung zur Entspannung normal ist. Falls nötig, spreche ich später über passende Orte.' }
+                ]
+            },
+            {
+                id: 3,
+                title: "Situation 3: Körperfrage",
+                text: 'Ein 5-jähriges Kind fragt Sie: "Wie kommen denn die Babys in Mamas Bauch rein?"<br><br><strong>Wie reagieren Sie?</strong>',
+                answers: [
+                    { value: 'A', text: 'Ich weiche aus: "Das ist noch nichts für dich. Frag mal deine Eltern!" Ich möchte das Thema nicht besprechen.' },
+                    { value: 'B', text: 'Ich sage: "Das erkläre ich dir später" und lenke das Kind schnell mit einem Spiel ab.' },
+                    { value: 'C', text: 'Ich beantworte die Frage altersgerecht und sachlich. Ich nehme die Neugier des Kindes ernst.' }
+                ]
+            },
+            {
+                id: 4,
+                title: "Situation 4: Küssen beim Rollenspiel",
+                text: 'Zwei Kinder (4 und 5 Jahre) küssen sich auf den Mund beim "Hochzeit spielen".<br><br><strong>Wie reagieren Sie?</strong>',
+                answers: [
+                    { value: 'A', text: 'Ich unterbinde das sofort: "Hört auf! Auf den Mund küsst man sich nicht!" Nur Erwachsene dürfen das.' },
+                    { value: 'B', text: 'Ich trenne die Kinder sanft: "Kommt, wir spielen jetzt etwas anderes." Ich fühle mich unwohl.' },
+                    { value: 'C', text: 'Ich lasse die Kinder weiterspielen, da es Teil ihres Rollenspiels ist. Sie dürfen selbst entscheiden.' }
+                ]
+            },
+            {
+                id: 5,
+                title: "Situation 5: Nacktsein",
+                text: 'Ein Kind läuft nackt durch den Gruppenraum und ruft: "Guckt mal, ich bin nackt!"<br><br><strong>Wie reagieren Sie?</strong>',
+                answers: [
+                    { value: 'A', text: 'Ich reagiere streng: "Sofort anziehen! So läuft man hier nicht herum!" Ich schäme mich für das Kind.' },
+                    { value: 'B', text: 'Ich fordere das Kind auf, sich anzuziehen, ohne näher darauf einzugehen. Ich möchte die Situation beenden.' },
+                    { value: 'C', text: 'Ich sage ruhig: "Du darfst nackt sein, aber bitte in der Kuschelecke." Ich erkläre, wann und wo Nacktsein okay ist.' }
+                ]
+            },
+            {
+                id: 6,
+                title: "Situation 6: Elterngespräch",
+                text: 'Eine Mutter beschwert sich, dass ihr Kind von Doktorspielen erzählt hat: "Das ist doch nicht normal!"<br><br><strong>Wie reagieren Sie?</strong>',
+                answers: [
+                    { value: 'A', text: 'Ich versichere: "Das wird nicht wieder vorkommen. Wir werden das ab jetzt verbieten." Ich teile ihre Sorge.' },
+                    { value: 'B', text: 'Ich beschwichtige: "Das war ein Ausrutscher. Wir passen besser auf." Ich vermeide eine fachliche Diskussion.' },
+                    { value: 'C', text: 'Ich erkläre: "Doktorspiele sind Teil der normalen Entwicklung." Ich informiere professionell über kindliche Sexualität.' }
+                ]
+            },
+            {
+                id: 7,
+                title: "Situation 7: Provokative Sprache",
+                text: 'Ein Kind ruft laut: "Kacka-Pipi-Pups! Mein Penis ist groß!"<br><br><strong>Wie reagieren Sie?</strong>',
+                answers: [
+                    { value: 'A', text: 'Ich schimpfe: "So etwas sagt man nicht! Das ist ungezogen!" Ich finde das Verhalten inakzeptabel.' },
+                    { value: 'B', text: 'Ich überhöre es oder sage nur: "Sei bitte leiser." Ich fühle mich peinlich berührt.' },
+                    { value: 'C', text: 'Ich sage ruhig: "Ich sehe, du entdeckst Wörter. Solche Wörter benutzen wir besser nicht zu laut." Grenzen testen ist normal.' }
+                ]
+            },
+            {
+                id: 8,
+                title: "Situation 8: Schaulust",
+                text: "Sie bemerken, dass ein Kind heimlich andere Kinder beim Umziehen beobachtet.<br><br><strong>Wie reagieren Sie?</strong>",
+                answers: [
+                    { value: 'A', text: 'Ich sage streng: "Das macht man nicht! Schäm dich!" Ich möchte das Verhalten sofort unterbinden.' },
+                    { value: 'B', text: 'Ich lenke das Kind ab und schaue später nach. Ich vermeide eine direkte Konfrontation.' },
+                    { value: 'C', text: 'Ich spreche mit dem Kind: "Ich sehe, du bist neugierig. Aber andere möchten Privatsphäre." Ich kläre über Grenzen auf.' }
+                ]
+            },
+            {
+                id: 9,
+                title: "Situation 9: Gemeinsamer Toilettengang",
+                text: "Zwei Kinder verschiedenen Geschlechts wollen zusammen auf die Toilette gehen.<br><br><strong>Wie reagieren Sie?</strong>",
+                answers: [
+                    { value: 'A', text: 'Ich verbiete es: "Jeder geht alleine! Das macht man nicht zusammen!" Toilettengänge müssen getrennt sein.' },
+                    { value: 'B', text: 'Ich lenke ein Kind ab und schicke es später. Ich vermeide eine Erklärung.' },
+                    { value: 'C', text: 'Ich erlaube es mit Regeln: "Jeder hat sein eigenes WC und schließt die Tür." Ich respektiere Neugier bei klaren Grenzen.' }
+                ]
+            },
+            {
+                id: 10,
+                title: "Situation 10: Teamsitzung",
+                text: "In der Teamsitzung wird über ein sexualpädagogisches Konzept diskutiert.<br><br><strong>Was ist Ihre Haltung?</strong>",
+                answers: [
+                    { value: 'A', text: '"Brauchen wir nicht. Kinder sollten sich nicht mit Sexualität beschäftigen." Ich lehne ein Konzept ab.' },
+                    { value: 'B', text: '"Naja, wenn es sein muss. Aber eigentlich sollten die Eltern das übernehmen." Ich bin unsicher.' },
+                    { value: 'C', text: '"Unbedingt! Ein Konzept gibt Sicherheit und schützt Kinder. Ich möchte mitarbeiten." Ich sehe die Notwendigkeit.' }
+                ]
+            }
+        ];
+
+        // Fisher-Yates Shuffle Algorithmus
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Generiere Fragen mit randomisierten Antworten
+        function generateQuestions() {
+            const container = document.getElementById('questionsContainer');
+
+            questions.forEach(question => {
+                // Mische die Antworten für jede Frage
+                const shuffledAnswers = shuffleArray(question.answers);
+
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <div class="question-header">
+                        <h3>${question.title}</h3>
+                    </div>
+                    <p class="question-text">${question.text}</p>
+                    <div class="options">
+                        ${shuffledAnswers.map((answer, index) => `
+                            <label class="option" onclick="selectOption(this, 'q${question.id}')">
+                                <input type="radio" name="q${question.id}" value="${answer.value}" required>
+                                <div class="option-content">
+                                    <span class="option-label">${String.fromCharCode(65 + index)}</span>
+                                    <span class="option-text">${answer.text}</span>
+                                </div>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.appendChild(questionDiv);
+            });
+        }
+
+        // Funktion zur Auswahl einer Option
+        function selectOption(label, questionName) {
+            // Entferne 'selected' von allen Optionen dieser Frage
+            const allOptions = document.querySelectorAll(`input[name="${questionName}"]`).forEach(input => {
+                input.closest('.option').classList.remove('selected');
+            });
+
+            // Füge 'selected' zur gewählten Option hinzu
+            label.classList.add('selected');
+
+            // Aktualisiere Progress Bar
+            updateProgress();
+        }
+
+        // Progress Bar aktualisieren
+        function updateProgress() {
+            let answered = 0;
+            for(let i = 1; i <= 10; i++) {
+                if(document.querySelector(`input[name="q${i}"]:checked`)) {
+                    answered++;
+                }
+            }
+            const percentage = (answered / 10) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+
+            // Submit Button aktivieren/deaktivieren
+            document.getElementById('submitBtn').disabled = (answered < 10);
+        }
+
+        // Form Submit Handler
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Zähle Antworten
+            let countA = 0, countB = 0, countC = 0;
+
+            for(let i = 1; i <= 10; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if(answer) {
+                    if(answer.value === 'A') countA++;
+                    else if(answer.value === 'B') countB++;
+                    else if(answer.value === 'C') countC++;
+                }
+            }
+
+            // Bestimme dominante Haltung
+            let resultHTML = '';
+
+            if(countA >= countB && countA >= countC) {
+                // Repressive Haltung
+                resultHTML = `
+                    <div class="result-card result-repressive">
+                        <div class="result-icon">❌</div>
+                        <h2 class="result-title">Repressive Sexualerziehung</h2>
+                        <p class="result-subtitle">Sie haben überwiegend A gewählt (${countA} von 10)</p>
+
+                        <div class="result-section">
+                            <h4>Merkmale Ihrer Haltung:</h4>
+                            <ul>
+                                <li>Sie greifen sofort ein und verbieten sexuelle Äußerungen</li>
+                                <li>Sie wollen das Verhalten der Kinder kontrollieren</li>
+                                <li>Sie äußern sich abwertend über kindliche Sexualität</li>
+                                <li>Sie führen strikte Kontrollen ein</li>
+                            </ul>
+                        </div>
+
+                        <div class="result-section">
+                            <h4>Auswirkungen auf Kinder:</h4>
+                            <ul>
+                                <li>Kinder entwickeln Hemmungen und Schamgefühle</li>
+                                <li>Sie fühlen sich schuldig, ohne zu wissen warum</li>
+                                <li>Sexuelle Bedürfnisse können kaum geäußert werden</li>
+                                <li>Ablehnende Haltung gegenüber Sexualität entsteht</li>
+                                <li>Negativer Einfluss auf Identitätsfindung und Selbstwert</li>
+                            </ul>
+                        </div>
+
+                        <div class="recommendation">
+                            ⚠️ <strong>Ihre Haltung ist entwicklungshemmend!</strong><br>
+                            Bitte setzen Sie sich intensiv mit kindlicher Sexualität auseinander. 
+                            Fortbildung dringend empfohlen!
+                        </div>
+                    </div>
+                `;
+            } else if(countB >= countA && countB >= countC) {
+                // Scheinaffirmative Haltung
+                resultHTML = `
+                    <div class="result-card result-scheinaffirmative">
+                        <div class="result-icon">⚠️</div>
+                        <h2 class="result-title">Scheinaffirmative Sexualerziehung</h2>
+                        <p class="result-subtitle">Sie haben überwiegend B gewählt (${countB} von 10)</p>
+
+                        <div class="result-section">
+                            <h4>Merkmale Ihrer Haltung:</h4>
+                            <ul>
+                                <li>Sie lenken Kinder ab und unterbrechen Spiele</li>
+                                <li>Sie vermeiden aktive Auseinandersetzung mit dem Thema</li>
+                                <li>Sie lehnen Doktorspiele innerlich ab, zeigen es aber nicht offen</li>
+                                <li>Sie reagieren unsicher und zögerlich</li>
+                            </ul>
+                        </div>
+
+                        <div class="result-section">
+                            <h4>Auswirkungen auf Kinder:</h4>
+                            <ul>
+                                <li>Kinder verstehen nicht, warum sie stoppen sollen</li>
+                                <li>Sie fühlen sich beobachtet und kontrolliert</li>
+                                <li>Sie nehmen Ihre Unsicherheit wahr</li>
+                                <li>Sie spüren, dass sie etwas "Verbotenes" tun</li>
+                                <li>Sexualität wird tabuisiert und als negativ empfunden</li>
+                            </ul>
+                        </div>
+
+                        <div class="recommendation">
+                            💡 <strong>Sie sind auf dem Weg, aber noch unsicher!</strong><br>
+                            Arbeiten Sie an Ihrer eigenen Haltung. Reflektieren Sie Ihre Biografie und Schamgrenzen. 
+                            Fortbildung hilfreich!
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Emanzipatorische Haltung
+                resultHTML = `
+                    <div class="result-card result-emanzipatorisch">
+                        <div class="result-icon">✅</div>
+                        <h2 class="result-title">Emanzipatorische Sexualerziehung</h2>
+                        <p class="result-subtitle">Sie haben überwiegend C gewählt (${countC} von 10)</p>
+
+                        <div class="result-section">
+                            <h4>Merkmale Ihrer Haltung:</h4>
+                            <ul>
+                                <li>Sie akzeptieren kindliche Sexualität als normal</li>
+                                <li>Sie lassen Kindern Freiraum bei klaren Grenzen</li>
+                                <li>Sie schützen spielende Kinder vor Störungen</li>
+                                <li>Sie möchten die Entwicklung unterstützen</li>
+                            </ul>
+                        </div>
+
+                        <div class="result-section">
+                            <h4>Auswirkungen auf Kinder:</h4>
+                            <ul>
+                                <li>Kinder fühlen sich wohl, verstanden und wertgeschätzt</li>
+                                <li>Lust, Neugier und Freude bleiben erhalten</li>
+                                <li>Sie lernen, ihre Bedürfnisse zu artikulieren</li>
+                                <li>Körperkontakt wird als positiv erlebt</li>
+                                <li>Positive Identitätsentwicklung</li>
+                                <li>Sexualität wird als etwas Normales erlebt</li>
+                            </ul>
+                        </div>
+
+                        <div class="recommendation">
+                            🌟 <strong>Gratulation! Sie haben eine professionelle, kindzentrierte Haltung!</strong><br>
+                            Bleiben Sie im Austausch mit Ihrem Team und arbeiten Sie an der Implementierung 
+                            eines sexualpädagogischen Konzepts.
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Zeige Ergebnis
+            document.getElementById('result').innerHTML = resultHTML;
+            document.getElementById('result').classList.add('show');
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Generiere Fragen beim Laden der Seite
+        generateQuestions();
+
+        // Initial Progress aktualisieren
+        updateProgress();
+    </script>
+</body>
+</html>

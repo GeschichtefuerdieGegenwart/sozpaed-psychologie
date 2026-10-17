@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sexualpädagogische Dialoge - Rollenspiel App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header-image {
+            display: block;
+            max-width: 250px;
+            margin: 0 auto 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .screen {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+            min-height: 500px;
+        }
+
+        .screen.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .screen h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .scenario-card {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            padding: 35px 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+        }
+
+        .scenario-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+
+        .scenario-card p {
+            font-size: 0.9em;
+            opacity: 0.95;
+        }
+
+        .role-assignment {
+            text-align: center;
+        }
+
+        .spinner-container {
+            width: 220px;
+            height: 220px;
+            margin: 40px auto;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .spinner {
+            width: 220px;
+            height: 220px;
+            border: 12px solid #f0f0f0;
+            border-top: 12px solid #4a90e2;
+            border-right: 12px solid #ff6b9d;
+            border-bottom: 12px solid #7ed321;
+            border-radius: 50%;
+            transition: transform 2s cubic-bezier(0.17, 0.67, 0.12, 1.38);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3em;
+            color: #333;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .spinner.spinning {
+            animation: spin 2s ease-out;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(1080deg); }
+        }
+
+        .current-player {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 25px 0;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 10px;
+        }
+
+        .assigned-roles {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            display: none;
+        }
+
+        .assigned-roles.show {
+            display: block;
+        }
+
+        .assigned-roles h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .role-item {
+            margin: 12px 0;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .role-kind {
+            background-color: #ffe6f1;
+            color: #c44569;
+        }
+
+        .role-educator {
+            background-color: #e6f3ff;
+            color: #2980b9;
+        }
+
+        .role-observer {
+            background-color: #e6ffe6;
+            color: #27ae60;
+        }
+
+        .btn {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #357abd;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-primary {
+            background: #7ed321;
+            font-size: 1.2em;
+            padding: 18px 40px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #6ab91a;
+            box-shadow: 0 5px 15px rgba(126, 211, 33, 0.3);
+        }
+
+        .btn-secondary {
+            background: #ff6b9d;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #e55a8e;
+        }
+
+        .btn-back {
+            background: #6c757d;
+        }
+
+        .btn-back:hover:not(:disabled) {
+            background: #5a6268;
+        }
+
+        .scenario-details {
+            background: linear-gradient(135deg, #fff5f5, #fffaf0);
+            padding: 28px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 6px solid #ff6b9d;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .age-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .scenario-situation {
+            font-size: 1.15em;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .solution-section {
+            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            padding: 28px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 6px solid #4a90e2;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .solution-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #333;
+            margin: 15px 0;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .analysis-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 18px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #7ed321;
+        }
+
+        .checkmark {
+            color: #7ed321;
+            font-size: 1.8em;
+            margin-right: 18px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .analysis-content h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .analysis-content p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .instruction-box {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .instruction-box p {
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .screen { padding: 20px; min-height: 400px; }
+            .spinner-container { width: 150px; height: 150px; }
+            .spinner { width: 150px; height: 150px; border-width: 8px; font-size: 1em; }
+            .scenario-grid { grid-template-columns: 1fr; }
+            .btn { padding: 12px 20px; font-size: 1em; }
+        }
+    </style>
+<script>/* Bilder: zuerst aus dem Ordner »bilder«, sonst von der Originalquelle */
+window.BILDER_ONLINE={"bilder/bild01.png": "https://user-gen-media-assets.s3.amazonaws.com/seedream_images/0ef40627-a67a-4ce3-9375-5ca2b8f04aad.png"};
+document.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG"){var k=t.getAttribute("src");var u=window.BILDER_ONLINE[k];if(u&&!t.dataset.online){t.dataset.online="1";t.src=u;}}},true);</script>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎭 Sexualpädagogische Dialoge</h1>
+        <img src="bilder/bild01.png" alt="Ruhiges Gespräch" class="header-image"/>
+
+        <!-- BILDSCHIRM 1: Szenario Auswahl -->
+        <div id="scenario-selection" class="screen active">
+            <h2>📋 Wählt ein Szenario aus:</h2>
+            <div class="instruction-box">
+                <p><strong>Hinweis:</strong> Jedes Szenario zeigt eine typische Frage, die Kinder zu Sexualität stellen. Klickt auf ein Szenario, um es auszuwählen!</p>
+            </div>
+            <div class="scenario-grid" id="scenarioGrid">
+                <!-- Szenarien werden hier eingefügt -->
+            </div>
+        </div>
+
+        <!-- BILDSCHIRM 2: Rollenzuweisung -->
+        <div id="role-assignment" class="screen">
+            <h2>🎲 Rollenzuweisung</h2>
+            <div class="instruction-box">
+                <p><strong>So funktioniert's:</strong> Jede Person klickt nacheinander auf den Generator und erhält eine Rolle. Nach der dritten Person kann das Rollenspiel beginnen!</p>
+            </div>
+            
+            <div class="role-assignment">
+                <div class="current-player" id="currentPlayer">Person 1: Klickt auf den Generator!</div>
+                
+                <div class="spinner-container" id="spinnerContainer">
+                    <div class="spinner" id="spinner">
+                        🎯<br>Klicken!
+                    </div>
+                </div>
+
+                <div class="assigned-roles" id="assignedRoles">
+                    <h3>✅ Zugewiesene Rollen:</h3>
+                    <div id="rolesList"></div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" id="startRoleplayBtn" onclick="startRoleplay()" disabled>
+                        🎬 Rollenspiel starten
+                    </button>
+                    <button class="btn btn-back" onclick="showScreen('scenario-selection')">
+                        ← Zurück zu Szenarien
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- BILDSCHIRM 3: Rollenspiel -->
+        <div id="roleplay" class="screen">
+            <h2>🎭 Euer Rollenspiel beginnt!</h2>
+            
+            <div class="scenario-details">
+                <h3>👧 Situation für das Kind:</h3>
+                <div class="age-badge" id="childAge">Du bist X Jahre alt</div>
+                <div class="scenario-situation" id="scenarioSituation">
+                    <!-- Situation wird hier eingefügt -->
+                </div>
+            </div>
+
+            <div class="instruction-box">
+                <p><strong>Ablauf:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Das Kind stellt die Frage oder berichtet die Situation</li>
+                    <li>Der/Die Erzieher*in antwortet professionell</li>
+                    <li>Der/Die Beobachter*in macht sich Notizen</li>
+                    <li>Nach ~3-5 Minuten: Musterlösung anzeigen</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="showSolution()">
+                    ✅ Musterlösung & Reflexion anzeigen
+                </button>
+                <button class="btn btn-back" onclick="showScreen('role-assignment')">
+                    ← Rollen nochmal vergeben
+                </button>
+            </div>
+        </div>
+
+        <!-- BILDSCHIRM 4: Musterlösung & Reflexion -->
+        <div id="solution" class="screen">
+            <h2>💡 Musterlösung & Analyse</h2>
+
+            <div class="solution-section">
+                <h3>📢 Professionelle Antwort der Erzieher*in:</h3>
+                <div class="solution-text" id="solutionText">
+                    <!-- Lösung wird hier eingefügt -->
+                </div>
+            </div>
+
+            <div class="solution-section">
+                <h3>📊 Analyse nach den 5 Regeln für Gespräche mit Kindern:</h3>
+                <div class="analysis-grid" id="analysisGrid">
+                    <!-- Analyse wird hier eingefügt -->
+                </div>
+            </div>
+
+            <div class="instruction-box" style="background: #f0fff4; border-left-color: #7ed321;">
+                <h4 style="color: #27ae60; margin-bottom: 10px;">💬 Reflexionsfragen für eure Gruppe:</h4>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>War die Antwort altersgerecht?</li>
+                    <li>Hätte die Erzieher*in noch etwas anders machen können?</li>
+                    <li>Welche Regel war am schwierigsten umzusetzen?</li>
+                    <li>Wie hat sich das Kind in der Situation gefühlt?</li>
+                </ul>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="showScreen('scenario-selection')">
+                    🔄 Neues Szenario wählen
+                </button>
+                <button class="btn btn-back" onclick="location.reload()">
+                    🔁 App neu starten
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =====================================================
+        // SZENARIEN UND MUSTERLÖSUNGEN
+        // =====================================================
+        const scenarios = [
+            {
+                id: 1,
+                age: 4,
+                title: "Szenario 1",
+                situation: "Du siehst in der Bilderbuch-Ecke ein Buch über Babys. Du fragst deine Erzieherin: 'Wie kommt das Baby da rein?'",
+                solution: "Das Baby wächst in einem besonderen Raum in Mamas Bauch – die sogenannte Gebärmutter. Papas Körper produziert winzig kleine Samenzellen. Wenn sich Mama und Papa sehr liebhaben und ein Baby bekommen möchten, können die Samenzellen des Papas mit einer Eizelle der Mama zusammenkommen – und daraus wächst ein Baby! Das Baby wächst dann etwa neun Monate lang in der Gebärmutter, bevor es zur Welt kommt. <br><br><em>Wenn du möchtest, schauen wir uns dazu auch ein schönes Bilderbuch an!</em>",
+                analysis: {
+                    quiet: "Die Erzieherin hat ruhig geatmet, einen freundlichen Ton beibehalten und Blickkontakt zum Kind gehalten – kein Zögern oder Nervosität.",
+                    serious: "Die Frage wurde ernst genommen und ehrlich beantwortet, ohne zu lachen oder abzulenken.",
+                    ageappropriate: "Die Antwort war einfach, bildlich und konkret – genau richtig für ein 4-jähriges Kind.",
+                    terminology: "Gebärmutter, Samenzelle und Eizelle wurden mit den richtigen Fachbegriffen benannt.",
+                    dooropen: "Das Kind wurde eingeladen, weitere Fragen zu stellen und ein Buch zusammen anzuschauen."
+                }
+            },
+            {
+                id: 2,
+                age: 6,
+                title: "Szenario 2",
+                situation: "Du fragst während des Mittagessens laut: 'Warum haben Jungen und Mädchen unterschiedliche Pipi-Stäbe?'",
+                solution: "Das ist eine sehr wichtige und gute Frage! Jungen haben einen Penis und Hoden, Mädchen haben eine Vulva und eine Scheide – das ist völlig normal. Unsere Körper sehen unterschiedlich aus, weil sie verschiedene Aufgaben haben. Der Penis hilft beim Pipi machen und die Scheide ist sehr wichtig, wenn ein Baby zur Welt kommt. Beide Körper sind wunderbar und okay! <br><br><em>Möchtest du noch mehr darüber wissen?</em>",
+                analysis: {
+                    quiet: "Sachlicher, normaler Ton – keine Nervosität trotz des öffentlichen Kontexts (Mittagessen).",
+                    serious: "Kein Lachen, keine Ausweichmanöver – die Frage wurde direkt beantwortet.",
+                    ageappropriate: "Wissenschaftliche Begriffe wurden einfach erklärt, passend für ein 6-jähriges Kind.",
+                    terminology: "Penis, Hoden, Vulva und Scheide wurden korrekt verwendet – nicht ‚Pipi-Stab'.",
+                    dooropen: "Das Kind wurde ermutigt, weitere Fragen zu stellen."
+                }
+            },
+            {
+                id: 3,
+                age: 5,
+                title: "Szenario 3",
+                situation: "Ein anderes Kind sagt: 'Jungen haben einen Schwanz zwischen den Beinen!' Du fragst die Erzieherin: 'Ist das richtig?'",
+                solution: "Der richtige Name dafür ist Penis – nicht Schwanz! Manche Menschen benutzen andere Wörter, aber die korrekten Begriffe sind am wichtigsten. Jeder Mensch hat einen anderen, einzigartigen Körper, und das ist wunderbar so! <br><br><em>Es ist sehr klug von dir, nachzufragen. Du kannst mich immer ansprechen, wenn du unsicher bist oder mehr wissen möchtest.</em>",
+                analysis: {
+                    quiet: "Ruhige, sachliche Reaktion – kein Lachen oder Verlegenheit.",
+                    serious: "Das Kind wurde ernst genommen und die falsche Aussage sanft korrigiert.",
+                    ageappropriate: "Einfache und altersgerechte Erklärung für ein 5-jähriges Kind.",
+                    terminology: "Penis statt Schwanz – falsche Begriffe wurden korrigiert.",
+                    dooropen: "Das Kind wurde dazu eingeladen, jederzeit nachzufragen."
+                }
+            },
+            {
+                id: 4,
+                age: 7,
+                title: "Szenario 4",
+                situation: "Du fragst die Erzieherin: 'Wo kommt die Samenzelle hin, wenn man ein Baby bekommen will?'",
+                solution: "Das ist eine sehr gute und wichtige Frage! Wenn erwachsene Menschen ein Baby bekommen möchten und sich lieben, nennt man das ‚Geschlechtsverkehr'. Der Penis des Mannes passt dabei in die Scheide der Frau. So können die Samenzellen dorthin gelangen und eine Eizelle treffen – und daraus kann ein Baby entstehen. Es gibt auch noch andere Wege, wie Babys entstehen können – wenn du mehr darüber wissen willst, frage mich gerne!",
+                analysis: {
+                    quiet: "Ruhe bewahrt und sachlich erklärt – kein Unbehagen in der Stimme.",
+                    serious: "Die Frage wurde ehrlich beantwortet, ohne etwas zu vermeiden oder zu beschönigen.",
+                    ageappropriate: "Bietet mehr Detail, passt aber noch zum Entwicklungsstand eines 7-jährigen Kindes.",
+                    terminology: "Penis, Scheide, Samenzelle, Eizelle und Geschlechtsverkehr wurden alle korrekt genannt.",
+                    dooropen: "Das Kind wurde eingeladen, weitere Fragen zu stellen und bekam die Option für vertiefende Gespräche."
+                }
+            },
+            {
+                id: 5,
+                age: 4,
+                title: "Szenario 5",
+                situation: "Du fragst beim Wickeln: 'Warum hat der andere Junge da oben einen Pipi-Stab und ich nicht?'",
+                solution: "Das ist eine ganz normale und wichtige Beobachtung! Jungen haben einen Penis mit Hoden, Mädchen haben eine Vulva und eine Scheide. Die Körper sind unterschiedlich – und das ist sehr gut so! Alle Körper sind ok und normal. <br><br><em>Du kannst mich gerne fragen, wenn du noch mehr über deinen Körper oder die Körper anderer Menschen wissen möchtest.</em>",
+                analysis: {
+                    quiet: "Ruhig und natürlich reagiert – unbefangen und freundlich.",
+                    serious: "Unbefangen und wertschätzend auf normale Körperbeobachtung eingegangen.",
+                    ageappropriate: "Sehr einfache Erklärung für ein 4-jähriges Kind.",
+                    terminology: "Penis, Hoden, Vulva und Scheide wurden korrekt benannt.",
+                    dooropen: "Das Kind wurde eingeladen, jederzeit nachzuhaken."
+                }
+            },
+            {
+                id: 6,
+                age: 8,
+                title: "Szenario 6",
+                situation: "Im Morgenkreis fragt ein Kind: 'Wie bekommt man Zwillinge?' und viele andere Kinder hören zu.",
+                solution: "Das ist eine sehr interessante Frage! Zwillinge entstehen auf zwei verschiedene Arten: Entweder gibt es zwei Eizellen, die beide befruchtet werden – dann nennt man das ‚zweieiige Zwillinge'. Oder eine befruchtete Eizelle teilt sich in zwei Babys – das sind ‚eineiige Zwillinge'. Das passiert ganz von alleine im Körper und ist wirklich erstaunlich! <br><br><em>Wisst ihr, ob in euren Familien auch Zwillinge gibt?</em>",
+                analysis: {
+                    quiet: "Ruhig erklärt, auf alle in der Runde mit Blickkontakt geachtet.",
+                    serious: "Mit großer Wertschätzung auf diese komplexere Frage eingegangen.",
+                    ageappropriate: "Mehr biologisches Detail, altersentsprechend für ältere Kinder.",
+                    terminology: "Eizelle, befruchten, Zwillinge – alle Begriffe korrekt verwendet.",
+                    dooropen: "Anschluss durch Frage an die Gruppe gesucht, um weiteres Gespräch zu ermöglichen."
+                }
+            },
+            {
+                id: 7,
+                age: 5,
+                title: "Szenario 7",
+                situation: "Ein Kind sagt: 'Ich habe gehört, nur verheiratete Menschen können Babys bekommen!' Du fragst die Erzieherin: 'Stimmt das?'",
+                solution: "Nein, das stimmt nicht ganz. Babys entstehen, wenn sich ein Erwachsener mit weiblichem Körper und ein Erwachsener mit männlichem Körper sehr mögen und ein Baby bekommen möchten. Es ist nicht wichtig, ob diese Menschen verheiratet sind oder nicht – wichtig ist nur, dass sie sich gut um das Baby kümmern. Es gibt auch viele andere Wege, wie Familien entstehen! <br><br><em>Familien sind sehr unterschiedlich und jede Familie ist wunderbar!</em>",
+                analysis: {
+                    quiet: "Sachlich und ohne Wertung erklärt.",
+                    serious: "Keinen Mythos verstärkt, sondern aufgeklärt und dabei respektvoll.",
+                    ageappropriate: "Konzept der Ehe einfach erklärt und erweitert.",
+                    terminology: "Fachbegriffe wurden vermieden, dafür klare, einfache Sprache genutzt.",
+                    dooropen: "Raum für gesellschaftliche Vielfalt und Werte-Diskussionen eröffnet."
+                }
+            }
+        ];
+
+        // =====================================================
+        // VARIABLEN UND INITIALISIERUNG
+        // =====================================================
+        const roles = ["KIND", "ERZIEHER*IN", "BEOBACHTER*IN"];
+        const roleColors = ["#ff6b9d", "#4a90e2", "#7ed321"];
+
+        let currentScenario = null;
+        let assignedRoles = [];
+        let currentPlayerIndex = 0;
+
+        function init() {
+            createScenarioCards();
+        }
+
+        // =====================================================
+        // SZENARIO AUSWAHL
+        // =====================================================
+        function createScenarioCards() {
+            const grid = document.getElementById('scenarioGrid');
+            scenarios.forEach(scenario => {
+                const card = document.createElement('div');
+                card.className = 'scenario-card';
+                card.onclick = () => selectScenario(scenario.id);
+                card.innerHTML = `
+                    <h3>${scenario.title}</h3>
+                    <p>👧 Alter: ${scenario.age} Jahre<br>Klicken zum Auswählen</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function selectScenario(id) {
+            currentScenario = scenarios.find(s => s.id === id);
+            resetRoleAssignment();
+            showScreen('role-assignment');
+        }
+
+        // =====================================================
+        // ROLLENZUWEISUNG
+        // =====================================================
+        function resetRoleAssignment() {
+            assignedRoles = [];
+            currentPlayerIndex = 0;
+            document.getElementById('assignedRoles').classList.remove('show');
+            document.getElementById('currentPlayer').textContent = 'Person 1: Klickt auf den Generator!';
+            document.getElementById('spinner').innerHTML = '🎯<br>Klicken!';
+            document.getElementById('startRoleplayBtn').disabled = true;
+        }
+
+        function spinForRole() {
+            if (currentPlayerIndex >= 3) return;
+
+            const spinner = document.getElementById('spinner');
+            spinner.classList.add('spinning');
+
+            const availableRoles = roles.filter(role => !assignedRoles.some(ar => ar.role === role));
+            
+            setTimeout(() => {
+                spinner.classList.remove('spinning');
+                
+                const randomRole = availableRoles[Math.floor(Math.random() * availableRoles.length)];
+                const roleColor = roleColors[roles.indexOf(randomRole)];
+                
+                assignedRoles.push({
+                    player: currentPlayerIndex + 1,
+                    role: randomRole,
+                    color: roleColor
+                });
+
+                spinner.innerHTML = randomRole.replace('*', '');
+                spinner.style.color = roleColor;
+
+                currentPlayerIndex++;
+                updateRoleDisplay();
+                updateCurrentPlayer();
+                updateStartButton();
+
+            }, 2000);
+        }
+
+        function updateRoleDisplay() {
+            const rolesDiv = document.getElementById('assignedRoles');
+            const rolesList = document.getElementById('rolesList');
+            
+            rolesDiv.classList.add('show');
+            rolesList.innerHTML = '';
+
+            assignedRoles.forEach(assignment => {
+                const roleDiv = document.createElement('div');
+                roleDiv.className = 'role-item';
+                
+                if (assignment.role === 'KIND') {
+                    roleDiv.className += ' role-kind';
+                } else if (assignment.role === 'ERZIEHER*IN') {
+                    roleDiv.className += ' role-educator';
+                } else {
+                    roleDiv.className += ' role-observer';
+                }
+                
+                roleDiv.innerHTML = `👤 Person ${assignment.player}: <strong>${assignment.role}</strong>`;
+                rolesList.appendChild(roleDiv);
+            });
+        }
+
+        function updateCurrentPlayer() {
+            const currentPlayerDiv = document.getElementById('currentPlayer');
+            
+            if (currentPlayerIndex < 2) {
+                currentPlayerDiv.textContent = `Person ${currentPlayerIndex + 1}: Klickt auf den Generator!`;
+            } else if (currentPlayerIndex === 2) {
+                const lastRole = roles.find(role => !assignedRoles.some(ar => ar.role === role));
+                const lastRoleColor = roleColors[roles.indexOf(lastRole)];
+                assignedRoles.push({
+                    player: 3,
+                    role: lastRole,
+                    color: lastRoleColor
+                });
+                currentPlayerIndex++;
+                updateRoleDisplay();
+                currentPlayerDiv.innerHTML = `✅ <span style="color: ${lastRoleColor};">Person 3 erhält automatisch: <strong>${lastRole}</strong></span>`;
+            } else {
+                currentPlayerDiv.textContent = '✅ Alle Rollen sind verteilt! Bereit zum Spielen?';
+            }
+        }
+
+        function updateStartButton() {
+            const startBtn = document.getElementById('startRoleplayBtn');
+            startBtn.disabled = assignedRoles.length < 3;
+        }
+
+        function startRoleplay() {
+            if (assignedRoles.length < 3) {
+                alert('Alle drei Rollen müssen erst zugewiesen werden!');
+                return;
+            }
+
+            document.getElementById('childAge').textContent = `👧 Du bist ${currentScenario.age} Jahre alt`;
+            document.getElementById('scenarioSituation').innerHTML = `
+                <p class="scenario-situation">
+                    ${currentScenario.situation}
+                </p>
+            `;
+            showScreen('roleplay');
+        }
+
+        // =====================================================
+        // MUSTERLÖSUNG UND ANALYSE
+        // =====================================================
+        function showSolution() {
+            document.getElementById('solutionText').innerHTML = currentScenario.solution;
+            
+            const analysisGrid = document.getElementById('analysisGrid');
+            analysisGrid.innerHTML = '';
+
+            const analysisItems = [
+                { label: '🔇 Ruhe bewahrt', value: currentScenario.analysis.quiet },
+                { label: '👂 Ernst genommen', value: currentScenario.analysis.serious },
+                { label: '🎯 Altersgerecht geantwortet', value: currentScenario.analysis.ageappropriate },
+                { label: '🗣️ Körperteile beim Namen genannt', value: currentScenario.analysis.terminology },
+                { label: '🚪 Tür geöffnet', value: currentScenario.analysis.dooropen }
+            ];
+
+            analysisItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'analysis-item';
+                div.innerHTML = `
+                    <span class="checkmark">✓</span>
+                    <div class="analysis-content">
+                        <h4>${item.label}</h4>
+                        <p>${item.value}</p>
+                    </div>
+                `;
+                analysisGrid.appendChild(div);
+            });
+
+            showScreen('solution');
+        }
+
+        // =====================================================
+        // BILDSCHIRM VERWALTUNG
+        // =====================================================
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // =====================================================
+        // EVENT LISTENER
+        // =====================================================
+        document.getElementById('spinnerContainer').addEventListener('click', spinForRole);
+
+        // App initialisieren
+        init();
+    </script>
+<details class="mdl-bildquellen"><summary>Bildquellen</summary><p>Die Bilder stammen von den folgenden Seiten.</p><ul><li><code>bilder/bild01.png</code>: <a href="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/0ef40627-a67a-4ce3-9375-5ca2b8f04aad.png" target="_blank" rel="noopener">https://user-gen-media-assets.s3.amazonaws.com/seedream_images/0ef40627-a67a-4ce3-9375-5ca2b8f04aad.png</a></li></ul></details>
+</body>
+</html>
