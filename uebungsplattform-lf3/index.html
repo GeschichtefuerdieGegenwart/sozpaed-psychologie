@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LF3 Übungsplattform - Lebenswelten und Lebenslagen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .topic-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 6px solid #667eea;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .topic-card.exam {
+            border-left-color: #e74c3c;
+            background: linear-gradient(135deg, #fff 0%, #fdf2f2 100%);
+        }
+
+        .topic-card h3 {
+            color: #667eea;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .topic-card.exam h3 {
+            color: #e74c3c;
+        }
+
+        .topic-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .back-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #5a67d8;
+        }
+
+        .concept-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .concept {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .concept h4 {
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .exercise-container {
+            margin-top: 40px;
+        }
+
+        .exercise {
+            background: #fff7e6;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .exercise h4 {
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+
+        .quiz-question {
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+        }
+
+        .quiz-option.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .quiz-option.correct {
+            border-color: #27ae60;
+            background: #d5ffe5;
+        }
+
+        .quiz-option.incorrect {
+            border-color: #e74c3c;
+            background: #ffe5e5;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .btn-success {
+            background: #27ae60;
+        }
+
+        .btn-success:hover {
+            background: #219a52;
+        }
+
+        .solution {
+            display: none;
+            background: #e8f5e8;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .drag-drop-container {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .drag-items {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .drop-zones {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .drag-item {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .drag-item:active {
+            cursor: grabbing;
+        }
+
+        .drop-zone {
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 5px 0;
+            min-height: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .handlungssituation {
+            background: #fff3cd;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .exam-question {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #6c757d;
+        }
+
+        .points {
+            color: #e74c3c;
+            font-weight: bold;
+            float: right;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .timeline-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            margin-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .drag-drop-container {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 LF3 Übungsplattform</h1>
+            <p>Lebenswelten und Lebenslagen von Kindern und Familien analysieren</p>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard">
+            <div class="topic-card" onclick="showSection('gesellschaftlicher-wandel')">
+                <h3>🌍 Gesellschaftlicher Wandel</h3>
+                <p>Individualisierung, Pluralisierung, Globalisierung und deren Auswirkungen auf Kindheit und Familie</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-1" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="topic-card" onclick="showSection('familie')">
+                <h3>👨‍👩‍👧‍👦 Familie</h3>
+                <p>Definition, Familienformen, gesellschaftliche Bedeutung und Wandel der Familie</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-2" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="topic-card" onclick="showSection('soziale-ungleichheit')">
+                <h3>⚖️ Soziale Ungleichheit</h3>
+                <p>Merkmale, Auswirkungen auf Kinder und soziale Milieus</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-3" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="topic-card" onclick="showSection('lebenswelten-lebenslagen')">
+                <h3>🏠 Lebenswelten & Lebenslagen</h3>
+                <p>Lebensweltkonzept nach Thiersch und Lebenslagenansatz</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-4" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="topic-card" onclick="showSection('kindheit-heute')">
+                <h3>🎮 Kindheit heute</h3>
+                <p>Mediatisierung, Verinselung, Terminkindheit und weitere Merkmale</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-5" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="topic-card" onclick="showSection('paedagogische-konsequenzen')">
+                <h3>🎯 Pädagogische Konsequenzen</h3>
+                <p>Lebensweltorientiertes Arbeiten und professionelles Handeln</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-6" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="topic-card exam" onclick="showSection('uebungsklausur')">
+                <h3>📝 Übungsklausur</h3>
+                <p>Komplette Klassenarbeit mit Handlungssituation und Musterlösungen</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-exam" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistiken -->
+        <div class="stats" id="overall-stats">
+            <div class="stat">
+                <div class="stat-number" id="completed-exercises">0</div>
+                <div>Übungen abgeschlossen</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="total-points">0</div>
+                <div>Punkte erreicht</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="success-rate">0%</div>
+                <div>Erfolgsquote</div>
+            </div>
+        </div>
+
+        <!-- Gesellschaftlicher Wandel Sektion -->
+        <div id="gesellschaftlicher-wandel" class="section">
+            <button class="back-button" onclick="showDashboard()">← Zurück zur Übersicht</button>
+            <h2>🌍 Gesellschaftlicher Wandel</h2>
+
+            <div class="concept-grid">
+                <div class="concept">
+                    <h4>Individualisierung</h4>
+                    <p><strong>Definition:</strong> Ablösung traditioneller Lebensmuster zugunsten mehr Wahlmöglichkeiten und Selbstverantwortung</p>
+                    <p><strong>Drei Voraussetzungen:</strong></p>
+                    <ul>
+                        <li>Wohlstandssteigerung (Fahrstuhl-Effekt)</li>
+                        <li>Verkürzte Arbeitszeit</li>
+                        <li>Gestiegenes Bildungsniveau</li>
+                    </ul>
+                    <p><strong>Frauen als Hauptgewinnerinnen:</strong> Bildungserfolg, berufliche Fortschritte, mehr Selbstbestimmung in Partnerschaften</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Pluralisierung</h4>
+                    <p><strong>Definition:</strong> Vielfalt an Lebensstilen, Familienformen und Werteorientierungen</p>
+                    <p><strong>Erlebnisgesellschaft (Schulze 1992):</strong> Verschiebung von materiellen Grundbedürfnissen hin zu schönen Erlebnissen</p>
+                    <p><strong>Multioptionsgesellschaft (Gross 1994):</strong> Ständige Entscheidungszumutungen im Alltag</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Globalisierung</h4>
+                    <p><strong>Definition:</strong> Weltumspannender Prozess, der nationalstaatliche Grenzen einschränkt und Handlungsräume vergrößert</p>
+                    <p><strong>Merkmale:</strong> Öffnung der Märkte, weltweite Mobilität, Kommunikation und Kulturaustausch</p>
+                    <p><strong>Schattenseiten:</strong> Umweltbelastung, Ausbeutung von Ressourcen, Macht multinationaler Unternehmen</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Schattenseiten des Wandels</h4>
+                    <p><strong>Entscheidungszumutungen:</strong> Überflutung mit Wahlmöglichkeiten</p>
+                    <p><strong>Weitreichende Selbstverantwortung:</strong> Individuelle Schuldzuweisung bei Problemen</p>
+                    <p><strong>Verlust traditioneller Stabilitäten:</strong> Innere Heimatlosigkeit und Identitätssuche</p>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <div class="exercise">
+                    <h4>📝 Übung 1: Zuordnung der Begriffe</h4>
+                    <p>Ordnen Sie die Merkmale den richtigen Konzepten zu:</p>
+                    
+                    <div class="drag-drop-container">
+                        <div class="drag-items">
+                            <h5>Merkmale:</h5>
+                            <div class="drag-item" draggable="true" data-answer="individualisierung">Fahrstuhl-Effekt</div>
+                            <div class="drag-item" draggable="true" data-answer="pluralisierung">Erlebnisgesellschaft</div>
+                            <div class="drag-item" draggable="true" data-answer="globalisierung">Weltweite Mobilität</div>
+                            <div class="drag-item" draggable="true" data-answer="schattenseiten">Entscheidungszumutungen</div>
+                            <div class="drag-item" draggable="true" data-answer="individualisierung">Selbstbestimmte Biografien</div>
+                            <div class="drag-item" draggable="true" data-answer="pluralisierung">Multioptionsgesellschaft</div>
+                        </div>
+                        
+                        <div class="drop-zones">
+                            <h5>Konzepte:</h5>
+                            <div class="drop-zone" data-category="individualisierung">Individualisierung</div>
+                            <div class="drop-zone" data-category="pluralisierung">Pluralisierung</div>
+                            <div class="drop-zone" data-category="globalisierung">Globalisierung</div>
+                            <div class="drop-zone" data-category="schattenseiten">Schattenseiten</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkDragDrop(this)">Überprüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-1')">Lösung anzeigen</button>
+                    
+                    <div id="solution-1" class="solution">
+                        <strong>Lösung:</strong><br>
+                        <strong>Individualisierung:</strong> Fahrstuhl-Effekt, Selbstbestimmte Biografien<br>
+                        <strong>Pluralisierung:</strong> Erlebnisgesellschaft, Multioptionsgesellschaft<br>
+                        <strong>Globalisierung:</strong> Weltweite Mobilität<br>
+                        <strong>Schattenseiten:</strong> Entscheidungszumutungen
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>🧩 Übung 2: Multiple Choice - Familie Singer</h4>
+                    <p>Welche Entwicklung zeigt sich beim Vergleich der drei Singer-Generationen am deutlichsten?</p>
+                    
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, false)">A) Verschlechterung der wirtschaftlichen Situation</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">B) Zunehmende Individualisierung und Selbstbestimmung der Frauen</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">C) Rückkehr zu traditionellen Rollenbildern</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">D) Abnahme der Bildungschancen</div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkQuizAnswer(this)">Antwort prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-2')">Begründung anzeigen</button>
+                    
+                    <div id="solution-2" class="solution">
+                        <strong>Richtige Antwort: B)</strong><br>
+                        Die drei Generationen zeigen deutlich die zunehmende Individualisierung: Von Katharinas streng traditioneller Rolle über Steffis erste Schritte zur Selbstverwirklichung bis hin zu Ninas selbstbestimmten Lebensentscheidungen und moderner Rollenaufteilung.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Familie Sektion -->
+        <div id="familie" class="section">
+            <button class="back-button" onclick="showDashboard()">← Zurück zur Übersicht</button>
+            <h2>👨‍👩‍👧‍👦 Familie</h2>
+
+            <div class="concept-grid">
+                <div class="concept">
+                    <h4>Definition Familie</h4>
+                    <p><strong>Nach Nave-Herz:</strong> Lebensform mit grundlegender Eltern-Kind-Beziehung</p>
+                    <p><strong>Aktuelle Definition:</strong> Generationenverhältnis durch Abstammung, Lebensgemeinschaft, Heirat oder Adoption</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Familienformen</h4>
+                    <ul>
+                        <li>Kernfamilie/Kleinfamilie</li>
+                        <li>Großfamilie/Dreigenerationenfamilie</li>
+                        <li>Ein-Eltern-Familie/Alleinerziehend</li>
+                        <li><strong>Patchworkfamilie:</strong> Zwei Erwachsene mit mindestens einem Kind aus vorheriger Beziehung</li>
+                        <li><strong>Regenbogenfamilie:</strong> Gleichgeschlechtliche Partnerschaft mit Kindern</li>
+                        <li>Adoptiv-/Pflegefamilie</li>
+                        <li>Nichteheliche Lebensgemeinschaft</li>
+                    </ul>
+                </div>
+
+                <div class="concept">
+                    <h4>Gesellschaftliche Bedeutung</h4>
+                    <p><strong>Sozialisationsfunktion:</strong> Primäre und prägendste Sozialisationsinstanz</p>
+                    <p><strong>Vier elterliche Kompetenzbereiche (Schneewind 2008):</strong></p>
+                    <ul>
+                        <li>Selbstbezogen (Umgang mit eigenen Gefühlen)</li>
+                        <li>Kindbezogen (Wahrnehmung kindlicher Bedürfnisse)</li>
+                        <li>Kontextbezogen (Auswahl geeigneter Schulen)</li>
+                        <li>Handlungsbezogen (konsequentes Erziehungsverhalten)</li>
+                    </ul>
+                    <p><strong>Türöffner-Funktion:</strong> Zugang zu außerfamilialen Bildungs- und Entwicklungsmöglichkeiten</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Tendenzen beim Wandel der Familie</h4>
+                    <ul>
+                        <li>Pluralisierung der Familienformen</li>
+                        <li>Doppelte Erwerbstätigkeit</li>
+                        <li>Veränderte Erwerbsbedingungen</li>
+                        <li>Zunahme von Kinder- und Familienarmut</li>
+                        <li>Kulturelle Vielfalt</li>
+                        <li>Vom Befehls- zum Verhandlungshaushalt</li>
+                        <li>Digitalisierung des Familienalltags</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <div class="exercise">
+                    <h4>📝 Übung 3: Familienformen zuordnen</h4>
+                    <p>Welche Familienform liegt in den folgenden Beispielen vor?</p>
+                    
+                    <div class="quiz-question">
+                        <strong>1. Emma lebt mit ihrer Mutter (Anwältin), deren neuem Partner und dessen 11-jährigem Sohn:</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">Kernfamilie</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Patchworkfamilie</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Ein-Eltern-Familie</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Regenbogenfamilie</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>2. Milan lebt mit seinen beiden miteinander verheirateten Vätern:</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">Patchworkfamilie</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Regenbogenfamilie</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Adoptivfamilie</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Kernfamilie</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkAllQuizzes(this)">Alle Antworten prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-3')">Lösung anzeigen</button>
+                    
+                    <div id="solution-3" class="solution">
+                        <strong>Lösungen:</strong><br>
+                        1. <strong>Patchworkfamilie</strong> - Emma lebt mit ihrer Mutter und deren neuem Partner zusammen, der sein Kind aus einer früheren Beziehung mitbringt.<br>
+                        2. <strong>Regenbogenfamilie</strong> - Milan wird von zwei gleichgeschlechtlichen Elternteilen (zwei Vätern) erzogen.
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>🎯 Übung 4: Gesellschaftliche Bedeutung analysieren</h4>
+                    <p>Vervollständigen Sie den Text über die gesellschaftliche Bedeutung der Familie:</p>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                        Die Familie ist die _______ und _______ Sozialisationsinstanz. Sie erfüllt eine wichtige _______-Funktion, indem sie Kindern Zugang zu außerfamiliären Bildungs- und Entwicklungsmöglichkeiten eröffnet. Nach Schneewind (2008) lassen sich _____ elterliche Kompetenzbereiche unterscheiden: selbstbezogene, _______, kontextbezogene und handlungsbezogene Kompetenzen.
+                    </div>
+                    
+                    <p><strong>Wörter zur Auswahl:</strong> erste, prägendste, Türöffner, vier, kindbezogene</p>
+                    
+                    <button class="btn btn-success" onclick="showSolution('solution-4')">Lösung anzeigen</button>
+                    
+                    <div id="solution-4" class="solution">
+                        <strong>Lösung:</strong><br>
+                        Die Familie ist die <strong>erste</strong> und <strong>prägendste</strong> Sozialisationsinstanz. Sie erfüllt eine wichtige <strong>Türöffner</strong>-Funktion, indem sie Kindern Zugang zu außerfamiliären Bildungs- und Entwicklungsmöglichkeiten eröffnet. Nach Schneewind (2008) lassen sich <strong>vier</strong> elterliche Kompetenzbereiche unterscheiden: selbstbezogene, <strong>kindbezogene</strong>, kontextbezogene und handlungsbezogene Kompetenzen.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Soziale Ungleichheit Sektion -->
+        <div id="soziale-ungleichheit" class="section">
+            <button class="back-button" onclick="showDashboard()">← Zurück zur Übersicht</button>
+            <h2>⚖️ Soziale Ungleichheit</h2>
+
+            <div class="concept-grid">
+                <div class="concept">
+                    <h4>Definition</h4>
+                    <p>Unterschiedliche Ressourcenausstattung und Lebensbedingungen, die zu ungleichen Lebens- und Verwirklichungschancen führen</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Merkmale sozialer Ungleichheit</h4>
+                    <ul>
+                        <li><strong>Bildungschancen:</strong> Abhängigkeit von sozialer Herkunft</li>
+                        <li><strong>Materielle Teilhabe:</strong> Ungleiche Verteilung von Ressourcen</li>
+                        <li><strong>Gesundheit:</strong> Unterschiedliche gesundheitliche Risiken</li>
+                        <li><strong>Soziale Teilhabe:</strong> Verschiedene Zugangschancen zu gesellschaftlichen Angeboten</li>
+                    </ul>
+                </div>
+
+                <div class="concept">
+                    <h4>Auswirkungen auf Kinder</h4>
+                    <ul>
+                        <li><strong>Sprachentwicklung:</strong> Qualität der sprachlichen Anregung im Elternhaus als Prädiktor</li>
+                        <li><strong>Lerndispositionen:</strong> Neugier, Ausdauer, Selbstvertrauen werden milieuspezifisch geprägt</li>
+                        <li><strong>Mediennutzung:</strong> Bildungsnahe Milieus nutzen Medien eher zum Lernen</li>
+                        <li><strong>Bildungswege:</strong> Starke Abhängigkeit vom familiären Hintergrund</li>
+                    </ul>
+                </div>
+
+                <div class="concept">
+                    <h4>Soziale Milieus</h4>
+                    <p>Gruppen mit ähnlichen Lebensstilen und Einstellungen, die Erziehungsstile, Werte und Lerndispositionen prägen</p>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <div class="exercise">
+                    <h4>📊 Übung 5: Auswirkungen analysieren</h4>
+                    <p>Welche Auswirkungen kann soziale Ungleichheit auf verschiedene Entwicklungsbereiche haben?</p>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <strong>Sprachentwicklung:</strong>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectOption(this, true)">Weniger sprachliche Anregungen in bildungsfernen Familien</div>
+                                <div class="quiz-option" onclick="selectOption(this, false)">Alle Kinder entwickeln Sprache gleich schnell</div>
+                                <div class="quiz-option" onclick="selectOption(this, true)">Elternhaus als wichtigster Prädiktor für Sprachentwicklung</div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <strong>Bildungschancen:</strong>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectOption(this, false)">Soziale Herkunft spielt keine Rolle mehr</div>
+                                <div class="quiz-option" onclick="selectOption(this, true)">Starke Abhängigkeit vom familiären Hintergrund</div>
+                                <div class="quiz-option" onclick="selectOption(this, true)">Bildungsnahe Familien fördern systematischer</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkTimelineQuiz(this)">Antworten prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-5')">Erklärung anzeigen</button>
+                    
+                    <div id="solution-5" class="solution">
+                        <strong>Erklärung:</strong><br>
+                        <strong>Sprachentwicklung:</strong> Studien belegen, dass die Qualität der sprachlichen Anregung im Elternhaus der stärkste Prädiktor für die Sprachentwicklung ist. Bildungsferne Familien bieten oft weniger vielfältige sprachliche Anregungen.<br>
+                        <strong>Bildungschancen:</strong> Trotz Bildungsexpansion besteht weiterhin eine starke Abhängigkeit der Bildungslaufbahn von der sozialen Herkunft. Bildungsnahe Familien verfügen über mehr kulturelles Kapital und fördern systematischer.
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>🎲 Übung 6: Fallbeispiel Ali</h4>
+                    <p>Analysieren Sie Alis Situation in Bezug auf soziale Ungleichheit:</p>
+                    
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffc107;">
+                        <strong>Ali (5,8 Jahre):</strong> Vater arbeitslos, Mutter spricht kaum Deutsch, Familie lebt von Sozialleistungen, wenig Spielzeug und Bilderbücher, kein Kontakt zu deutschen Familien
+                    </div>
+                    
+                    <p>In welchen Bereichen zeigt sich bei Ali soziale Benachteiligung?</p>
+                    
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, true)">Materielle Teilhabe (wenig Ressourcen)</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">Bildungschancen (fehlende Bilderbücher, sprachliche Barrieren)</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">Soziale Teilhabe (wenig Kontakt zu deutschen Familien)</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">Keine Benachteiligung erkennbar</div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkMultipleAnswers(this)">Antworten prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-6')">Analyse anzeigen</button>
+                    
+                    <div id="solution-6" class="solution">
+                        <strong>Analyse:</strong><br>
+                        Ali zeigt multiple Deprivation in allen Bereichen sozialer Ungleichheit:<br>
+                        - <strong>Materielle Teilhabe:</strong> Familie lebt von Sozialleistungen, wenig Geld für Bildungsressourcen<br>
+                        - <strong>Bildungschancen:</strong> Fehlende Bilderbücher und Spielzeuge beeinträchtigen kognitive Entwicklung<br>
+                        - <strong>Soziale Teilhabe:</strong> Isolation von deutschen Familien verhindert Integration und Spracherwerb<br>
+                        - <strong>Gesundheit:</strong> Ungesunde Ernährung (Schokoriegel, Erdnussflips) führt zu Übergewicht
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lebenswelten und Lebenslagen Sektion -->
+        <div id="lebenswelten-lebenslagen" class="section">
+            <button class="back-button" onclick="showDashboard()">← Zurück zur Übersicht</button>
+            <h2>🏠 Lebenswelten & Lebenslagen</h2>
+
+            <div class="concept-grid">
+                <div class="concept">
+                    <h4>Lebensweltkonzept (Hans Thiersch)</h4>
+                    <p><strong>Grundannahme:</strong> Jeder Mensch ist Experte seiner eigenen Lebenswelt</p>
+                    <p><strong>Ziel:</strong> Alltag von Kindern und Jugendlichen als Ausgangspunkt pädagogischen Handelns</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Lebenslagenansatz</h4>
+                    <p><strong>Definition:</strong> Instrument zur Erfassung von Lebensbedingungen, Ressourcen, Entwicklungsmöglichkeiten und Stolpersteinen</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Dimensionen der Lebenslage</h4>
+                    <ul>
+                        <li><strong>Sozio-ökonomische Bedingungen:</strong> Einkommen, Wohnsituation, materielle Ausstattung</li>
+                        <li><strong>Soziales Umfeld/Netzwerk:</strong> Familie, Freunde, Nachbarschaft</li>
+                        <li><strong>Professionelle Unterstützung:</strong> Kita, Schule, Therapeuten</li>
+                        <li><strong>Institutionelle Rahmenbedingungen:</strong> Gesetze, Bildungssystem, Sozialleistungen</li>
+                    </ul>
+                </div>
+
+                <div class="concept">
+                    <h4>Kreislauf des Unterstützungsmanagements</h4>
+                    <p>1. Lebenslagen analysieren und Unterstützungsbedarf erkennen</p>
+                    <p>2. Das Individuum in seiner Lebenswelt wahrnehmen und verstehen</p>
+                    <p>3. Diversität beachten und fördern</p>
+                    <p>4. Ressourcen erkunden und zugänglich machen</p>
+                    <p>5. Unterstützen und beteiligen</p>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <div class="exercise">
+                    <h4>🔄 Übung 7: Kreislauf des Unterstützungsmanagements</h4>
+                    <p>Bringen Sie die Schritte des Unterstützungsmanagements in die richtige Reihenfolge:</p>
+                    
+                    <div class="drag-drop-container">
+                        <div class="drag-items">
+                            <h5>Schritte (ungeordnet):</h5>
+                            <div class="drag-item" draggable="true" data-order="5">Unterstützen und beteiligen</div>
+                            <div class="drag-item" draggable="true" data-order="1">Lebenslagen analysieren</div>
+                            <div class="drag-item" draggable="true" data-order="3">Diversität beachten</div>
+                            <div class="drag-item" draggable="true" data-order="2">Individuum wahrnehmen</div>
+                            <div class="drag-item" draggable="true" data-order="4">Ressourcen erkunden</div>
+                        </div>
+                        
+                        <div class="drop-zones">
+                            <h5>Richtige Reihenfolge:</h5>
+                            <div class="drop-zone" data-order="1">1. Schritt</div>
+                            <div class="drop-zone" data-order="2">2. Schritt</div>
+                            <div class="drop-zone" data-order="3">3. Schritt</div>
+                            <div class="drop-zone" data-order="4">4. Schritt</div>
+                            <div class="drop-zone" data-order="5">5. Schritt</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkOrderDragDrop(this)">Reihenfolge prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-7')">Lösung anzeigen</button>
+                    
+                    <div id="solution-7" class="solution">
+                        <strong>Richtige Reihenfolge:</strong><br>
+                        1. <strong>Lebenslagen analysieren</strong> und Unterstützungsbedarf erkennen<br>
+                        2. Das <strong>Individuum wahrnehmen</strong> und verstehen<br>
+                        3. <strong>Diversität beachten</strong> und fördern<br>
+                        4. <strong>Ressourcen erkunden</strong> und zugänglich machen<br>
+                        5. <strong>Unterstützen und beteiligen</strong>
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>📋 Übung 8: Dimensionen der Lebenslage</h4>
+                    <p>Ordnen Sie die folgenden Faktoren den vier Dimensionen der Lebenslage zu:</p>
+                    
+                    <div class="quiz-question">
+                        <strong>Arbeitslosigkeit des Vaters gehört zur Dimension:</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, true)">Sozio-ökonomische Bedingungen</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Soziales Umfeld</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Professionelle Unterstützung</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Betreuung in der Kita gehört zur Dimension:</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">Sozio-ökonomische Bedingungen</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Professionelle Unterstützung</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">Institutionelle Rahmenbedingungen</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkAllQuizzes(this)">Antworten prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-8')">Erklärung anzeigen</button>
+                    
+                    <div id="solution-8" class="solution">
+                        <strong>Erklärungen:</strong><br>
+                        - <strong>Arbeitslosigkeit des Vaters</strong> → Sozio-ökonomische Bedingungen (betrifft Einkommen und materielle Situation)<br>
+                        - <strong>Betreuung in der Kita</strong> → Professionelle Unterstützung (pädagogische Fachkräfte arbeiten professionell mit dem Kind)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kindheit heute Sektion -->
+        <div id="kindheit-heute" class="section">
+            <button class="back-button" onclick="showDashboard()">← Zurück zur Übersicht</button>
+            <h2>🎮 Kindheit heute</h2>
+
+            <div class="concept-grid">
+                <div class="concept">
+                    <h4>Mediatisierung</h4>
+                    <p>Medien als zentrale Sozialisationsinstanz, früher Kontakt mit digitalen Medien, Erwerb von Medienkompetenz als Schlüsselqualifikation</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Internationalisierung</h4>
+                    <p>Kulturelle Heterogenität als Normalität, globale Marken- und Modetrends, Mehrsprachigkeit und interkulturelle Begegnungen</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Verhäuslichung</h4>
+                    <p>Verlagerung des Kinderspiels von außen nach innen, eingeschränkter Bewegungsradius, weniger selbstständige Erkundung der Umgebung</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Verinselung</h4>
+                    <p>Leben auf unverbundenen "Inseln" (Wohnen, Schule, Freizeit), Eltern als "Chauffeure", Verlust des Überblicks über den Sozialraum</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Terminkindheit</h4>
+                    <p>Durchgetakteter Alltag mit vielen organisierten Aktivitäten, professionelle Förderung in verschiedenen Bereichen, Risiko von Stress und Überforderung</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Konsumkindheit</h4>
+                    <p>Kinder als umworbene Zielgruppe, Verlust der Wertschätzung von Gegenständen, Einschränkung der Kreativität durch Fertigprodukte</p>
+                </div>
+
+                <div class="concept">
+                    <h4>Verlust des natürlichen Lebensraums</h4>
+                    <p>Weniger natürliche Spielräume, funktionsbezogene strukturierte Spielplätze, eingeschränkte Naturerfahrungen</p>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <div class="exercise">
+                    <h4>🎯 Übung 9: Chancen und Risiken bewerten</h4>
+                    <p>Bewerten Sie die Merkmale heutiger Kindheit - welche sind eher Chancen, welche eher Risiken?</p>
+                    
+                    <div class="quiz-question">
+                        <strong>Terminkindheit bietet:</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, true)">Vielfältige Förderung und strukturierten Tag</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Risiko von Stress und Überforderung</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Verlust spontaner Aktivitäten</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Mediatisierung bedeutet:</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, true)">Erwerb wichtiger Medienkompetenz</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Zugang zu weltweiten Informationen</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">Risiko von Reizüberflutung</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkMultipleAnswers(this)">Bewertung prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-9')">Analyse anzeigen</button>
+                    
+                    <div id="solution-9" class="solution">
+                        <strong>Analyse:</strong><br>
+                        Die Merkmale heutiger Kindheit haben sowohl positive als auch negative Aspekte:<br><br>
+                        <strong>Terminkindheit:</strong><br>
+                        ✅ <strong>Chancen:</strong> Vielfältige Förderung, strukturierter Alltag, professionelle Begleitung<br>
+                        ❌ <strong>Risiken:</strong> Stress, Überforderung, wenig Zeit für Spontaneität<br><br>
+                        <strong>Mediatisierung:</strong><br>
+                        ✅ <strong>Chancen:</strong> Medienkompetenz, Zugang zu Informationen, digitale Teilhabe<br>
+                        ❌ <strong>Risiken:</strong> Reizüberflutung, weniger direkte Erfahrungen, Abhängigkeit
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>🏠 Übung 10: Fallanalyse Emma und Sarah</h4>
+                    <p>Analysieren Sie, welche Merkmale heutiger Kindheit bei Emma und Sarah erkennbar sind:</p>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                        <strong>Emma:</strong> Lebt im Neubaugebiet, wird mit Auto gebracht, geht zum Ballett, zur Singstunde und bald zum Reiten. Kennt keine Geschäfte im Viertel.
+                        <br><br>
+                        <strong>Sarah:</strong> Lebt bei Alleinerziehender, bekommt ersehnte Vesperbox, isst meist Tiefkühlessen, kennt sich im Wohngebiet nicht aus.
+                    </div>
+                    
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, true)">Emma zeigt Terminkindheit (viele organisierte Aktivitäten)</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">Emma zeigt Verinselung (kennt Viertel nicht)</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">Sarah zeigt Konsumkindheit (ersehnte Vesperbox)</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">Beide zeigen Verhäuslichung (wenig Umgebungswissen)</div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkMultipleAnswers(this)">Analyse prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-10')">Detailanalyse anzeigen</button>
+                    
+                    <div id="solution-10" class="solution">
+                        <strong>Detailanalyse:</strong><br>
+                        <strong>Emma (Terminkindheit & Verinselung):</strong><br>
+                        - Ballett, Singstunde, Reiten = durchgetakteter Alltag<br>
+                        - Wird immer gefahren = Eltern als "Chauffeure"<br>
+                        - Kennt Viertel nicht = lebt auf "Inseln"<br><br>
+                        <strong>Sarah (Konsumkindheit):</strong><br>
+                        - Ersehnte Vesperbox = Kinder als Zielgruppe des Marketings<br>
+                        - Tiefkühlessen = Fertigprodukte statt selbstgemachtes Essen<br><br>
+                        <strong>Beide (Verhäuslichung):</strong><br>
+                        - Wenig Wissen über ihr direktes Umfeld<br>
+                        - Eingeschränkter Bewegungsradius im Viertel
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pädagogische Konsequenzen Sektion -->
+        <div id="paedagogische-konsequenzen" class="section">
+            <button class="back-button" onclick="showDashboard()">← Zurück zur Übersicht</button>
+            <h2>🎯 Pädagogische Konsequenzen</h2>
+
+            <div class="concept-grid">
+                <div class="concept">
+                    <h4>Lebensweltorientiertes Arbeiten</h4>
+                    <ul>
+                        <li><strong>Analyse der individuellen Lebenswelt</strong> jedes Kindes</li>
+                        <li><strong>Subjektive Perspektive</strong> der Kinder ernst nehmen</li>
+                        <li><strong>Ressourcenorientierung</strong> statt Defizitorientierung</li>
+                        <li><strong>Niedrigschwellige Angebote</strong> für alle Familien</li>
+                    </ul>
+                </div>
+
+                <div class="concept">
+                    <h4>Umgang mit Familienvielfalt</h4>
+                    <ul>
+                        <li><strong>Sprachsensibilität:</strong> Neutrale Begriffe statt "Mütter und Väter"</li>
+                        <li><strong>Inklusive Materialien:</strong> Vielfältige Familienformen in Büchern und Spielmaterial</li>
+                        <li><strong>Flexible Festgestaltung:</strong> "Tag für wichtige Menschen" statt klassische Elterntage</li>
+                    </ul>
+                </div>
+
+                <div class="concept">
+                    <h4>Soziale Ungleichheit kompensieren</h4>
+                    <ul>
+                        <li><strong>Frühzeitige Sprachförderung</strong></li>
+                        <li><strong>Kostenlose Teilhabe</strong> an Angeboten</li>
+                        <li><strong>Individuelle Förderung</strong> und Erfolgserlebnisse</li>
+                        <li><strong>Enge Elternarbeit</strong> mit niedrigschwelligen Angeboten</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="exercise-container">
+                <div class="exercise">
+                    <h4>🎭 Übung 11: Professionelle Haltung entwickeln</h4>
+                    <p>Welche Haltung sollten pädagogische Fachkräfte einnehmen? Bewerten Sie die Aussagen:</p>
+                    
+                    <div class="quiz-question">
+                        <strong>"Alle Kinder brauchen die gleichen Angebote"</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">✅ Richtige pädagogische Haltung</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">❌ Falsche Haltung - individuelle Lebenswelten beachten!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>"Ich sehe zuerst die Ressourcen und Stärken des Kindes"</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, true)">✅ Ressourcenorientierter Ansatz</div>
+                            <div class="quiz-option" onclick="selectOption(this, false)">❌ Defizite müssen im Vordergrund stehen</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>"Bei Elternfesten sage ich immer 'Liebe Mütter und Väter'"</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this, false)">✅ Höfliche Anrede</div>
+                            <div class="quiz-option" onclick="selectOption(this, true)">❌ Nicht inklusiv - schließt andere Familienformen aus</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkAllQuizzes(this)">Haltung prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-11')">Professionelle Reflexion anzeigen</button>
+                    
+                    <div id="solution-11" class="solution">
+                        <strong>Professionelle Reflexion:</strong><br>
+                        ❌ <strong>"Alle Kinder brauchen das Gleiche"</strong> → Ignoriert individuelle Lebenswelten und Bedürfnisse<br>
+                        ✅ <strong>Besser:</strong> "Jedes Kind braucht das, was zu seiner Lebenswelt passt"<br><br>
+                        
+                        ✅ <strong>Ressourcenorientierung</strong> → Stärkt Selbstbewusstsein und Motivation der Kinder<br>
+                        ❌ <strong>Defizitorientierung</strong> → Führt zu Stigmatisierung und Entmutigung<br><br>
+                        
+                        ❌ <strong>"Mütter und Väter"</strong> → Schließt Ein-Eltern-Familien, Regenbogenfamilien, Großeltern aus<br>
+                        ✅ <strong>Besser:</strong> "Liebe Familien" oder "Liebe Bezugspersonen"
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>🛠️ Übung 12: Praktische Maßnahmen planen</h4>
+                    <p>Welche konkreten Maßnahmen würden Sie für Ali entwickeln?</p>
+                    
+                    <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffc107;">
+                        <strong>Erinnerung Ali:</strong> 5,8 Jahre, Migrationshintergrund, Vater arbeitslos, Mutter spricht kaum Deutsch, wenig Bildungsressourcen, Übergewicht, aggressive Konfliktlösung
+                    </div>
+                    
+                    <div class="quiz-options">
+                        <div class="quiz-option" onclick="selectOption(this, true)">Sprachförderung durch Bilderbuchbetrachtung und Gespräche</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">Ali sollte zu Hause nur Deutsch sprechen</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">Bewegungsangebote zur Förderung der Motorik</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">Elternarbeit: Mutter auf Sprachkurse hinweisen</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">Alis Interesse am Schlagzeug als Ressource nutzen</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">Alis Familiensprache ist ein Problem</div>
+                    </div>
+                    
+                    <button class="btn" onclick="checkMultipleAnswers(this)">Maßnahmen prüfen</button>
+                    <button class="btn btn-success" onclick="showSolution('solution-12')">Förderplan anzeigen</button>
+                    
+                    <div id="solution-12" class="solution">
+                        <strong>Förderplan für Ali:</strong><br><br>
+                        
+                        <strong>🗣️ Sprachförderung:</strong><br>
+                        ✅ Bilderbuchbetrachtung, Erzählrunden, Wortschatzerweiterung<br>
+                        ❌ NICHT: Verbot der Familiensprache (schadet der Identität)<br><br>
+                        
+                        <strong>🏃 Bewegungsförderung:</strong><br>
+                        ✅ Tägliche Bewegungsangebote, Psychomotorik, Ernährungsbildung<br><br>
+                        
+                        <strong>👨‍👩‍👧 Elternarbeit:</strong><br>
+                        ✅ Mutter über Deutschkurse informieren, mehrsprachige Elternbriefe<br><br>
+                        
+                        <strong>🥁 Ressourcenorientierung:</strong><br>
+                        ✅ Alis Interesse am Schlagzeug für Rhythmik- und Musikangebote nutzen<br><br>
+                        
+                        <strong>🌍 Interkulturelle Bildung:</strong><br>
+                        ✅ Türkische Kultur als Bereicherung sehen, nicht als Problem
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <!-- Übungsklausur Sektion -->
+        <div id="uebungsklausur" class="section">
+            <button class="back-button" onclick="showDashboard()">← Zurück zur Übersicht</button>
+            <h2>📝 Übungsklausur</h2>
+
+            <div class="handlungssituation">
+                <h3>📖 Handlungssituation: Lebenswelten und Lebenslagen - Ali (5,8 Jahre)</h3>
+
+                <h4>Allgemeine Informationen zu Ali (Aktennotizen - Kita Sonnenberg)</h4>
+
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #007bff;">
+                    <h5>Familiäre Situation</h5>
+                    <p>Der Vater ist in Deutschland geboren, die Großeltern wanderten aus der Türkei ein. Die Mutter kam nach der Hochzeit mit dem Vater nach Deutschland. Der Vater spricht ein verständliches Deutsch, die Mutter beherrscht die Sprache kaum. Der Vater ist seit einem Jahr arbeitslos. Er hat keine Berufsausbildung und hat als Gabelstaplerfahrer gearbeitet. Der Supermarkt wurde jedoch geschlossen. Die Mutter ist zu Hause. Ali hat eine jüngere Schwester.</p>
+
+                    <p>Nach Erzählungen der Kolleg*innen schaut der Vater viel Fernsehen oder sitzt mit Freunden in der Bahnhofskneipe – so er Geld übrig hat. Die Mutter ist für den Haushalt und die Kinder zuständig. Gelegentlich kommen türkische Freunde zu Besuch. Weder Ali noch seine Eltern haben außerhalb des Kindergartens Kontakt zu deutschen Familien.</p>
+
+                    <p>Der Vater schimpft viel auf den deutschen Staat, der zu wenig für die Migranten tut und sich nur um die Reichen kümmert. An einer Bildungsmaßnahme, die ihm von der Agentur für Arbeit angeboten wurde, hat er sich nicht beteiligt. Wozu denn? Als Türke sei er ja eh bloß ein Mensch zweiter Klasse.</p>
+                </div>
+
+                <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffc107;">
+                    <h5>Finanzielle Situation + Wohnsituation</h5>
+                    <p>Die Familie lebt von Hilfe zum Lebensunterhalt. Für Spielzeug gibt die Familie kein Geld aus, Bilderbücher existieren in dem Haushalt nicht. Die Erzieherinnen haben die Eltern informiert, dass sie Anrecht auf Leistungen aus dem Hilfe- und Teilhabepaket haben, aber bisher haben sie keinen Antrag gestellt.</p>
+
+                    <p>Die Familie wohnt in einer kleinen drei-Zimmerwohnung. Im Elterngespräch haben die Erzieher*innen erfahren, dass bei Ali zu Hause ständig der Fernseher läuft – mit türkischen Programmen. Ali muss daheim nicht helfen. Zusammen mit seinem Vater sitzt er viel vor dem Fernseher.</p>
+                </div>
+
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #28a745;">
+                    <h5>Verhalten und Interessen</h5>
+                    <p>Ali spricht nur eingeschränkt Deutsch. Bei sprachbasierten Aktivitäten wird er sehr schnell unruhig, hampelt rum, springt von seinem Stuhl auf. Auch Ermahnungen der Erzieher*innen helfen da wenig. Am liebsten spielt er mit Hishem und Mehmet in der Bauecke mit den Autos. Mit beiden kann er türkisch sprechen.</p>
+
+                    <p>Gerät Ali in der Bauecke mit anderen Kindern in Konflikt, weil er die Autos nicht teilen möchte, gibt er nicht nach. Er behält die Autos in der Hand, schlägt und schubst die anderen Kinder.</p>
+
+                    <p>Bei Gruppenaktivitäten kann er sich nicht länger als 10 Minuten konzentrieren. Manchmal geht er einfach weg oder beginnt laut zu singen. Ali hat eine schöne Stimme und ein gutes Rhythmusgefühl, aber singen findet er blöd. Lieber möchte er Schlagzeug spielen. Die Erzieher*innen haben die Eltern schon einmal darauf angesprochen, aber diese haben darauf nicht reagiert.</p>
+                </div>
+
+                <div style="background: #ffe6e6; padding: 20px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #dc3545;">
+                    <h5>Soziale Kontakte – Freizeit & Gesundheit</h5>
+                    <p>Gelegentlich trifft sich die Familie mit türkischen Freunden zu einem Picknick, ansonsten findet das Leben in der Wohnung statt. Ali ist in keinem Verein und hat außerhalb der Kita keine Kontakte zu Kindern seiner Gruppe. Hishem und Mehmet wohnen zu weit weg, um als Spielpartner in Frage zu kommen. Im Elterngespräch wurde deutlich, dass die Eltern auch am Wochenende nicht mit den Kindern in den Wald, Park o.ä. gehen.</p>
+
+                    <p>In seiner Vesperbox finden sich häufig billige Schokoriegel, Erdnussflips und Weißmehlbrötchen mit Wurst. Ali ist übergewichtig und eher unbeholfen in seinen Bewegungen. Als die Kindergartengruppe in den Zoo geht, bleibt Ali zu Hause – er hat Durchfall sagte seine Mutter.</p>
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <h4>Wissen und Verstehen</h4>
+                <div style="margin-bottom: 20px;">
+                    <strong>1. Stellen Sie vier pädagogisch relevante, unterschiedliche Themenbereiche und mögliche Problemstellungen dar, die in der Handlungssituation enthalten sind. Strukturieren Sie Ihre Darstellung mithilfe von Oberbegriffen. (7,5 Punkte)</strong>
+                </div>
+
+                <textarea style="width: 100%; height: 120px; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ddd;" placeholder="Ihre Antwort zu den vier Themenbereichen..."></textarea>
+
+                <button class="btn btn-success" onclick="showSolution('exam-solution-1')">Musterlösung 1 anzeigen</button>
+
+                <div id="exam-solution-1" class="solution">
+                    <strong>Musterlösung Aufgabe 1:</strong><br><br>
+
+                    <strong>1. Soziale Ungleichheit und materielle Benachteiligung</strong><br>
+                    - Familie lebt von Sozialleistungen, Vater arbeitslos<br>
+                    - Keine Bildungsressourcen (Spielzeug, Bücher)<br>
+                    - Keine Nutzung des Bildungs- und Teilhabepakets<br><br>
+
+                    <strong>2. Sprachliche und kulturelle Integration</strong><br>
+                    - Ali spricht eingeschränkt Deutsch<br>
+                    - Mutter beherrscht kaum Deutsch<br>
+                    - Kein Kontakt zu deutschen Familien außerhalb der Kita<br>
+                    - Türkische TV-Programme als hauptsächliche Mediennutzung<br><br>
+
+                    <strong>3. Soziale Kompetenz und Verhaltensauffälligkeiten</strong><br>
+                    - Aggressive Konfliktlösung (schlägt, schubst andere Kinder)<br>
+                    - Probleme beim Teilen und in sozialen Interaktionen<br>
+                    - Konzentrationsschwierigkeiten bei Gruppenaktivitäten<br>
+                    - Motorische Unruhe bei sprachbasierten Aktivitäten<br><br>
+
+                    <strong>4. Gesundheit und Ernährung</strong><br>
+                    - Übergewicht durch ungesunde Ernährung<br>
+                    - Motorische Schwierigkeiten<br>
+                    - Wenig Bewegung und Naturerfahrungen<br>
+                    - Isolation von gesundheitsfördernden Aktivitäten
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <div style="margin-bottom: 20px;">
+                    <strong>2. Nehmen Sie einen Perspektivenwechsel vor und beschreiben Sie, wie Ali seine familiäre Situation erlebt. (7,5 Punkte)</strong>
+                </div>
+
+                <textarea style="width: 100%; height: 150px; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ddd;" placeholder="Beschreiben Sie Alis subjektive Sicht auf seine Situation..."></textarea>
+
+                <button class="btn btn-success" onclick="showSolution('exam-solution-2')">Musterlösung 2 anzeigen</button>
+
+                <div id="exam-solution-2" class="solution">
+                    <strong>Musterlösung Aufgabe 2 - Perspektivenwechsel Ali:</strong><br><br>
+
+                    Alis Lebenswelt ist von Benachteiligung geprägt und er muss immer wieder erleben, dass er weniger Entwicklungschancen und Bildungsmöglichkeiten hat als andere Kinder in seinem Alter. Er wächst in Armut auf, weswegen er auch nicht mit in den Zoo konnte, als die Kita-Gruppe einen Ausflug gemacht hat. Das fand Ali total schade, denn Ausflüge sind etwas, was er gar nicht kennt. Er und seine Mutter haben sich auch nicht getraut in der Kita zu sagen, dass sie kein Geld haben. Ali war richtig froh, dass seine Mutter ihn mit Durchfall entschuldigt hat. Es ist ihm peinlich, dass seine Eltern weniger Geld haben als die anderen Familien in der Kita.<br><br>
+
+                    Zu gerne würde Ali einmal mit seinen Eltern einen Ausflug machen, aber sein Vater schaut lieber Fernsehen oder geht in die Kneipe, anstatt etwas mit ihm zu spielen oder zu unternehmen. Dass er selbst auch viel Fernsehen schauen kann, gefällt Ali hingegen gut - das dürfen andere Kinder nicht. Ebenso findet er es klasse, dass er immer so leckere Sachen in seiner Vesperbox hat. Er liebt Schokoriegel, Erdnussflips und Wurstbrötchen. Allerdings ist es schade, dass er davon dick wird und sich nicht so gut bewegen kann. Das findet Ali doof, vor allem weil ihn die anderen Kinder deswegen manchmal hänseln.<br><br>
+
+                    Mit Hishem und Mehmet kann Ali auch türkisch reden, das fällt ihm viel leichter als Deutsch. Ali findet es sicher auch viel wichtiger gut türkisch zu können, denn das ist seine Muttersprache und die Sprache, die seine Eltern sprechen und verstehen. Sein Vater sagt auch immer, dass Deutschland ein Land ist, das Türken schlecht behandelt. Warum soll Ali da die Sprache der Deutschen sprechen? Nur im Stuhlkreis in der Kita wäre es gut, wenn er mehr verstehen könnte.
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <h4>Analyse und Bewertung</h4>
+                <div style="margin-bottom: 20px;">
+                    <strong>3. Ordnen Sie Ali begründet einem Lebenslagentyp zu. (10 Punkte)</strong>
+                </div>
+
+                <textarea style="width: 100%; height: 140px; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ddd;" placeholder="Lebenslagentyp mit Begründung anhand der vier Dimensionen..."></textarea>
+
+                <button class="btn btn-success" onclick="showSolution('exam-solution-3')">Musterlösung 3 anzeigen</button>
+
+                <div id="exam-solution-3" class="solution">
+                    <strong>Musterlösung Aufgabe 3 - Lebenslagentyp:</strong><br><br>
+
+                    <strong>Ali zeigt den Lebenslagentyp der "multiplen Deprivation" (Mangel in allen Dimensionen):</strong><br><br>
+
+                    <strong>Sozio-ökonomische Bedingungen (Mangel):</strong><br>
+                    - Familie lebt von Sozialleistungen<br>
+                    - Vater seit einem Jahr arbeitslos<br>
+                    - Keine finanziellen Mittel für Bildungsressourcen, Spielzeug, Ausflüge<br>
+                    - Kleine Drei-Zimmer-Wohnung<br><br>
+
+                    <strong>Soziales Umfeld/Netzwerk (Mangel):</strong><br>
+                    - Keine Kontakte zu deutschen Familien<br>
+                    - Isolierte türkische Community<br>
+                    - Keine Vereinsmitgliedschaften oder Freizeitaktivitäten<br>
+                    - Wenig soziale Teilhabe außerhalb der Kita<br><br>
+
+                    <strong>Kultureller Bereich (Mangel):</strong><br>
+                    - Keine Bilderbücher oder Lernmaterialien im Haushalt<br>
+                    - Eingeschränkte deutsche Sprachkompetenz<br>
+                    - Wenig bildende Erfahrungen und kulturelle Teilhabe<br>
+                    - Passive Mediennutzung (nur Fernsehen)<br><br>
+
+                    <strong>Gesundheitlicher Bereich (Mangel):</strong><br>
+                    - Übergewicht durch ungesunde Ernährung<br>
+                    - Motorische Schwierigkeiten<br>
+                    - Wenig Bewegung und Naturerfahrungen<br>
+                    - Risiko für psychosoziale Entwicklungsbeeinträchtigungen
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <div style="margin-bottom: 20px;">
+                    <strong>4. Stellen Sie begründete Vermutungen darüber an, welche Konsequenzen seine Lebenslage für sein Aufwachsen haben kann. (10 Punkte)</strong>
+                </div>
+
+                <textarea style="width: 100%; height: 160px; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ddd;" placeholder="Konsequenzen für Alis weitere Entwicklung..."></textarea>
+
+                <button class="btn btn-success" onclick="showSolution('exam-solution-4')">Musterlösung 4 anzeigen</button>
+
+                <div id="exam-solution-4" class="solution">
+                    <strong>Musterlösung Aufgabe 4 - Konsequenzen für das Aufwachsen:</strong><br><br>
+
+                    <strong>Bildungsbereich:</strong><br>
+                    Alis mangelnde deutsche Sprachkompetenz und fehlende Bildungsressourcen im Elternhaus können zu Stolpersteinen für die bevorstehende Transition in die Schule werden. Seine Konzentrationsschwierigkeiten und Unruhe bei sprachbasierten Aktivitäten lassen erwarten, dass er Schwierigkeiten haben wird, dem Unterricht zu folgen. Da seine Mutter kaum Deutsch spricht, kann er auch nicht auf Hilfe bei Hausaufgaben rechnen.<br><br>
+
+                    <strong>Soziale Entwicklung:</strong><br>
+                    Alis aggressive Konfliktlösungsmuster (schlagen, schubsen) und seine Schwierigkeiten beim Teilen zeigen, dass seine soziale Kompetenz nicht altersgemäß entwickelt ist. Dies könnte zu weiteren Konflikten in der Schule führen und seine Integration in Peer-Groups erschweren.<br><br>
+
+                    <strong>Gesundheitliche Entwicklung:</strong><br>
+                    Sein Übergewicht und die ungesunde Ernährung können zu langfristigen gesundheitlichen Problemen führen (Diabetes, Herz-Kreislauf-Erkrankungen). Die motorischen Schwierigkeiten können seine Teilnahme an Sport und Bewegungsaktivitäten beeinträchtigen.<br><br>
+
+                    <strong>Psychosoziale Entwicklung:</strong><br>
+                    Die multiple Deprivation kann dazu führen, dass Ali nicht zu einem resilienten Kind heranwächst. Ohne gezielte Förderung besteht die Gefahr einer Verfestigung der Benachteiligung und einer Reproduktion sozialer Ungleichheit über Generationen hinweg.
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <h4>Planung und Konzeption</h4>
+                <div style="margin-bottom: 20px;">
+                    <strong>5. Leiten Sie unter Berücksichtigung Ihrer bisherigen Überlegungen zur Lebenslage von Ali zwei individuelle Zielsetzungen ab, die die Kita Sonnenberg für Ali formulieren könnte. Beziehen Sie dazu die Informationen aus den Aktennotizen mit ein. (7,5 Punkte)</strong>
+                </div>
+
+                <textarea style="width: 100%; height: 140px; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ddd;" placeholder="Zwei konkrete, begründete Ziele für Ali..."></textarea>
+
+                <button class="btn btn-success" onclick="showSolution('exam-solution-5')">Musterlösung 5 anzeigen</button>
+
+                <div id="exam-solution-5" class="solution">
+                    <strong>Musterlösung Aufgabe 5 - Ziele für Ali:</strong><br><br>
+
+                    <strong>Ziel 1: Förderung der deutschen Sprachkompetenz</strong><br>
+                    <em>Begründung:</em> Ali spricht nur eingeschränkt Deutsch und wird bei sprachbasierten Aktivitäten unruhig. Dies gefährdet seinen Schulerfolg und seine soziale Integration. Die Förderung der Zweitsprache ist essentiell für seine Bildungschancen und gesellschaftliche Teilhabe.<br><br>
+
+                    <strong>Ziel 2: Förderung der sozialen Kompetenzen und Konfliktlösungsstrategien</strong><br>
+                    <em>Begründung:</em> Ali löst Konflikte aggressiv (schlagen, schubsen) und hat Schwierigkeiten beim Teilen. Diese Verhaltensweisen behindern seine Integration in die Kindergruppe und können sich negativ auf seine Schullaufbahn auswirken. Er braucht alternative, konstruktive Strategien zur Konfliktbewältigung.<br><br>
+
+                    <strong>Zusätzliche mögliche Ziele:</strong><br>
+                    - Förderung der motorischen Entwicklung und gesunden Ernährung<br>
+                    - Resilienzförderung durch Stärkung seiner musikalischen Interessen (Schlagzeug)<br>
+                    - Verbesserung der Konzentrationsfähigkeit
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <div style="margin-bottom: 20px;">
+                    <strong>6. Planen Sie pädagogische Maßnahmen, die geeignet sind, Ihre Zielsetzungen umzusetzen. Denken Sie dabei auch an den Kreislauf des Unterstützungsmanagements. (12,5 Punkte)</strong>
+                </div>
+
+                <textarea style="width: 100%; height: 180px; margin: 10px 0; padding: 10px; border-radius: 5px; border: 1px solid #ddd;" placeholder="Konkrete pädagogische Maßnahmen zur Umsetzung der Ziele..."></textarea>
+
+                <button class="btn btn-success" onclick="showSolution('exam-solution-6')">Musterlösung 6 anzeigen</button>
+
+                <div id="exam-solution-6" class="solution">
+                    <strong>Musterlösung Aufgabe 6 - Pädagogische Maßnahmen:</strong><br><br>
+
+                    <strong>Grundlegende Haltung: Lebensweltorientiertes Arbeiten</strong><br>
+                    - Ressourcenorientierte, wertschätzende Haltung gegenüber Ali und seiner Familie<br>
+                    - Türkische Kultur als Bereicherung sehen, nicht als Problem<br>
+                    - Willkommenskultur und vorurteilsbewusste Pädagogik<br><br>
+
+                    <strong>Maßnahmen zu Ziel 1 (Sprachförderung):</strong><br>
+                    - Alltagsintegrierte Sprachförderung durch Bilderbuchbetrachtung und Erzählrunden<br>
+                    - Nonverbale Kommunikationsformen anbieten (Kunst, Musik)<br>
+                    - Gezielte Sprachförderstunden mit Sprachförderkraft<br>
+                    - Mehrsprachige Materialien verwenden (Deutsch-Türkisch)<br>
+                    - Wortschatzarbeit in kleinen Gruppen<br><br>
+
+                    <strong>Maßnahmen zu Ziel 2 (Soziale Kompetenzen):</strong><br>
+                    - Programm "Faustlos" zur Impulskontrolle und Konfliktlösung<br>
+                    - Rollenspiele zu sozialen Situationen<br>
+                    - Bilderbücher und Handpuppentheater zu sozialen Themen<br>
+                    - Kooperative Spiele in kleinen Gruppen<br>
+                    - Positive Verstärkung bei angemessenem Verhalten<br><br>
+
+                    <strong>Einbindung der Familie (Kreislauf Unterstützungsmanagement):</strong><br>
+                    - Mutter über Deutschkurse der Volkshochschule informieren<br>
+                    - Eltern über Bildungs- und Teilhabepaket beraten<br>
+                    - Mehrsprachige Elternbriefe und niedrigschwellige Angebote<br>
+                    - Kooperation mit Familienzentrum und sozialen Diensten<br><br>
+
+                    <strong>Ressourcenorientierte Förderung:</strong><br>
+                    - Alis musikalische Interessen nutzen (Schlagzeug, Rhythmik)<br>
+                    - Kooperation mit Musikschule für kostenlosen Unterricht<br>
+                    - Bewegungsangebote zur Förderung der Motorik<br>
+                    - Projekte zu gesunder Ernährung (Kochen, Garten)
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="btn" onclick="updateExamProgress()" style="background: #27ae60; font-size: 1.1em; padding: 15px 30px;">
+                    ✅ Klausur abgeschlossen - Fortschritt speichern
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let completedExercises = 0;
+        let totalPoints = 0;
+        let totalPossiblePoints = 0;
+
+        function showSection(sectionId) {
+            // Alle Sektionen ausblenden
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById('dashboard').style.display = 'none';
+            
+            // Gewählte Sektion anzeigen
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function showDashboard() {
+            // Alle Sektionen ausblenden
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Dashboard anzeigen
+            document.getElementById('dashboard').style.display = 'grid';
+            updateStats();
+        }
+
+        function showSolution(solutionId) {
+            const solution = document.getElementById(solutionId);
+            if (solution.style.display === 'none' || solution.style.display === '') {
+                solution.style.display = 'block';
+            } else {
+                solution.style.display = 'none';
+            }
+        }
+
+        function selectOption(option, isCorrect) {
+            // Entferne vorherige Auswahl in dieser Frage
+            const parent = option.parentElement;
+            parent.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Markiere neue Auswahl
+            option.classList.add('selected');
+            option.setAttribute('data-selected', isCorrect);
+        }
+
+        function checkQuizAnswer(button) {
+            const exercise = button.closest('.exercise');
+            const options = exercise.querySelectorAll('.quiz-option');
+            let correct = false;
+            
+            options.forEach(option => {
+                if (option.classList.contains('selected')) {
+                    if (option.getAttribute('data-selected') === 'true') {
+                        option.classList.add('correct');
+                        correct = true;
+                        totalPoints += 2;
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            completedExercises++;
+            totalPossiblePoints += 2;
+            
+            if (correct) {
+                button.textContent = '✅ Richtig!';
+                button.style.background = '#27ae60';
+            } else {
+                button.textContent = '❌ Falsch';
+                button.style.background = '#e74c3c';
+            }
+            
+            button.disabled = true;
+            updateStats();
+        }
+
+        function checkAllQuizzes(button) {
+            const exercise = button.closest('.exercise');
+            const questions = exercise.querySelectorAll('.quiz-question');
+            let totalCorrect = 0;
+            let totalQuestions = questions.length;
+            
+            questions.forEach(question => {
+                const options = question.querySelectorAll('.quiz-option');
+                options.forEach(option => {
+                    if (option.classList.contains('selected')) {
+                        if (option.getAttribute('data-selected') === 'true') {
+                            option.classList.add('correct');
+                            totalCorrect++;
+                        } else {
+                            option.classList.add('incorrect');
+                        }
+                    }
+                });
+            });
+            
+            completedExercises++;
+            totalPoints += totalCorrect * 2;
+            totalPossiblePoints += totalQuestions * 2;
+            
+            button.textContent = `✅ ${totalCorrect}/${totalQuestions} richtig!`;
+            button.style.background = totalCorrect === totalQuestions ? '#27ae60' : '#f39c12';
+            button.disabled = true;
+            updateStats();
+        }
+
+        function checkMultipleAnswers(button) {
+            const exercise = button.closest('.exercise');
+            const options = exercise.querySelectorAll('.quiz-option');
+            let correctCount = 0;
+            let totalCorrect = 0;
+            
+            options.forEach(option => {
+                if (option.getAttribute('data-selected') === 'true') {
+                    totalCorrect++;
+                }
+                
+                if (option.classList.contains('selected')) {
+                    if (option.getAttribute('data-selected') === 'true') {
+                        option.classList.add('correct');
+                        correctCount++;
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            completedExercises++;
+            totalPoints += correctCount;
+            totalPossiblePoints += totalCorrect;
+            
+            button.textContent = `✅ ${correctCount}/${totalCorrect} richtig!`;
+            button.style.background = correctCount === totalCorrect ? '#27ae60' : '#f39c12';
+            button.disabled = true;
+            updateStats();
+        }
+
+        // Drag & Drop Funktionalität
+        let draggedElement = null;
+
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.classList.contains('drag-item')) {
+                draggedElement = e.target;
+                e.target.style.opacity = '0.5';
+            }
+        });
+
+        document.addEventListener('dragend', function(e) {
+            if (e.target.classList.contains('drag-item')) {
+                e.target.style.opacity = '1';
+            }
+        });
+
+        document.addEventListener('dragover', function(e) {
+            if (e.target.classList.contains('drop-zone')) {
+                e.preventDefault();
+                e.target.classList.add('drag-over');
+            }
+        });
+
+        document.addEventListener('dragleave', function(e) {
+            if (e.target.classList.contains('drop-zone')) {
+                e.target.classList.remove('drag-over');
+            }
+        });
+
+        document.addEventListener('drop', function(e) {
+            if (e.target.classList.contains('drop-zone') && draggedElement) {
+                e.preventDefault();
+                e.target.classList.remove('drag-over');
+                e.target.appendChild(draggedElement);
+                draggedElement = null;
+            }
+        });
+
+        function checkDragDrop(button) {
+            const exercise = button.closest('.exercise');
+            const dropZones = exercise.querySelectorAll('.drop-zone');
+            let correct = 0;
+            let total = 0;
+            
+            dropZones.forEach(zone => {
+                const items = zone.querySelectorAll('.drag-item');
+                items.forEach(item => {
+                    total++;
+                    if (item.getAttribute('data-answer') === zone.getAttribute('data-category')) {
+                        correct++;
+                        item.style.background = '#27ae60';
+                    } else {
+                        item.style.background = '#e74c3c';
+                    }
+                });
+            });
+            
+            completedExercises++;
+            totalPoints += correct;
+            totalPossiblePoints += total;
+            
+            button.textContent = `✅ ${correct}/${total} richtig zugeordnet!`;
+            button.style.background = correct === total ? '#27ae60' : '#f39c12';
+            button.disabled = true;
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('completed-exercises').textContent = completedExercises;
+            document.getElementById('total-points').textContent = totalPoints;
+            
+            const successRate = totalPossiblePoints > 0 ? Math.round((totalPoints / totalPossiblePoints) * 100) : 0;
+            document.getElementById('success-rate').textContent = successRate + '%';
+            
+            // Fortschrittsbalken aktualisieren
+            for (let i = 1; i <= 6; i++) {
+                const progress = Math.min(completedExercises * 10, 100);
+                document.getElementById(`progress-${i}`).style.width = progress + '%';
+            }
+        }
+
+        function updateExamProgress() {
+            completedExercises += 5;
+            totalPoints += 15;
+            totalPossiblePoints += 36;
+            document.getElementById('progress-exam').style.width = '100%';
+            updateStats();
+            alert('🎉 Glückwunsch! Sie haben die Übungsklausur abgeschlossen!');
+        }
+
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+        });
+    </script>
+</body>
+</html>

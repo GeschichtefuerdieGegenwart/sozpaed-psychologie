@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sexismus erkennen – Situationen aus der Kita</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .situation {
+            background-color: #f9f9f9;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .antworten {
+            margin: 15px 0;
+        }
+        .antwort {
+            margin: 8px 0;
+            padding: 8px;
+            background-color: #eee;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .antwort:hover {
+            background-color: #ddd;
+        }
+        .aufloesung {
+            display: none;
+            padding: 15px;
+            margin: 15px 0;
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            border-radius: 0 4px 4px 0;
+        }
+        .richtig {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        .falsch {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #ergebnis {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+        .hinweis {
+            font-style: italic;
+            color: #6c757d;
+        }
+        .ausgewaehlt {
+            font-weight: bold;
+            background-color: #d1ecf1;
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+    <h1>Sexismus erkennen – Situationen aus der Kita</h1>
+    <p class="hinweis">Hinweis: In jeder der folgenden Situationen sollen Sie entscheiden, ob Sexismus vorliegt. Wählen Sie die passende Antwort aus. Nach jeder Frage erscheint die Auflösung mit einer kurzen Erklärung.</p>
+
+    <div id="test-container">
+        <!-- Situation 1 -->
+        <div class="situation" id="situation1">
+            <h3>Situation 1: Kuchen für das Kita-Picknick</h3>
+            <p>Die Kita veranstaltet ein Picknick. In einem Elternbrief werden ausschließlich die Mütter darum gebeten, Kuchen zu backen.</p>
+            <div class="antworten">
+                <div class="antwort" onclick="pruefeAntwort('situation1', 'A', 'B')">A) Kein Sexismus, da Mütter meistens backen.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation1', 'B', 'B')">B) Sexismus, weil nur die Mütter angesprochen werden.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation1', 'C', 'B')">C) Neutral, da es egal ist, wer angesprochen wird.</div>
+            </div>
+            <div class="aufloesung" id="aufloesung1">
+                <h4>Auflösung:</h4>
+                <p>Richtige Antwort: B)</p>
+                <p>Das ist Sexismus, weil die Aufgabe des Backens allein den Müttern zugeschrieben wird, obwohl auch Väter backen könnten. Hier werden Geschlechterrollen unreflektiert übernommen und verstärkt.</p>
+            </div>
+        </div>
+
+        <!-- Situation 2 -->
+        <div class="situation" id="situation2">
+            <h3>Situation 2: Verkleidungskiste im Kindergarten</h3>
+            <p>Ein vierjähriger Junge möchte ein rosa Kleid anziehen. Ein anderes Kind sagt, Kleider seien nur für Mädchen. Die Erzieherin unterstützt dies und empfiehlt dem Jungen, sich lieber „Jungensachen" auszusuchen.</p>
+            <div class="antworten">
+                <div class="antwort" onclick="pruefeAntwort('situation2', 'A', 'B')">A) Kein Sexismus, weil die Erzieherin helfen will.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation2', 'B', 'B')">B) Sexismus, da dem Jungen das Tragen von Kleidern verwehrt wird.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation2', 'C', 'B')">C) Neutral, weil es um Gruppendynamik geht.</div>
+            </div>
+            <div class="aufloesung" id="aufloesung2">
+                <h4>Auflösung:</h4>
+                <p>Richtige Antwort: B)</p>
+                <p>Das ist Sexismus, weil dem Jungen aufgrund seines Geschlechts bestimmte Kleidungsstücke abgesprochen werden. Solche Einschränkungen fördern starre Geschlechterrollen und diskriminieren individuelle Interessen.</p>
+            </div>
+        </div>
+
+        <!-- Situation 3 -->
+        <div class="situation" id="situation3">
+            <h3>Situation 3: Ansprache einer trans Frau</h3>
+            <p>Ein Elternteil eines Kita-Kindes ist trans Frau. Trotz mehrfacher Hinweise sprechen viele Erzieher*innen sie weiterhin als „er" an.</p>
+            <div class="antworten">
+                <div class="antwort" onclick="pruefeAntwort('situation3', 'A', 'B')">A) Kein Sexismus, da es ein Versehen ist.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation3', 'B', 'B')">B) Sexismus, weil die Geschlechtsidentität nicht respektiert wird.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation3', 'C', 'B')">C) Neutral, weil es keine Absicht gibt.</div>
+            </div>
+            <div class="aufloesung" id="aufloesung3">
+                <h4>Auflösung:</h4>
+                <p>Richtige Antwort: B)</p>
+                <p>Das ist Sexismus (und Transfeindlichkeit), da die Geschlechtsidentität der Person nicht anerkannt und respektiert wird. Auch unbeabsichtigte Diskriminierung ist problematisch.</p>
+            </div>
+        </div>
+
+        <!-- Situation 4 -->
+        <div class="situation" id="situation4">
+            <h3>Situation 4: Spielzeugauswahl</h3>
+            <p>Im Morgenkreis sagt eine Erzieherin: „Jungs spielen heute mit den Bauklötzen, Mädchen können malen."</p>
+            <div class="antworten">
+                <div class="antwort" onclick="pruefeAntwort('situation4', 'A', 'B')">A) Kein Sexismus, weil Kinder beschäftigt werden.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation4', 'B', 'B')">B) Sexismus, weil Aktivitäten nach Geschlecht zugeordnet werden.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation4', 'C', 'B')">C) Neutral, weil es organisatorisch ist.</div>
+            </div>
+            <div class="aufloesung" id="aufloesung4">
+                <h4>Auflösung:</h4>
+                <p>Richtige Antwort: B)</p>
+                <p>Das ist Sexismus, weil Kindern bestimmte Aktivitäten aufgrund ihres Geschlechts zugewiesen werden. Dadurch werden stereotype Rollenbilder gefestigt.</p>
+            </div>
+        </div>
+
+        <!-- Situation 5 -->
+        <div class="situation" id="situation5">
+            <h3>Situation 5: Umgang mit Gefühlen</h3>
+            <p>Ein Junge weint, und die Erzieherin sagt: „Du bist doch ein Junge, du musst stark sein."</p>
+            <div class="antworten">
+                <div class="antwort" onclick="pruefeAntwort('situation5', 'A', 'B')">A) Kein Sexismus, das motiviert den Jungen.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation5', 'B', 'B')">B) Sexismus, weil Jungen keine Gefühle zeigen dürfen.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation5', 'C', 'B')">C) Neutral, weil es oft gesagt wird.</div>
+            </div>
+            <div class="aufloesung" id="aufloesung5">
+                <h4>Auflösung:</h4>
+                <p>Richtige Antwort: B)</p>
+                <p>Das ist Sexismus, weil dem Jungen das Zeigen von Gefühlen abgesprochen wird. Solche Aussagen fördern toxische Männlichkeitsbilder und schränken emotionale Entwicklung ein.</p>
+            </div>
+        </div>
+
+        <!-- Situation 6 -->
+        <div class="situation" id="situation6">
+            <h3>Situation 6: Bücher und Vorbilder</h3>
+            <p>Im Kindergarten werden regelmäßig Bücher vorgelesen, in denen Männer Helden sind und Frauen gerettet werden müssen.</p>
+            <div class="antworten">
+                <div class="antwort" onclick="pruefeAntwort('situation6', 'A', 'B')">A) Kein Sexismus, weil das in vielen Geschichten so ist.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation6', 'B', 'B')">B) Sexismus, weil stereotype Rollenbilder vermittelt werden.</div>
+                <div class="antwort" onclick="pruefeAntwort('situation6', 'C', 'B')">C) Neutral, weil es um Fantasie geht.</div>
+            </div>
+            <div class="aufloesung" id="aufloesung6">
+                <h4>Auflösung:</h4>
+                <p>Richtige Antwort: B)</p>
+                <p>Das ist Sexismus, da Kindern wiederholt vermittelt wird, dass Männer aktiv und Frauen passiv sind. Solche Darstellungen prägen das Rollenverständnis nachhaltig.</p>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="berechneErgebnis()">Ergebnis anzeigen</button>
+    
+    <div id="ergebnis"></div>
+
+    <script>
+        let punkte = 0;
+        const gesamtFragen = 6;
+        let beantwortet = 0;
+
+        function pruefeAntwort(situationId, gewaehlteAntwort, richtigeAntwort) {
+            const aufloesung = document.getElementById('aufloesung' + situationId.slice(-1));
+            const situation = document.getElementById(situationId);
+            
+            // Markiere die ausgewählte Antwort
+            const antworten = situation.querySelectorAll('.antwort');
+            antworten.forEach(antwort => {
+                antwort.classList.remove('ausgewaehlt');
+                if (antwort.textContent.startsWith(gewaehlteAntwort + ")")) {
+                    antwort.classList.add('ausgewaehlt');
+                }
+            });
+            
+            // Überprüfe ob die Antwort richtig ist
+            if (gewaehlteAntwort === richtigeAntwort) {
+                punkte++;
+                aufloesung.classList.add('richtig');
+                aufloesung.classList.remove('falsch');
+            } else {
+                aufloesung.classList.add('falsch');
+                aufloesung.classList.remove('richtig');
+            }
+            
+            // Zeige die Auflösung an
+            aufloesung.style.display = 'block';
+            
+            // Deaktiviere weitere Antworten für diese Situation
+            antworten.forEach(antwort => {
+                antwort.style.cursor = 'default';
+                antwort.onclick = null;
+            });
+            
+            beantwortet++;
+        }
+
+        function berechneErgebnis() {
+            if (beantwortet < gesamtFragen) {
+                alert('Bitte beantworten Sie erst alle Fragen!');
+                return;
+            }
+            
+            const prozent = Math.round((punkte / gesamtFragen) * 100);
+            const ergebnisText = `Ergebnis: Sie haben ${punkte} von ${gesamtFragen} Situationen richtig erkannt. Das entspricht ${prozent}% erkanntem Sexismus.`;
+            
+            const ergebnisDiv = document.getElementById('ergebnis');
+            ergebnisDiv.textContent = ergebnisText;
+            ergebnisDiv.style.display = 'block';
+            
+            // Hinweis für die Praxis
+            const hinweis = document.createElement('p');
+            hinweis.innerHTML = '<strong>Hinweis für die Praxis:</strong> Solche Tests fördern die Sensibilität für Sexismus im Alltag und helfen, diskriminierende Strukturen im Kindergarten frühzeitig zu erkennen und zu reflektieren.';
+            hinweis.style.marginTop = '20px';
+            hinweis.style.fontStyle = 'normal';
+            ergebnisDiv.appendChild(hinweis);
+        }
+    </script>
+</body>
+</html>

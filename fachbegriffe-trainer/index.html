@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fachbegriffe-Trainer – EBG Prüfungsvorbereitung</title>
+<style>
+/* ===== TOKENS ===== */
+:root,[data-theme="light"]{
+  --bg:#f7f6f2;--surface:#f9f8f5;--surface2:#fdfcfa;--offset:#edeae5;
+  --border:#d4d1ca;--divider:#dcd9d5;
+  --text:#28251d;--muted:#7a7974;--faint:#bab9b4;--inverse:#f9f8f4;
+  --primary:#01696f;--primary-h:#0c4e54;--primary-hl:#cedcd8;
+  --success:#437a22;--success-h:#2e5c10;--success-hl:#d4dfcc;
+  --error:#a12c7b;--error-h:#7d1e5e;--error-hl:#e0ced7;
+  --warn:#964219;--warn-hl:#ddcfc6;
+  --blue:#006494;--blue-hl:#c6d8e4;
+  --purple:#7a39bb;--purple-hl:#dacfde;
+  --shadow-sm:0 1px 2px rgba(40,37,29,.07);
+  --shadow-md:0 4px 16px rgba(40,37,29,.1);
+  --shadow-lg:0 12px 36px rgba(40,37,29,.14);
+  --r-sm:.375rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;--r-full:9999px;
+  --sp1:.25rem;--sp2:.5rem;--sp3:.75rem;--sp4:1rem;--sp6:1.5rem;
+  --sp8:2rem;--sp10:2.5rem;--sp12:3rem;--sp16:4rem;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-display:'Instrument Serif',Georgia,serif;
+  --tr:180ms cubic-bezier(.16,1,.3,1);
+  /* LF Colors */
+  --lf1:#01696f;--lf1-hl:#cedcd8;--lf1-bg:#f0f8f7;
+  --lf2:#006494;--lf2-hl:#c6d8e4;--lf2-bg:#eef5fa;
+  --lf3:#7a39bb;--lf3-hl:#dacfde;--lf3-bg:#f5eefa;
+  --lf5:#964219;--lf5-hl:#ddcfc6;--lf5-bg:#faf3ee;
+  --lf6:#437a22;--lf6-hl:#d4dfcc;--lf6-bg:#eef5e8;
+  --lf7:#a12c7b;--lf7-hl:#e0ced7;--lf7-bg:#faeef5;
+}
+[data-theme="dark"]{
+  --bg:#171614;--surface:#1c1b19;--surface2:#201f1d;--offset:#22211f;
+  --border:#393836;--divider:#262523;
+  --text:#cdccca;--muted:#797876;--faint:#5a5957;--inverse:#2b2a28;
+  --primary:#4f98a3;--primary-h:#227f8b;--primary-hl:#313b3b;
+  --success:#6daa45;--success-h:#4d8f25;--success-hl:#3a4435;
+  --error:#d163a7;--error-h:#b9478f;--error-hl:#4c3d46;
+  --warn:#bb653b;--warn-hl:#564942;
+  --blue:#5591c7;--blue-hl:#3a4550;
+  --purple:#a86fdf;--purple-hl:#4e4652;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.22);
+  --shadow-md:0 4px 16px rgba(0,0,0,.32);
+  --shadow-lg:0 12px 36px rgba(0,0,0,.42);
+  --lf1:#4f98a3;--lf1-hl:#313b3b;--lf1-bg:#1a2627;
+  --lf2:#5591c7;--lf2-hl:#3a4550;--lf2-bg:#1a2330;
+  --lf3:#a86fdf;--lf3-hl:#4e4652;--lf3-bg:#27203a;
+  --lf5:#bb653b;--lf5-hl:#564942;--lf5-bg:#2c1f15;
+  --lf6:#6daa45;--lf6-hl:#3a4435;--lf6-bg:#1c2818;
+  --lf7:#d163a7;--lf7-hl:#4c3d46;--lf7-bg:#2e1a2a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;font-family:var(--font-body);font-size:clamp(1rem,.95rem + .25vw,1.125rem);color:var(--text);background:var(--bg);line-height:1.6;}
+img,svg{display:block;max-width:100%;height:auto;}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit;}
+a,button,[role="button"]{transition:color var(--tr),background var(--tr),border-color var(--tr),box-shadow var(--tr);}
+:focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:var(--r-sm);}
+
+/* ===== LAYOUT ===== */
+.app-header{
+  position:sticky;top:0;z-index:100;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+  padding:var(--sp3) var(--sp6);
+  display:flex;align-items:center;gap:var(--sp4);
+  flex-wrap:wrap;
+}
+.logo{display:flex;align-items:center;gap:var(--sp3);}
+.logo-icon{width:36px;height:36px;flex-shrink:0;}
+.logo-text{font-family:var(--font-display);font-size:1.25rem;color:var(--primary);line-height:1.2;}
+.logo-sub{font-size:.75rem;color:var(--muted);font-weight:400;}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:var(--sp3);}
+.theme-btn{width:36px;height:36px;border-radius:var(--r-full);display:flex;align-items:center;justify-content:center;color:var(--muted);background:var(--offset);border:1px solid var(--border);}
+.theme-btn:hover{color:var(--primary);background:var(--primary-hl);}
+
+.main{max-width:1100px;margin:0 auto;padding:var(--sp8) var(--sp4) var(--sp16);}
+
+/* ===== HERO ===== */
+.hero{text-align:center;padding:var(--sp10) 0 var(--sp8);}
+.hero h1{font-family:var(--font-display);font-size:clamp(2rem,1.2rem + 2.5vw,3rem);color:var(--text);line-height:1.15;margin-bottom:var(--sp3);}
+.hero p{color:var(--muted);max-width:54ch;margin:0 auto var(--sp6);font-size:clamp(1rem,.95rem + .15vw,1.1rem);}
+.progress-bar-wrap{max-width:340px;margin:0 auto var(--sp4);background:var(--offset);border-radius:var(--r-full);height:8px;overflow:hidden;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--success));border-radius:var(--r-full);transition:width .4s ease;}
+.stats-row{display:flex;gap:var(--sp4);justify-content:center;flex-wrap:wrap;margin-bottom:var(--sp6);}
+.stat-chip{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-full);padding:var(--sp2) var(--sp4);font-size:.875rem;display:flex;align-items:center;gap:var(--sp2);box-shadow:var(--shadow-sm);}
+.stat-chip .dot{width:8px;height:8px;border-radius:50%;}
+.dot-ok{background:var(--success);}
+.dot-err{background:var(--error);}
+.dot-total{background:var(--primary);}
+
+/* ===== LF TABS ===== */
+.lf-tabs{display:flex;gap:var(--sp2);flex-wrap:wrap;justify-content:center;margin-bottom:var(--sp8);}
+.lf-tab{padding:var(--sp2) var(--sp4);border-radius:var(--r-full);font-size:.875rem;font-weight:600;border:2px solid transparent;background:var(--surface);cursor:pointer;transition:all var(--tr);letter-spacing:.01em;}
+.lf-tab:hover{box-shadow:var(--shadow-sm);}
+.lf-tab.active{color:#fff;}
+.lf-tab[data-lf="0"]{border-color:var(--primary);color:var(--primary);}
+.lf-tab[data-lf="0"].active{background:var(--primary);color:#fff;}
+.lf-tab[data-lf="1"]{border-color:var(--lf1);color:var(--lf1);}
+.lf-tab[data-lf="1"].active{background:var(--lf1);color:#fff;}
+.lf-tab[data-lf="2"]{border-color:var(--lf2);color:var(--lf2);}
+.lf-tab[data-lf="2"].active{background:var(--lf2);color:#fff;}
+.lf-tab[data-lf="3"]{border-color:var(--lf3);color:var(--lf3);}
+.lf-tab[data-lf="3"].active{background:var(--lf3);color:#fff;}
+.lf-tab[data-lf="5"]{border-color:var(--lf5);color:var(--lf5);}
+.lf-tab[data-lf="5"].active{background:var(--lf5);color:#fff;}
+.lf-tab[data-lf="6"]{border-color:var(--lf6);color:var(--lf6);}
+.lf-tab[data-lf="6"].active{background:var(--lf6);color:#fff;}
+.lf-tab[data-lf="7"]{border-color:var(--lf7);color:var(--lf7);}
+.lf-tab[data-lf="7"].active{background:var(--lf7);color:#fff;}
+
+/* ===== MODES ===== */
+.mode-bar{display:flex;gap:var(--sp2);justify-content:center;margin-bottom:var(--sp6);flex-wrap:wrap;}
+.mode-btn{padding:var(--sp2) var(--sp5);border-radius:var(--r-full);font-size:.85rem;font-weight:600;border:1.5px solid var(--border);color:var(--muted);background:var(--surface);transition:all var(--tr);}
+.mode-btn.active{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:var(--shadow-sm);}
+.mode-btn:hover:not(.active){background:var(--primary-hl);border-color:var(--primary);color:var(--primary);}
+
+/* ===== QUIZ CARD ===== */
+.quiz-area{max-width:680px;margin:0 auto;}
+.quiz-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-xl);padding:var(--sp8) var(--sp8) var(--sp6);box-shadow:var(--shadow-md);position:relative;overflow:hidden;}
+.quiz-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--card-accent,var(--primary));}
+.card-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp4);}
+.card-lf-badge{font-size:.75rem;font-weight:700;padding:var(--sp1) var(--sp3);border-radius:var(--r-full);background:var(--badge-bg,var(--primary-hl));color:var(--badge-color,var(--primary));letter-spacing:.04em;text-transform:uppercase;}
+.card-num{font-size:.8rem;color:var(--muted);}
+.card-term{font-family:var(--font-display);font-size:clamp(1.4rem,1rem + 1.2vw,2rem);color:var(--text);margin-bottom:var(--sp3);line-height:1.25;}
+.card-context{font-size:.9rem;color:var(--muted);margin-bottom:var(--sp6);font-style:italic;border-left:3px solid var(--divider);padding-left:var(--sp3);}
+
+/* Input mode */
+.input-area{position:relative;}
+.input-area textarea{width:100%;min-height:90px;border:1.5px solid var(--border);border-radius:var(--r-md);padding:var(--sp3) var(--sp4);font:inherit;font-size:1rem;color:var(--text);background:var(--surface);resize:vertical;transition:border-color var(--tr);}
+.input-area textarea:focus{border-color:var(--primary);outline:none;box-shadow:0 0 0 3px oklch(from var(--primary) l c h / .15);}
+.input-area textarea::placeholder{color:var(--faint);}
+.btn-row{display:flex;gap:var(--sp3);margin-top:var(--sp4);flex-wrap:wrap;}
+.btn{padding:var(--sp3) var(--sp6);border-radius:var(--r-md);font-size:.9rem;font-weight:600;cursor:pointer;transition:all var(--tr);display:inline-flex;align-items:center;gap:var(--sp2);border:none;}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-primary:hover{background:var(--primary-h);box-shadow:var(--shadow-sm);}
+.btn-ghost{background:none;border:1.5px solid var(--border);color:var(--muted);}
+.btn-ghost:hover{background:var(--offset);color:var(--text);border-color:var(--text);}
+.btn-sm{padding:var(--sp2) var(--sp4);font-size:.8rem;}
+
+/* Feedback */
+.feedback{margin-top:var(--sp5);border-radius:var(--r-lg);padding:var(--sp5) var(--sp6);display:none;animation:slideUp .25s ease;}
+.feedback.show{display:block;}
+.feedback.correct{background:var(--success-hl);border:1px solid var(--success);}
+.feedback.incorrect{background:var(--error-hl);border:1px solid var(--error);}
+.feedback-header{display:flex;align-items:center;gap:var(--sp3);margin-bottom:var(--sp3);}
+.feedback-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.feedback-icon.ok{background:var(--success);color:#fff;}
+.feedback-icon.err{background:var(--error);color:#fff;}
+.feedback-title{font-weight:700;font-size:1rem;}
+.feedback-title.ok{color:var(--success);}
+.feedback-title.err{color:var(--error);}
+.model-answer{margin-top:var(--sp3);}
+.model-answer h4{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:var(--sp2);}
+.model-answer p{font-size:.95rem;line-height:1.65;}
+.model-answer .highlight{background:oklch(from var(--primary) l c h / .15);border-radius:3px;padding:0 2px;}
+
+/* MC mode */
+.mc-options{display:flex;flex-direction:column;gap:var(--sp3);margin-top:var(--sp2);}
+.mc-option{padding:var(--sp4) var(--sp5);border-radius:var(--r-md);border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:.95rem;text-align:left;transition:all var(--tr);display:flex;align-items:flex-start;gap:var(--sp3);}
+.mc-option:hover:not(.disabled){background:var(--primary-hl);border-color:var(--primary);color:var(--primary);}
+.mc-option.correct-ans{background:var(--success-hl)!important;border-color:var(--success)!important;color:var(--success-h)!important;}
+.mc-option.wrong-ans{background:var(--error-hl)!important;border-color:var(--error)!important;color:var(--error-h)!important;}
+.mc-option.disabled{cursor:default;}
+.mc-letter{width:24px;height:24px;border-radius:50%;background:var(--offset);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;color:var(--muted);}
+.mc-option.correct-ans .mc-letter{background:var(--success);color:#fff;}
+.mc-option.wrong-ans .mc-letter{background:var(--error);color:#fff;}
+
+/* Flashcard mode */
+.flashcard-wrap{perspective:1000px;}
+.flashcard{width:100%;min-height:220px;border-radius:var(--r-xl);position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.16,1,.3,1);cursor:pointer;}
+.flashcard.flipped{transform:rotateY(180deg);}
+.fc-face{position:absolute;inset:0;border-radius:var(--r-xl);backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;padding:var(--sp8);box-shadow:var(--shadow-md);}
+.fc-front{background:var(--surface2);border:1px solid var(--border);}
+.fc-back{background:var(--primary);color:#fff;transform:rotateY(180deg);}
+.fc-front::before,.fc-back::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--r-xl) var(--r-xl) 0 0;background:var(--card-accent,var(--primary));}
+.fc-back::before{background:rgba(255,255,255,.3);}
+.fc-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--sp3);opacity:.7;}
+.fc-term{font-family:var(--font-display);font-size:clamp(1.4rem,1rem + 1.2vw,1.9rem);line-height:1.25;margin-bottom:var(--sp2);}
+.fc-hint{font-size:.85rem;opacity:.65;margin-top:var(--sp4);}
+.fc-def{font-size:.95rem;line-height:1.65;}
+.fc-actions{display:flex;gap:var(--sp3);margin-top:var(--sp5);justify-content:center;}
+.fc-btn{padding:var(--sp3) var(--sp6);border-radius:var(--r-md);font-size:.9rem;font-weight:600;border:none;cursor:pointer;transition:all var(--tr);}
+.fc-btn-ok{background:var(--success);color:#fff;}
+.fc-btn-ok:hover{background:var(--success-h);}
+.fc-btn-retry{background:var(--error);color:#fff;}
+.fc-btn-retry:hover{background:var(--error-h);}
+.fc-status{margin-bottom:var(--sp4);font-size:.85rem;color:var(--muted);text-align:center;}
+.fc-flip-hint{text-align:center;font-size:.8rem;color:var(--faint);margin-top:var(--sp3);display:flex;align-items:center;justify-content:center;gap:var(--sp2);}
+
+/* Browse mode */
+.browse-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:var(--sp4);}
+.browse-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp5);position:relative;overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow var(--tr);}
+.browse-card:hover{box-shadow:var(--shadow-md);}
+.browse-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--card-accent,var(--primary));}
+.browse-term{font-family:var(--font-display);font-size:1.05rem;color:var(--text);margin-bottom:var(--sp2);margin-left:var(--sp3);}
+.browse-def{font-size:.9rem;color:var(--muted);line-height:1.6;margin-left:var(--sp3);}
+.browse-lf{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--sp2);margin-left:var(--sp3);color:var(--card-accent,var(--primary));}
+
+/* ===== RESULTS ===== */
+.results-screen{text-align:center;padding:var(--sp10) var(--sp4);}
+.results-icon{font-size:4rem;margin-bottom:var(--sp4);}
+.results-h{font-family:var(--font-display);font-size:2rem;margin-bottom:var(--sp2);}
+.results-sub{color:var(--muted);margin-bottom:var(--sp6);}
+.results-grid{display:flex;gap:var(--sp4);justify-content:center;flex-wrap:wrap;margin-bottom:var(--sp8);}
+.result-stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp4) var(--sp6);min-width:100px;text-align:center;}
+.result-num{font-size:2rem;font-weight:700;font-family:var(--font-display);}
+.result-label{font-size:.8rem;color:var(--muted);margin-top:var(--sp1);}
+.result-num.ok{color:var(--success);}
+.result-num.err{color:var(--error);}
+
+/* ===== SECTION HEADER ===== */
+.section-header{margin-bottom:var(--sp6);}
+.section-header h2{font-family:var(--font-display);font-size:clamp(1.3rem,1rem + .8vw,1.7rem);margin-bottom:var(--sp2);}
+.section-header p{color:var(--muted);max-width:60ch;}
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(.95)}100%{transform:scale(1)}}
+.pop{animation:pop .2s ease;}
+
+/* ===== SEARCH ===== */
+.search-bar{display:flex;gap:var(--sp3);margin-bottom:var(--sp6);}
+.search-input{flex:1;padding:var(--sp3) var(--sp4);border:1.5px solid var(--border);border-radius:var(--r-md);font:inherit;background:var(--surface);color:var(--text);font-size:.95rem;transition:border-color var(--tr);}
+.search-input:focus{border-color:var(--primary);outline:none;}
+.search-input::placeholder{color:var(--faint);}
+
+/* ===== EMPTY ===== */
+.empty{text-align:center;padding:var(--sp16) var(--sp4);color:var(--muted);}
+.empty svg{margin:0 auto var(--sp4);opacity:.3;}
+.empty h3{font-size:1rem;color:var(--text);margin-bottom:var(--sp2);}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+  .app-header{padding:var(--sp3) var(--sp4);}
+  .quiz-card{padding:var(--sp5) var(--sp4) var(--sp4);}
+  .fc-face{padding:var(--sp5);}
+  .btn-row{flex-direction:column;}
+  .btn{justify-content:center;}
+}
+</style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="logo">
+    <svg class="logo-icon" viewBox="0 0 36 36" fill="none" aria-label="EBG Logo">
+      <rect width="36" height="36" rx="8" fill="var(--primary)"/>
+      <path d="M8 11h20M8 18h14M8 25h18" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="27" cy="25" r="4" fill="#fff" opacity=".9"/>
+      <path d="M25.5 25l1 1 2-2" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <div class="logo-text">Fachbegriffe-Trainer</div>
+      <div class="logo-sub">EBG · Prüfungsvorbereitung 2BKSP</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="theme-btn" data-theme-toggle aria-label="Dark Mode umschalten">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Kristalline Wissenbestände<br>für die Prüfung</h1>
+    <p>Lerne und festige die zentralen Fachbegriffe aus allen Lernfeldern – mit sofortigem Feedback und Musterlösungen.</p>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="globalProgress" style="width:0%"></div></div>
+    <div class="stats-row">
+      <div class="stat-chip"><span class="dot dot-total"></span><span id="statTotal">0</span> Begriffe</div>
+      <div class="stat-chip"><span class="dot dot-ok"></span><span id="statOk">0</span> Richtig</div>
+      <div class="stat-chip"><span class="dot dot-err"></span><span id="statErr">0</span> Falsch</div>
+    </div>
+  </section>
+
+  <!-- LF TABS -->
+  <div class="lf-tabs" id="lfTabs">
+    <button class="lf-tab active" data-lf="0">🔖 Alle LF</button>
+    <button class="lf-tab" data-lf="1">LF 1 · Päd. Grundlagen</button>
+    <button class="lf-tab" data-lf="2">LF 2 · Psych. Grundlagen</button>
+    <button class="lf-tab" data-lf="3">LF 3 · Soziol. Grundlagen</button>
+    <button class="lf-tab" data-lf="5">LF 5 · Gruppenpdagogik</button>
+    <button class="lf-tab" data-lf="6">LF 6 · Medienpädagogik</button>
+    <button class="lf-tab" data-lf="7">LF 7 · Sexualpädagogik</button>
+  </div>
+
+  <!-- MODE BAR -->
+  <div class="mode-bar">
+    <button class="mode-btn active" data-mode="quiz">✏️ Eingabe-Quiz</button>
+    <button class="mode-btn" data-mode="mc">🎯 Multiple Choice</button>
+    <button class="mode-btn" data-mode="flash">🃏 Karteikarten</button>
+    <button class="mode-btn" data-mode="browse">📖 Alle Begriffe</button>
+  </div>
+
+  <!-- QUIZ AREA -->
+  <div class="quiz-area" id="quizArea"></div>
+
+</main>
+
+<script>
+/* ===== DATA ===== */
+const TERMS = [
+/* ---- LF 1 ---- */
+{lf:1,term:"Erziehung",def:"Soziale Interaktion, bei der ein Erwachsener planvoll und zielgerichtet versucht, bei einem Kind unter Berücksichtigung seiner Bedürfnisse erwünschtes Verhalten zu entfalten oder zu stärken (Hurrelmann). Merkmale: zwei Personen, Absicht/Ziel, soziales Handeln.",context:"Grundbegriff der Pädagogik"},
+{lf:1,term:"Bildung",def:"Selbstgesteuerter, lebenslanger Prozess der aktiven Auseinandersetzung des Individuums mit der Welt, bei dem Wissen, Fähigkeiten und Kompetenzen erworben werden (Klafki). Bildung geschieht von innen – das Kind konstruiert sein Wissen selbst.",context:"Abgrenzung zu Erziehung"},
+{lf:1,term:"Sozialisation",def:"Prozess, durch den ein Individuum Werte, Normen, Verhaltensweisen und soziale Rollen einer Gesellschaft erlernt und internalisiert (Hurrelmann). Lebenslanger Prozess durch Familie, Schule, Peers und Medien als Sozialisationsinstanzen.",context:"LF1 Grundbegriff"},
+{lf:1,term:"Konstruktivismus",def:"Pädagogisches Konzept: Wissen wird nicht einfach übertragen, sondern aktiv und individuell konstruiert. Assimilation = neue Information ins bestehende Schema integrieren; Akkommodation = Schema anpassen, wenn Neues nicht passt (Piaget).",context:"Wie funktioniert Bildung?"},
+{lf:1,term:"Ko-Konstruktivismus",def:"Bildungsprozesse finden vor allem in der Interaktion mit anderen statt. Wissen entsteht gemeinsam in sozialen Kontexten. Sprache, Denkweisen und Problemlösungsstrategien werden durch Zusammenarbeit und Vorbild gelernt (Vygotsky – Zone der nächsten Entwicklung).",context:"Soziales Lernen"},
+{lf:1,term:"Bild vom Kind",def:"Das postmoderne Bild sieht das Kind als kompetenten Mitgestalter seiner eigenen Entwicklung – aktiv, neugierig, offen, dialogbereit, strebend nach Eigenaktivität und Selbstverwirklichung. Gegensatz: das Kind als formbarer Stein.",context:"LF1 Pädagogische Grundlagen"},
+{lf:1,term:"Erziehungsstil",def:"Art und Weise des systematischen erzieherischen Verhaltens einer Bezugsperson gegenüber einem Kind. Klassifikation nach Baumrind/Tausch: autoritär, autoritativ (demokratisch), laissez-faire, vernachlässigend.",context:"Erziehungsstilforschung"},
+{lf:1,term:"Partizipation",def:"Aktive Beteiligung von Kindern an Entscheidungen, die ihren Alltag betreffen. Kinder werden als Experten ihrer eigenen Lebenswelt ernst genommen. Grundrecht und pädagogisches Prinzip (UN-Kinderrechtskonvention).",context:"Aktuelles päd. Thema"},
+{lf:1,term:"Autonomie",def:"Fähigkeit und Recht, sich selbst zu bestimmen und für eigenes Handeln Verantwortung zu übernehmen. Im pädagogischen Kontext: Kinder entwickeln schrittweise Selbständigkeit. Erziehungsziel der pädagogischen Mündigkeit.",context:"LF1 Erziehungsziele"},
+{lf:1,term:"Pädagogische Mündigkeit",def:"Leitziel pädagogischen Handelns (Roth): umfasst Selbstkompetenz (für sich selbst verantwortlich handeln), Sachkompetenz (urteils- und handlungsfähig in Sachbereichen) und Sozialkompetenz (soziale und gesellschaftliche Verantwortung).",context:"Übergreifendes Erziehungsziel"},
+{lf:1,term:"Montessori-Pädagogik",def:"Von Maria Montessori entwickelt: Kosmische Erziehung, Freiarbeit, vorbereitete Umgebung, sensible Phasen, das Kind als Baumeister seiner selbst. Leitsatz: Hilf mir, es selbst zu tun.",context:"Geschichte der Pädagogik"},
+{lf:1,term:"Assimilation (Piaget)",def:"Das Kind nimmt neue Informationen aus seiner Umwelt auf und integriert sie in vorhandene kognitive Schemata, ohne diese zu verändern. Beispiel: Kind nennt Ente 'Vogel' – passt ins Schema.",context:"Kognitive Entwicklungstheorie"},
+{lf:1,term:"Akkommodation (Piaget)",def:"Das Kind modifiziert sein vorhandenes Schema, weil neue Erfahrungen nicht passen. Beispiel: Kind lernt, dass nicht alle runden Objekte Bälle sind, wenn es eine Orange kennenlernt.",context:"Kognitive Entwicklungstheorie"},
+/* ---- LF 2 ---- */
+{lf:2,term:"Bindungstheorie",def:"Von Bowlby und Ainsworth entwickelt: Kinder haben einen genetisch programmierten Drang, Bindungen zu Bezugspersonen aufzubauen. Sichere Bindung entsteht durch feinfühlige, konsistente Reaktion auf kindliche Signale.",context:"Bindung und Eingewöhnung"},
+{lf:2,term:"Sichere Bindung (Typ B)",def:"Das Kind nutzt die Bezugsperson als sicheren Hafen, erkundet neugierig die Umwelt, zeigt Trennungsschmerz und beruhigt sich schnell nach Rückkehr. Entsteht durch feinfühlige, verlässliche Bezugsperson.",context:"Bindungstypen nach Ainsworth"},
+{lf:2,term:"Unsicher-vermeidende Bindung (Typ A)",def:"Kind zeigt kaum Bindungsverhalten, meidet Nähe, sucht selten Trost. Entsteht, wenn kindliche Bedürfnisse ignoriert oder zurückgewiesen werden. Kind unterdrückt Bindungsverhalten, um Ablehnung zu vermeiden.",context:"Bindungstypen nach Ainsworth"},
+{lf:2,term:"Unsicher-ambivalente Bindung (Typ C)",def:"Kind zeigt übertriebenes Bindungsverhalten, ist sehr ängstlich, beruhigt sich nach Rückkehr der Mutter kaum. Entsteht durch inkonsistente, unvorhersehbare Reaktionen der Bezugsperson.",context:"Bindungstypen nach Ainsworth"},
+{lf:2,term:"Desorganisierte Bindung (Typ D)",def:"Kind zeigt widersprüchliches, desorientiertes Verhalten. Entsteht durch Angst auslösende Bezugsperson oder traumatische Erfahrungen. Höchstes Risiko für spätere Entwicklungsprobleme.",context:"Bindungstypen nach Ainsworth/Main"},
+{lf:2,term:"Feinfühligkeit",def:"Zentrales Konzept Ainsworths: Bezugsperson nimmt kindliche Signale wahr, interpretiert sie richtig und reagiert angemessen und prompte. Grundlage für sichere Bindung und gesunde Entwicklung.",context:"Voraussetzung sicherer Bindung"},
+{lf:2,term:"Berliner Eingewöhnungsmodell",def:"Schrittweise Eingewöhnung: Bezugselternteil begleitet Kind zunächst täglich (Grundphase), zieht sich langsam zurück (Trennungsversuche), bis Kind bei der Erzieherin bleibt. Bezieht sich auf Bindungstheorie.",context:"Eingewöhnungsmodelle"},
+{lf:2,term:"Fremde-Situation-Test",def:"Standardisiertes Untersuchungsverfahren von Mary Ainsworth: Kind wird in unbekanntem Raum mit Mutter, dann Fremder, dann allein beobachtet. Reaktion auf Trennung und Wiedervereinigung erfasst die Bindungsqualität.",context:"Methode zur Bindungsforschung"},
+{lf:2,term:"Exploration / Explorationsverhalten",def:"Neugieriges Erkundungsverhalten des Kindes. Explorationsverhalten und Bindungsverhalten können nicht gleichzeitig aktiv sein: nur wenn das Kind sich sicher fühlt, erkundet es seine Umwelt (Bindung als sichere Basis).",context:"Bindung-Exploration-Balance"},
+{lf:2,term:"Resilienz",def:"Psychische Widerstandsfähigkeit: die Fähigkeit, trotz belastender Lebensumstände und Risikofaktoren eine positive Entwicklung zu zeigen. Schutzfaktoren: sichere Bindung, Selbstwirksamkeit, soziale Unterstützung.",context:"LF2 Resilienz"},
+{lf:2,term:"Transition",def:"Übergänge im Leben von Kindern (z.B. Eintritt in Krippe, Kita, Schule). Erfordern intensive pädagogische Begleitung. Gelingend wenn: Sicherheit gegeben, Eltern einbezogen, Kind auf eigene Weise Abschied nehmen kann.",context:"Pädagogische Übergänge"},
+{lf:2,term:"Klassische Konditionierung (Pawlow)",def:"Lerntheorie: Neutrale Reize werden mit unkonditionierten Reizen verknüpft, bis sie allein eine konditionierte Reaktion auslösen. Beispiel: Schwan (neutral) + Zwicken (schmerzhaft) → Angst vor Schwan.",context:"Lerntheorien Behaviorismus"},
+{lf:2,term:"Operante Konditionierung (Skinner)",def:"Lerntheorie: Verhalten wird durch Konsequenzen gesteuert. Positive Verstärkung (+angenehm) und negative Verstärkung (–unangenehm entfernen) erhöhen Verhalten. Bestrafung (+unangenehm) reduziert es.",context:"Lerntheorien Behaviorismus"},
+{lf:2,term:"Modelllernen (Bandura)",def:"Sozial-kognitive Lerntheorie: Lernen durch Beobachtung und Nachahmung eines Modells. Phasen: Aufmerksamkeit → Gedächtnisprozess → motorische Reproduktion → Motivation/Verstärkung. Bedingungen: attraktives Modell, positive Beziehung.",context:"Sozial-kognitive Lerntheorie"},
+/* ---- LF 3 ---- */
+{lf:3,term:"Individualisierung",def:"Gesellschaftlicher Prozess: Ablösung traditioneller Lebensmuster, mehr Wahlmöglichkeiten, Selbstverantwortung. Schattenseiten: Entscheidungszumutungen, innere Heimatlosigkeit, übermäßige Selbstverantwortung (Beck).",context:"Gesellschaft im Wandel"},
+{lf:3,term:"Pluralisierung",def:"Vielfalt an Lebensformen, Familienformen und Wertorientierungen. Neben der Kleinfamilie existieren: Patchwork, Regenbogenfamilie, Alleinerziehende, nichteheliche Lebensgemeinschaften. Keine Normfamilie mehr.",context:"Gesellschaft im Wandel"},
+{lf:3,term:"Globalisierung",def:"Weltumspannender Prozess, der Bedeutung nationalstaatlicher Grenzen einschränkt. Merkmale: Öffnung der Märkte, weltweite Kommunikation, Kulturenaustausch. Risiken: Ungleichheit, Privatisierung, Umweltbelastung.",context:"Gesellschaft im Wandel"},
+{lf:3,term:"Lebensweltkonzept (Thiersch)",def:"Hans Thiersch: Jeder Mensch ist Experte seiner eigenen Lebenswelt. Pädagogisches Handeln muss am Alltag der Kinder ansetzen, subjektive Perspektiven ernst nehmen und Ressourcen stärken statt Defizite betonen.",context:"Lebenswelten und Lebenslagen"},
+{lf:3,term:"Soziale Ungleichheit",def:"Ungleiche Verteilung von Ressourcen, Bildungschancen, materieller Teilhabe und sozialer Teilhabe aufgrund sozialer Herkunft. Beeinflusst Sprachentwicklung, Lerndispositionen und Bildungswege von Kindern.",context:"LF3 soziologische Grundlagen"},
+{lf:3,term:"Patchworkfamilie",def:"Familienform, die durch Trennung und neue Partnerschaften entsteht: Kinder aus verschiedenen Beziehungen leben zusammen. Besondere Herausforderungen: Loyalitätskonflikte, neue Rollen.",context:"Familienformen heute"},
+{lf:3,term:"Regenbogenfamilie",def:"Familienform mit gleichgeschlechtlichen Elternteilen. Rechtlich anerkannt. Kinder wachsen mit zwei Müttern oder zwei Vätern auf.",context:"Pluralisierung der Familienformen"},
+{lf:3,term:"Primärsozialisation",def:"Erste und grundlegende Phase der Sozialisation in der Familie. Kind erlernt Sprache, grundlegende Werte, emotionale Bindungen. Prägt die gesamte weitere Entwicklung.",context:"Sozialisationsinstanzen"},
+{lf:3,term:"Ressourcenorientierung",def:"Pädagogische Haltung: Stärken und Kompetenzen von Kindern und Familien als Ausgangspunkt nehmen statt Defizite zu betonen. Empowerment statt Defizitorientierung. Grundprinzip lebensweltorientierten Arbeitens.",context:"Pädagogische Konsequenzen LF3"},
+{lf:3,term:"Mediatisierung (Kindheit)",def:"Durchdringung aller Lebensbereiche der Kindheit durch Medien. Kinder wachsen heute selbstverständlich mit digitalen Medien auf. Medienerfahrungen gehören zur Lebenswelt.",context:"Kindheit heute"},
+{lf:3,term:"Verinselung (Kindheit)",def:"Kinder verbringen ihre Zeit in räumlich getrennten Inseln (Kita, Musikschule, Sport) und werden von Erwachsenen transportiert. Verlust freier, selbstorganisierter Bewegungsräume.",context:"Merkmale heutiger Kindheit"},
+{lf:3,term:"Terminkindheit",def:"Kindheit, die durch zahlreiche organisierte Aktivitäten und Termine strukturiert ist. Kinder haben wenig unstrukturierte Freizeit. Risiko: Überforderung, kein Raum für freies Spiel.",context:"Merkmale heutiger Kindheit"},
+{lf:3,term:"Sozialisationsfunktion (Familie)",def:"Funktion der Familie: Kinder in gesellschaftliche Normen, Werte und Verhaltensweisen einzuführen. Familie ist die wichtigste primäre Sozialisationsinstanz.",context:"Bedeutung der Familie"},
+/* ---- LF 5 ---- */
+{lf:5,term:"Gruppe (Definition)",def:"Zwei oder mehr Personen, die über einen längeren Zeitraum in Wechselbeziehung stehen, ein Wir-Gefühl entwickeln und ein gemeinsames Ziel oder Interesse verfolgen. Merkmale: Interaktion, zeitliche Stabilität, Normen/Ziele, Wir-Gefühl, Organisation/Struktur.",context:"LF5 Gruppenmerkmale"},
+{lf:5,term:"Gruppenphasen (Bernstein/Lowy)",def:"Entwicklung einer Gruppe: 1. Orientierungsphase (Kennenlernen, Unsicherheit), 2. Machtkampfphase (Konflikte, Rollenaushandlung), 3. Vertrautheits-/Wir-Phase (Zusammenhalt), 4. Differenzierungsphase, 5. Abschlussphase.",context:"LF5 Gruppenentwicklung"},
+{lf:5,term:"Soziometrie (Moreno)",def:"Messverfahren zur Feststellung sozialer Beziehungen in Gruppen. Methode: standardisierte Fragen zu Zu- und Abneigung → Darstellung in Soziomatrix und Soziogramm. Ziel: Gruppenstruktur erfassen, pädagogisch handeln.",context:"LF5 Soziometrie"},
+{lf:5,term:"Soziogramm",def:"Grafische Darstellung der Ergebnisse einer soziometrischen Untersuchung. Zeigt soziale Positionen: Star (meiste positive Wahlen), Außenseiter (keine Wahlen), Abgelehnter, Cliquen, Paare.",context:"Methode Soziometrie"},
+{lf:5,term:"Konformität",def:"Übereinstimmung des Verhaltens einer Person mit dem der Gruppe als Ergebnis sozialen Drucks. Entsteht durch normativen Einfluss (Zugehörigkeit) und informationalen Einfluss (Unsicherheit). Bereits bei Vierjährigen messbar (Max-Planck-Institut).",context:"Gruppendruck"},
+{lf:5,term:"Asch-Experiment",def:"Salomon Asch (1951): Versuchspersonen geben falsche Antworten, weil die Mehrheit (Vertraute des Versuchsleiters) falsch antwortet. Zeigt: Sozialem Druck wird selbst gegen eigenes besseres Wissen nachgegeben.",context:"Klassisches Experiment Konformität"},
+{lf:5,term:"Deindividuation",def:"Verlust individueller Identität und persönlicher Verantwortung durch Anonymität in großen Gruppen. Senkt Hemmungen gegenüber impulsivem Handeln. Beispiel: Massenphänomene, Internet-Anonymität.",context:"Gruppenphnomene"},
+{lf:5,term:"Gruppenpolarisierung",def:"Entscheidungen von Gruppen fallen extremer (vorsichtiger oder riskanter) aus als der Mittelwert der Einzelentscheidungen. Gruppen verstärken vorhandene Tendenzen.",context:"Gruppenphnomene"},
+{lf:5,term:"Gruppenkonzepte",def:"Organisationsformen von Gruppen in Kitas: geschlossene Gruppe (feste Stammgruppe), teiloffene Gruppe (Stammgruppe + Öffnung), offene Gruppe (freie Raumwahl). Beeinflusst Entwicklungsmöglichkeiten der Kinder.",context:"LF5 Gruppenkonzepte"},
+{lf:5,term:"Außenseiter (Gruppenrolle)",def:"Person, die am Rand der Gruppe steht. Formen: unreifer A. (Entwicklungsverzögerung), reifer A. (fühlt sich am Rand wohl), unfair ausgegrenzter A. (gemobbt). Pädagogische Maßnahmen: gezielte Integration, Stärken identifizieren.",context:"Gruppenrollen"},
+{lf:5,term:"Mitläufer (Gruppenrolle)",def:"Folgt Meinungen des Meinungsmachers, ängstliche Persönlichkeitsstruktur, sucht Sicherheit. Pädagogische Maßnahmen: Selbstvertrauen stärken, eigene Entscheidungen ermutigen, kritisches Denken fördern.",context:"Gruppenrollen"},
+/* ---- LF 6 ---- */
+{lf:6,term:"Medienkompetenz (Baacke)",def:"Fähigkeit, Medien kritisch, kundig, nutzend und gestaltend zu verwenden. Vier Dimensionen: Medienkritik (analytisch/reflexiv/ethisch), Medienkunde (Wissen), Mediennutzung (rezeptiv/interaktiv), Mediengestaltung (kreativ/innovativ).",context:"LF6 Medienpädagogik"},
+{lf:6,term:"Medienerziehung",def:"Geplante Begleitung von Kindern im Umgang mit Medien: Regeln vereinbaren, Gespräche führen, Erlebnisse reflektieren. Ziel: selbstbestimmter, verantwortungsvoller Umgang.",context:"Medienpädagogisches Handeln"},
+{lf:6,term:"Medienbildung",def:"Lebenslanger Prozess, in dem Menschen lernen, Medien selbstbestimmt, kritisch, kreativ und verantwortlich zu nutzen. Geht über formale Medienerziehung hinaus.",context:"LF6 Medienpädagogik"},
+{lf:6,term:"Bewahrpädagogik",def:"Ansatz, der Kinder vor negativen Medieneinflüssen schützen will und Medien vor allem als Gefahr sieht. Digitale Medien werden grundsätzlich verboten; Chancen werden kaum genutzt. Gegensatz: aktiv-handlungsorientierter Ansatz.",context:"Standpunkte im Umgang mit Medien"},
+{lf:6,term:"Aktiv-handlungsorientierter Ansatz",def:"Kinder nutzen Medien kreativ und gestaltend, nicht nur passiv. Sie produzieren selbst: Hörspiele, Stop-Motion-Filme, Fotoprojekte. Gegenentwurf zur Bewahrpädagogik.",context:"Medienpädagogische Ansätze"},
+{lf:6,term:"Mediatisierte Kindheit",def:"Kindheit, die von Medien in allen Lebensbereichen durchdrungen ist. Medienerfahrungen gehören selbstverständlich zur Lebenswelt der Kinder. Erfordert professionelle medienerzieherische Begleitung in der Kita.",context:"LF6 Medienpädagogik"},
+{lf:6,term:"KIM-Studie",def:"Kindheit, Internet, Medien: jährliche Studie des MPFS zur Mediennutzung 6- bis 13-Jähriger. Liefert aktuelle Zahlen für pädagogische Argumentation in der Elternarbeit.",context:"Medienforschung"},
+{lf:6,term:"miniKIM-Studie",def:"Studie des MPFS zur Mediennutzung von 2- bis 5-Jährigen. Zeigt: Tablets nehmen stark zu, gemeinsame Nutzung mit Erwachsenen wichtig, aber selten. Grundlage für Kita-Elternarbeit.",context:"Medienforschung Kleinkinder"},
+{lf:6,term:"Parasoziale Beziehung",def:"Einseitige Beziehung zu Medienfiguren, die sich für Kinder real anfühlt. Beispiel: 'Die Maus ist mein Freund.' Pädagogisch wichtig: diese Bindungen ernst nehmen, als Anknüpfungspunkt nutzen.",context:"LF6 Mediensozialisation"},
+{lf:6,term:"Mediensozialisation",def:"Wie Medien an der Persönlichkeitsentwicklung beteiligt sind – Medien als Sozialisationsinstanz neben Familie, Peers und Kita. Kinder bringen sehr unterschiedliche Medienerfahrungen mit.",context:"LF6 Medienpädagogik"},
+{lf:6,term:"Verarbeitung von Medienerfahrungen",def:"Aktiver Prozess, in dem Kinder Medieninhalte kognitiv, emotional und sozial interpretieren, einordnen und in ihr Weltbild integrieren. Kinder verarbeiten Medien durch Erzählen, Malen, Spielen, Nachspielen, Fragen.",context:"LF6 Medienpädagogik"},
+{lf:6,term:"Cybermobbing",def:"Wiederholtes Beleidigen, Drohen oder Bloßstellen über digitale Medien. In der Kita v.a. über ältere Geschwister relevant; wichtig für Elternarbeit und Übergang in die Schule.",context:"Gefahren im Netz"},
+/* ---- LF 7 ---- */
+{lf:7,term:"Psychosexuelle Entwicklung (Maywald)",def:"Lebenslanger Prozess der Sexualitätsentwicklung, beginnend mit Geburt. Kindliche Sexualität ist nicht genital orientiert, sondern ganzheitlich-sinnlich: auf Körperentdeckung, Neugier und lustvolle Selbsterfahrung ausgerichtet.",context:"LF7 Sexualpädagogik"},
+{lf:7,term:"Kindliche Sexualität – Kernunterschiede",def:"Kindliche Sexualität ≠ Erwachsenensexualität: spontan, neugierig-spielerisch, ganzheitlich-sinnlich, auf Geborgenheit ausgerichtet, selbstbezogen, nicht zielgerichtet auf Fortpflanzung. Kinder kennen keine erotische Dimension.",context:"Grundwissen Sexualpädagogik"},
+{lf:7,term:"Doktorspiele",def:"Altersgemäße Form kindlicher Körpererkundung: Kinder erkunden gegenseitig ihre Körper im Rahmen eines Rollenspiels. Altersgemäß wenn: freiwillig, gleichaltrig, spielerisch, kein Geheimhaltungsdruck. Pädagogische Reaktion: ruhig, nicht dramatisieren.",context:"Erscheinungsformen kindlicher Sexualität"},
+{lf:7,term:"Grenzverletzung vs. altersgemäßes Verhalten",def:"Unterscheidung: Normale Erscheinung = freiwillig, gleichaltrig, spielerisch, offen. Grenzverletzung = Zwang, Machtungleichgewicht, Altersunterschied, Geheimhaltungsdruck, emotionale Belastung des Kindes. Sofortiger Handlungsbedarf bei Grenzverletzung.",context:"LF7 Kinderschutz"},
+{lf:7,term:"Emanzipatorische Sexualerziehung",def:"Erzieherin akzeptiert das Spiel der Kinder, lässt ihnen Freiraum, hält andere Kinder zurück, damit spielende nicht gestört werden, verbessert ggf. durch Material. Kinder fühlen sich wohl und wertgeschätzt. Gegensatz: repressive Sexualerziehung.",context:"Sexualpädagogische Haltungen"},
+{lf:7,term:"Repressive Sexualerziehung",def:"Erzieherin greift sofort ein, verbietet, äußert sich abwertend. Kinder entwickeln Hemmungen, fühlen sich schuldig und schämen sich. Verhindert gesunde psychosexuelle Entwicklung.",context:"Sexualpädagogische Haltungen"},
+{lf:7,term:"Phase der phallischen Phase (3–6 J.)",def:"Maywald nach Freud: Intensive Warum-Fragen zu Körper, Schwangerschaft, Geburt. Doktorspiele, bewusste Masturbation. Ödipale Bindung: Liebe zum gegengeschlechtlichen Elternteil. Entwicklung von Schamgefühl. Geschlechtsstereotype verstärken sich.",context:"Entwicklungsphasen Sexualität"},
+{lf:7,term:"Sexualpädagogische Haltung",def:"Professionelle Grundlage: reflektierte, sexualfreundliche Haltung des gesamten Teams. Erfordert Fachwissen über psychosexuelle Entwicklung, eigene Reflexion der Erfahrungen und Haltungen sowie Teamkonsens.",context:"LF7 Professionalität"},
+{lf:7,term:"Schau- und Zeigelust",def:"Altersgemäße Erscheinungsform kindlicher Sexualität: stolzes Präsentieren der eigenen Genitalien, Interesse am Körper anderer. Typisch für ca. 3–5 Jahre. Pädagogisch: ruhig reagieren, Grenzen setzen ohne Beschämung.",context:"Erscheinungsformen kindlicher Sexualität"},
+{lf:7,term:"Körperscham und Intimität",def:"Entwicklung von Schamgefühlen und dem Bewusstsein für Privatsphäre – altersgemäßer Entwicklungsschritt ab ca. 4 Jahren. Kinder entwickeln Wunsch nach Intimität (z.B. sich beim Umziehen nicht beobachtet zu fühlen).",context:"Entwicklungsphasen Sexualität"},
+{lf:7,term:"Sexueller Übergriff (Warnsignale)",def:"Kennzeichen: detailliertes Wissen über Sexualpraktiken, exzessives Masturbieren das sozial unangepasst ist, erzwungene Handlungen, starke emotionale Belastung. Sofortiges Handeln: Schutz, Dokumentation, Fachberatung, Elterngespräch.",context:"LF7 Kinderschutz"},
+];
+
+/* ===== STATE ===== */
+let currentLF = 0;
+let currentMode = 'quiz';
+let filteredTerms = [...TERMS];
+let quizIndex = 0;
+let quizOrder = [];
+let answered = false;
+let sessionStats = {correct:0, incorrect:0};
+let globalStats = {correct:0, incorrect:0};
+
+const LF_COLORS = {
+  0:{color:'var(--primary)',bg:'var(--primary-hl)',bgcard:'var(--primary-hl)'},
+  1:{color:'var(--lf1)',bg:'var(--lf1-hl)',bgcard:'var(--lf1-bg)'},
+  2:{color:'var(--lf2)',bg:'var(--lf2-hl)',bgcard:'var(--lf2-bg)'},
+  3:{color:'var(--lf3)',bg:'var(--lf3-hl)',bgcard:'var(--lf3-bg)'},
+  5:{color:'var(--lf5)',bg:'var(--lf5-hl)',bgcard:'var(--lf5-bg)'},
+  6:{color:'var(--lf6)',bg:'var(--lf6-hl)',bgcard:'var(--lf6-bg)'},
+  7:{color:'var(--lf7)',bg:'var(--lf7-hl)',bgcard:'var(--lf7-bg)'},
+};
+
+/* ===== HELPERS ===== */
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function getFiltered(){return currentLF===0?[...TERMS]:TERMS.filter(t=>t.lf===currentLF);}
+function lfColor(lf){return LF_COLORS[lf]||LF_COLORS[0];}
+function lfLabel(lf){return lf===0?'Alle LF':`LF ${lf}`;}
+
+function updateStats(){
+  const total=filteredTerms.length;
+  document.getElementById('statTotal').textContent=total;
+  document.getElementById('statOk').textContent=globalStats.correct;
+  document.getElementById('statErr').textContent=globalStats.incorrect;
+  const done=globalStats.correct+globalStats.incorrect;
+  const pct=done>0?Math.round((globalStats.correct/done)*100):0;
+  document.getElementById('globalProgress').style.width=pct+'%';
+}
+
+/* ===== QUIZ MODE ===== */
+function startQuiz(){
+  filteredTerms=getFiltered();
+  quizOrder=shuffle(filteredTerms.map((_,i)=>i));
+  quizIndex=0;
+  answered=false;
+  sessionStats={correct:0,incorrect:0};
+  renderQuizCard();
+}
+
+function renderQuizCard(){
+  const area=document.getElementById('quizArea');
+  if(quizIndex>=quizOrder.length){renderResults();return;}
+  const t=filteredTerms[quizOrder[quizIndex]];
+  const c=lfColor(t.lf);
+  const num=quizIndex+1;const total=quizOrder.length;
+  area.innerHTML=`
+  <div class="section-header" style="text-align:center">
+    <h2>Begriff erklären</h2>
+    <p>Formuliere eine Definition mit eigenen Worten oder notiere die Kerninhalte.</p>
+  </div>
+  <div class="quiz-card" style="--card-accent:${c.color}">
+    <div class="card-meta">
+      <span class="card-lf-badge" style="--badge-bg:${c.bg};--badge-color:${c.color}">${lfLabel(t.lf)}</span>
+      <span class="card-num">Frage ${num} / ${total}</span>
+    </div>
+    <div class="card-term">${t.term}</div>
+    ${t.context?`<div class="card-context">${t.context}</div>`:''}
+    <div class="input-area">
+      <textarea id="userAnswer" placeholder="Deine Erklärung …" rows="4"></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="checkAnswer()">✓ Auswerten</button>
+      <button class="btn btn-ghost" onclick="showSolution()">💡 Musterlösung zeigen</button>
+      <button class="btn btn-ghost btn-sm" onclick="skipCard()">→ Überspringen</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+  </div>`;
+  document.getElementById('userAnswer').focus();
+  document.getElementById('userAnswer').addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='Enter')checkAnswer();});
+}
+
+function checkAnswer(){
+  if(answered)return;
+  const ua=document.getElementById('userAnswer').value.trim();
+  if(!ua){alert('Bitte schreibe eine Antwort.');return;}
+  const t=filteredTerms[quizOrder[quizIndex]];
+  showFeedback(t,ua,null);
+}
+
+function showSolution(){
+  if(answered)return;
+  const t=filteredTerms[quizOrder[quizIndex]];
+  showFeedback(t,'',true);
+}
+
+function showFeedback(t,userAnswer,solutionOnly){
+  answered=true;
+  const fb=document.getElementById('feedback');
+  const hasSelf=!solutionOnly&&userAnswer.length>5;
+  fb.className='feedback show '+(hasSelf?'':'incorrect');
+  fb.innerHTML=`
+    <div class="feedback-header">
+      <div class="feedback-icon ${hasSelf?'ok':'err'}">${hasSelf?'✓':'💡'}</div>
+      <div class="feedback-title ${hasSelf?'ok':'err'}">${hasSelf?'Gut! Vergleiche mit der Musterlösung':'Musterlösung'}</div>
+    </div>
+    ${hasSelf?`<p style="font-size:.9rem;color:var(--muted);margin-bottom:var(--sp3)"><strong>Deine Antwort:</strong> ${escHtml(userAnswer)}</p>`:''}
+    <div class="model-answer">
+      <h4>✅ Musterlösung</h4>
+      <p>${t.def}</p>
+    </div>
+    <div class="btn-row" style="margin-top:var(--sp5)">
+      <button class="btn btn-primary btn-sm" onclick="markCorrect()">👍 Hatte ich richtig</button>
+      <button class="btn btn-ghost btn-sm" onclick="markWrong()">👎 Noch nicht sicher</button>
+    </div>`;
+  fb.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function markCorrect(){
+  sessionStats.correct++;globalStats.correct++;updateStats();nextCard();
+}
+function markWrong(){
+  sessionStats.incorrect++;globalStats.incorrect++;updateStats();nextCard();
+}
+function skipCard(){nextCard();}
+function nextCard(){quizIndex++;answered=false;renderQuizCard();}
+
+function renderResults(){
+  const area=document.getElementById('quizArea');
+  const total=sessionStats.correct+sessionStats.incorrect;
+  const pct=total>0?Math.round((sessionStats.correct/total)*100):0;
+  let emoji='😊';let msg='Weiter so!';
+  if(pct>=90){emoji='🎉';msg='Ausgezeichnet! Du bist prüfungsbereit!';}
+  else if(pct>=70){emoji='👍';msg='Gut gemacht! Noch ein paar Begriffe festigen.';}
+  else if(pct>=50){emoji='💪';msg='Solide Basis – weitermachen!';}
+  else{emoji='📚';msg='Noch etwas Übung nötig. Du schaffst das!';}
+  area.innerHTML=`
+  <div class="results-screen">
+    <div class="results-icon">${emoji}</div>
+    <h2 class="results-h">${msg}</h2>
+    <p class="results-sub">Runde abgeschlossen — ${total} Begriffe bearbeitet</p>
+    <div class="results-grid">
+      <div class="result-stat"><div class="result-num ok">${sessionStats.correct}</div><div class="result-label">Richtig</div></div>
+      <div class="result-stat"><div class="result-num err">${sessionStats.incorrect}</div><div class="result-label">Noch üben</div></div>
+      <div class="result-stat"><div class="result-num">${pct}%</div><div class="result-label">Quote</div></div>
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()">🔁 Nochmal starten</button>
+  </div>`;
+}
+
+/* ===== MULTIPLE CHOICE ===== */
+let mcIndex=0;let mcOrder=[];let mcAnswered=false;
+
+function startMC(){
+  filteredTerms=getFiltered();
+  mcOrder=shuffle(filteredTerms.map((_,i)=>i));
+  mcIndex=0;mcAnswered=false;
+  renderMCCard();
+}
+
+function renderMCCard(){
+  const area=document.getElementById('quizArea');
+  if(mcIndex>=mcOrder.length){renderResults();return;}
+  const correctIdx=mcOrder[mcIndex];
+  const correct=filteredTerms[correctIdx];
+  const c=lfColor(correct.lf);
+  const wrongPool=TERMS.filter(t=>t!==correct);
+  const wrongs=shuffle(wrongPool).slice(0,3);
+  const options=shuffle([correct,...wrongs]);
+  const letters=['A','B','C','D'];
+  area.innerHTML=`
+  <div class="section-header" style="text-align:center">
+    <h2>Multiple Choice</h2>
+    <p>Welche Definition passt zum Begriff?</p>
+  </div>
+  <div class="quiz-card" style="--card-accent:${c.color}">
+    <div class="card-meta">
+      <span class="card-lf-badge" style="--badge-bg:${c.bg};--badge-color:${c.color}">${lfLabel(correct.lf)}</span>
+      <span class="card-num">Frage ${mcIndex+1} / ${mcOrder.length}</span>
+    </div>
+    <div class="card-term">${correct.term}</div>
+    ${correct.context?`<div class="card-context">${correct.context}</div>`:''}
+    <div class="mc-options" id="mcOptions">
+      ${options.map((opt,i)=>`
+        <button class="mc-option" data-correct="${opt===correct}" onclick="selectMC(this,'${opt===correct}',${options.indexOf(correct)})">
+          <span class="mc-letter">${letters[i]}</span>
+          <span>${truncateDef(opt.def,140)}</span>
+        </button>`).join('')}
+    </div>
+    <div class="feedback" id="feedback"></div>
+  </div>`;
+}
+
+function truncateDef(def,n){return def.length>n?def.slice(0,n)+'…':def;}
+
+function selectMC(btn,isCorrect,correctOptIdx){
+  if(btn.parentElement.querySelector('.disabled'))return;
+  const opts=btn.parentElement.querySelectorAll('.mc-option');
+  opts.forEach(o=>o.classList.add('disabled'));
+  if(isCorrect==='true'){
+    btn.classList.add('correct-ans');
+    sessionStats.correct++;globalStats.correct++;
+  }else{
+    btn.classList.add('wrong-ans');
+    opts[correctOptIdx].classList.add('correct-ans');
+    sessionStats.incorrect++;globalStats.incorrect++;
+  }
+  updateStats();
+  const fb=document.getElementById('feedback');
+  const ok=isCorrect==='true';
+  fb.className='feedback show '+(ok?'correct':'incorrect');
+  fb.innerHTML=`
+    <div class="feedback-header">
+      <div class="feedback-icon ${ok?'ok':'err'}">${ok?'✓':'✗'}</div>
+      <div class="feedback-title ${ok?'ok':'err'}">${ok?'Richtig!':'Leider nicht.'}</div>
+    </div>
+    <div class="btn-row" style="margin-top:var(--sp4)">
+      <button class="btn btn-primary btn-sm" onclick="nextMC()">Weiter →</button>
+    </div>`;
+}
+
+function nextMC(){mcIndex++;mcAnswered=false;renderMCCard();}
+
+/* ===== FLASHCARD MODE ===== */
+let fcIndex=0;let fcOrder=[];let fcFlipped=false;let fcCorrect=0;let fcIncorrect=0;
+
+function startFlash(){
+  filteredTerms=getFiltered();
+  fcOrder=shuffle(filteredTerms.map((_,i)=>i));
+  fcIndex=0;fcFlipped=false;fcCorrect=0;fcIncorrect=0;
+  renderFlashCard();
+}
+
+function renderFlashCard(){
+  const area=document.getElementById('quizArea');
+  if(fcIndex>=fcOrder.length){renderResults();return;}
+  const t=filteredTerms[fcOrder[fcIndex]];
+  const c=lfColor(t.lf);
+  const remaining=fcOrder.length-fcIndex;
+  area.innerHTML=`
+  <div class="section-header" style="text-align:center">
+    <h2>Karteikarten</h2>
+    <p>Klicke auf die Karte, um die Definition zu sehen.</p>
+  </div>
+  <div class="fc-status">${remaining} Karten verbleibend · ✅ ${fcCorrect} · ❌ ${fcIncorrect}</div>
+  <div class="flashcard-wrap">
+    <div class="flashcard" id="flashcard" onclick="flipCard()" style="min-height:220px">
+      <div class="fc-face fc-front" style="--card-accent:${c.color}">
+        <div class="fc-label">${lfLabel(t.lf)} · ${t.context||''}</div>
+        <div class="fc-term">${t.term}</div>
+        <div class="fc-hint">Tippe auf die Karte, um die Erklärung zu sehen</div>
+      </div>
+      <div class="fc-face fc-back" style="--card-accent:${c.color};background:${c.color}">
+        <div class="fc-label" style="opacity:.7">Musterlösung</div>
+        <div class="fc-def">${t.def}</div>
+      </div>
+    </div>
+  </div>
+  <div class="fc-flip-hint">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+    Klicken zum Umdrehen
+  </div>
+  <div class="fc-actions" id="fcActions" style="display:none">
+    <button class="fc-btn fc-btn-ok" onclick="fcMark(true)">✓ Gewusst</button>
+    <button class="fc-btn fc-btn-retry" onclick="fcMark(false)">↺ Nochmal</button>
+  </div>`;
+}
+
+function flipCard(){
+  const fc=document.getElementById('flashcard');
+  if(!fc)return;
+  fc.classList.toggle('flipped');
+  fcFlipped=!fcFlipped;
+  if(fcFlipped)document.getElementById('fcActions').style.display='flex';
+}
+
+function fcMark(correct){
+  if(correct){fcCorrect++;globalStats.correct++;}
+  else{fcIncorrect++;globalStats.incorrect++;}
+  updateStats();
+  fcIndex++;fcFlipped=false;renderFlashCard();
+}
+
+/* ===== BROWSE MODE ===== */
+let browseSearch='';
+
+function startBrowse(){
+  filteredTerms=getFiltered();
+  renderBrowse();
+}
+
+function renderBrowse(){
+  const area=document.getElementById('quizArea');
+  const terms=filteredTerms.filter(t=>{
+    if(!browseSearch)return true;
+    const q=browseSearch.toLowerCase();
+    return t.term.toLowerCase().includes(q)||t.def.toLowerCase().includes(q);
+  });
+  area.innerHTML=`
+  <div class="section-header">
+    <h2>Alle Begriffe durchsuchen</h2>
+    <p>${filteredTerms.length} Fachbegriffe – lerne durch Lesen und Wiederholen.</p>
+  </div>
+  <div class="search-bar">
+    <input class="search-input" type="text" placeholder="Begriff oder Definition suchen …" value="${escHtml(browseSearch)}" oninput="browseSearch=this.value;renderBrowse()" />
+  </div>
+  ${terms.length===0?`<div class="empty"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><h3>Keine Ergebnisse</h3><p>Versuche einen anderen Suchbegriff.</p></div>`:''}
+  <div class="browse-grid">
+    ${terms.map(t=>{const c=lfColor(t.lf);return `
+    <div class="browse-card" style="--card-accent:${c.color}">
+      <div class="browse-lf">${lfLabel(t.lf)} · ${t.context||''}</div>
+      <div class="browse-term">${t.term}</div>
+      <div class="browse-def">${t.def}</div>
+    </div>`;}).join('')}
+  </div>`;
+}
+
+/* ===== ROUTING ===== */
+function setLF(lf){
+  currentLF=lf;
+  document.querySelectorAll('.lf-tab').forEach(t=>{t.classList.toggle('active',parseInt(t.dataset.lf)===lf);});
+  browseSearch='';
+  filteredTerms=getFiltered();
+  dispatch();
+}
+function setMode(mode){
+  currentMode=mode;
+  document.querySelectorAll('.mode-btn').forEach(b=>{b.classList.toggle('active',b.dataset.mode===mode);});
+  dispatch();
+}
+function dispatch(){
+  if(currentMode==='quiz')startQuiz();
+  else if(currentMode==='mc')startMC();
+  else if(currentMode==='flash')startFlash();
+  else if(currentMode==='browse')startBrowse();
+}
+
+/* ===== UTIL ===== */
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ===== THEME ===== */
+(function(){
+  const btn=document.querySelector('[data-theme-toggle]');
+  const root=document.documentElement;
+  let dark=matchMedia('(prefers-color-scheme:dark)').matches;
+  root.setAttribute('data-theme',dark?'dark':'light');
+  if(btn)btn.addEventListener('click',()=>{dark=!dark;root.setAttribute('data-theme',dark?'dark':'light');});
+})();
+
+/* ===== EVENT LISTENERS ===== */
+document.getElementById('lfTabs').addEventListener('click',e=>{
+  const btn=e.target.closest('.lf-tab');
+  if(btn)setLF(parseInt(btn.dataset.lf));
+});
+document.querySelector('.mode-bar').addEventListener('click',e=>{
+  const btn=e.target.closest('.mode-btn');
+  if(btn)setMode(btn.dataset.mode);
+});
+
+/* ===== INIT ===== */
+updateStats();
+dispatch();
+</script>
+</body>
+</html>

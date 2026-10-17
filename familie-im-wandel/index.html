@@ -1,0 +1,965 @@
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Familie im Wandel - Lernplattform</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --accent: #3498db;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        nav {
+            background-color: var(--dark);
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: var(--secondary);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 2rem 0;
+        }
+        .card {
+            width: 48%;
+            min-width: 300px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+            padding: 2rem;
+        }
+        .section h2 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        .info-card {
+            background: #f8f9fa;
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            border-radius: 4px;
+            transition: transform 0.3s;
+        }
+        .info-card:hover {
+            transform: scale(1.02);
+        }
+        .interactive {
+            background: #e8f4fc;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid var(--accent);
+        }
+        button, .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button:hover, .btn:hover {
+            background-color: #c0392b;
+        }
+        .hidden {
+            display: none;
+        }
+        .form-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        .family-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .quote {
+            font-style: italic;
+            padding: 1rem;
+            background: #f0f7fb;
+            border-left: 4px solid var(--accent);
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .quiz-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .quiz-options {
+            margin-left: 1.5rem;
+        }
+        .quiz-options label {
+            display: block;
+            margin: 0.5rem 0;
+            cursor: pointer;
+        }
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .tab-container {
+            margin: 2rem 0;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            background: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--secondary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
+            background-color: white;
+            border: 4px solid var(--secondary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .left {
+            left: 0;
+        }
+        .right {
+            left: 50%;
+        }
+        .right::after {
+            left: -12px;
+        }
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        @media screen and (max-width: 768px) {
+            .card {
+                width: 100%;
+            }
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-item::after {
+                left: 18px;
+            }
+            .left::after, .right::after {
+                left: 18px;
+            }
+            .right {
+                left: 0%;
+            }
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            height: 20px;
+            background-color: var(--secondary);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: #777;
+        }
+        .checklist-item {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .checklist-item input {
+            width: auto;
+            margin-right: 10px;
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+<style>/* Darstellung auf dem Smartphone */.tab-buttons{flex-wrap:wrap}</style>
+</head>
+<body>
+    <header>
+        <h1>Familie im Wandel</h1>
+        <p>Interaktive Lernplattform zum Thema Familienformen und gesellschaftlicher Wandel</p>
+    </header>
+
+    <nav>
+        <a href="#definition">Definition</a>
+        <a href="#formen">Familienformen</a>
+        <a href="#statistik">Statistik</a>
+        <a href="#wandel">Gesellschaftlicher Wandel</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#praxis">Pädagogische Praxis</a>
+    </nav>
+
+    <div class="container">
+        <section id="definition" class="section">
+            <h2>Was ist Familie?</h2>
+            <p>Die Familienforscherin Rosemarie Nave-Herz bestimmt die Familie als eine von mehreren Lebensformen, die Menschen im Zusammenleben bilden. Ein grundlegendes Element einer Familie ist die Eltern-Kind-Beziehung.</p>
+            
+            <div class="grid">
+                <div class="info-card">
+                    <h3>Definition Familie</h3>
+                    <p>Eine Familie bezeichnet ein Generationenverhältnis, das durch Abstammung (biologisch) oder durch Lebensgemeinschaft, Heirat, Adoption (rechtlich, soziologisch, kulturell) entsteht.</p>
+                    <p><strong>Wichtig:</strong> Es handelt sich um mindestens zwei Generationen, die miteinander in Beziehung stehen.</p>
+                    <button onclick="showDefinitionExamples()">Beispiele anzeigen</button>
+                    <div id="definition-examples" class="hidden">
+                        <ul>
+                            <li>Kernfamilie (Vater, Mutter, Kind)</li>
+                            <li>Alleinerziehende mit Kind</li>
+                            <li>Patchworkfamilie</li>
+                            <li>Regenbogenfamilie (gleichgeschlechtliche Eltern)</li>
+                            <li>Großfamilie mit mehreren Generationen</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Familie ist da, wo Kinder sind!</h3>
+                    <p>Moderne Familienformen umfassen:</p>
+                    <ul>
+                        <li>Kernfamilie / Kleinfamilie</li>
+                        <li>Großfamilie / Dreigenerationenfamilie</li>
+                        <li>Ein-Eltern-Familie (Alleinerziehende)</li>
+                        <li>Patchworkfamilie</li>
+                        <li>Regenbogenfamilie</li>
+                        <li>Adoptiv- und Pflegefamilie</li>
+                        <li>Nichteheliche Lebensgemeinschaft</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="interactive">
+                <h3>Interaktive Übung: Mein Familienbild</h3>
+                <p>Zeichnen Sie auf ein Blatt Papier Ihre Vorstellung von einer "typischen Familie". Vergleichen Sie dann Ihre Zeichnung mit den verschiedenen Familienformen, die wir kennengelernt haben.</p>
+                <p>Fragen zur Reflexion:</p>
+                <ol>
+                    <li>Welche Personen haben Sie gezeichnet?</li>
+                    <li>Entspricht Ihre Zeichnung der "traditionellen" Kernfamilie?</li>
+                    <li>Welche Familienformen haben Sie nicht berücksichtigt?</li>
+                    <li>Was sagt Ihre Zeichnung über Ihr eigenes Familienbild aus?</li>
+                </ol>
+                <textarea id="reflection-family" rows="5" placeholder="Notieren Sie hier Ihre Gedanken..."></textarea>
+                <button onclick="saveReflection('reflection-family', 'saved-reflection-1')">Reflexion speichern</button>
+                <div id="saved-reflection-1"></div>
+            </div>
+        </section>
+
+        <section id="formen" class="section">
+            <h2>Moderne Familienformen im Detail</h2>
+            
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="openTab(event, 'alleinerziehende')">Alleinerziehende</button>
+                    <button class="tab-btn" onclick="openTab(event, 'patchwork')">Patchworkfamilien</button>
+                    <button class="tab-btn" onclick="openTab(event, 'regenbogen')">Regenbogenfamilien</button>
+                </div>
+                
+                <div id="alleinerziehende" class="tab-content active">
+                    <h3>Alleinerziehende</h3>
+                    <p>Elternteile, die ohne Partner mit ihren Kindern zusammenleben. Besondere Herausforderungen:</p>
+                    <ul>
+                        <li>Finanzielle Belastung (2023: rund 41 % armutsgefährdet)</li>
+                        <li>Zeitmanagement zwischen Beruf und Familie</li>
+                        <li>Vereinbarkeit von Beruf und Familie</li>
+                        <li>Soziale Stigmatisierung</li>
+                    </ul>
+                    <div class="interactive">
+                        <h4>Fallbeispiel: Lena, alleinerziehende Mutter</h4>
+                        <p>Lena ist 35 Jahre alt und hat einen 8-jährigen Sohn. Nach der Trennung von ihrem Mann vor drei Jahren kümmert sie sich allein um ihren Sohn. Sie arbeitet Vollzeit als Verkäuferin und muss jeden Tag genau planen, wie sie Arbeit, Kinderbetreuung und Haushalt unter einen Hut bekommt.</p>
+                        <p><strong>Aufgabe:</strong> Überlegen Sie, welche Unterstützungsmöglichkeiten es für Lena geben könnte.</p>
+                        <textarea id="alleinerziehende-loesungen" rows="4" placeholder="Ihre Ideen..."></textarea>
+                        <button onclick="showSolutions('alleinerziehende')">Lösungsvorschläge anzeigen</button>
+                        <div id="alleinerziehende-solutions" class="hidden">
+                            <ul>
+                                <li>Kinderbetreuung durch Großeltern oder Tagesmutter</li>
+                                <li>Unterstützung durch sozialen Dienst oder Familienhilfe</li>
+                                <li>Flexible Arbeitszeiten mit dem Arbeitgeber vereinbaren</li>
+                                <li>Unterhaltszahlungen des anderen Elternteils</li>
+                                <li>Staatliche Unterstützungen wie Kindergeld oder Unterhaltsvorschuss</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="patchwork" class="tab-content">
+                    <h3>Patchworkfamilien</h3>
+                    <p>Familien, in denen mindestens ein Partner ein Kind aus einer früheren Beziehung mitbringt. Besondere Merkmale:</p>
+                    <ul>
+                        <li>Komplexe Familienstrukturen</li>
+                        <li>Mehrfache Elternrollen</li>
+                        <li>Herausforderungen bei der Erziehung</li>
+                        <li>Finanzielle Verpflichtungen gegenüber mehreren Haushalten</li>
+                    </ul>
+                    <div class="interactive">
+                        <h4>Rollenspiel: Ein Tag in einer Patchworkfamilie</h4>
+                        <p>Stellen Sie sich vor, Sie sind Teil einer Patchworkfamilie mit folgenden Mitgliedern:</p>
+                        <ul>
+                            <li>Mutter (Anna, 38)</li>
+                            <li>Ihr neuer Partner (Markus, 42)</li>
+                            <li>Annas Tochter aus erster Ehe (Lena, 12)</li>
+                            <li>Markus' Sohn aus erster Ehe (Tom, 10)</li>
+                            <li>Gemeinsame Tochter (Sophie, 2)</li>
+                        </ul>
+                        <p><strong>Aufgabe:</strong> Welche Konflikte könnten in dieser Konstellation entstehen? Wie könnten sie gelöst werden?</p>
+                        <textarea id="patchwork-konflikte" rows="4" placeholder="Ihre Ideen..."></textarea>
+                        <button onclick="showSolutions('patchwork')">Mögliche Konflikte & Lösungen</button>
+                        <div id="patchwork-solutions" class="hidden">
+                            <p><strong>Mögliche Konflikte:</strong></p>
+                            <ul>
+                                <li>Eifersucht zwischen den Kindern</li>
+                                <li>Unterschiedliche Erziehungsstile</li>
+                                <li>Rollenunsicherheit bei Stiefeltern</li>
+                                <li>Loyalitätskonflikte gegenüber leiblichen Eltern</li>
+                            </ul>
+                            <p><strong>Lösungsansätze:</strong></p>
+                            <ul>
+                                <li>Klare Kommunikation und Regeln</li>
+                                <li>Gemeinsame Familienaktivitäten</li>
+                                <li>Respekt vor bestehenden Bindungen</li>
+                                <li>Geduld und Zeit für die Entwicklung neuer Beziehungen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="regenbogen" class="tab-content">
+                    <h3>Regenbogenfamilien</h3>
+                    <p>Gleichgeschlechtliche Paare mit Kindern. Besondere Aspekte:</p>
+                    <ul>
+                        <li>Rechtliche Rahmenbedingungen (seit 2017 "Ehe für alle")</li>
+                        <li>Gesellschaftliche Akzeptanz</li>
+                        <li>Diskriminierungserfahrungen</li>
+                        <li>Besondere Wege der Familiengründung (Adoption, Insemination etc.)</li>
+                    </ul>
+                    <div class="interactive">
+                        <h4>Diskussion: Vorurteile gegenüber Regenbogenfamilien</h4>
+                        <p>Immer noch gibt es Vorurteile gegenüber Regenbogenfamilien. Lesen Sie die folgenden Aussagen und überlegen Sie, wie Sie darauf reagieren würden:</p>
+                        <ol>
+                            <li>"Kinder brauchen Mutter und Vater für eine gesunde Entwicklung."</li>
+                            <li>"Kinder aus Regenbogenfamilien werden später selbst homosexuell."</li>
+                            <li>"Das ist doch nicht natürlich!"</li>
+                        </ol>
+                        <textarea id="regenbogen-antworten" rows="6" placeholder="Ihre Argumente gegen diese Vorurteile..."></textarea>
+                        <button onclick="showSolutions('regenbogen')">Faktencheck anzeigen</button>
+                        <div id="regenbogen-solutions" class="hidden">
+                            <p><strong>Fakten zu Regenbogenfamilien:</strong></p>
+                            <ul>
+                                <li>Studien zeigen, dass Kinder aus Regenbogenfamilien sich genauso gut entwickeln wie andere Kinder</li>
+                                <li>Die sexuelle Orientierung der Eltern hat keinen Einfluss auf die sexuelle Orientierung der Kinder</li>
+                                <li>Wichtig für die kindliche Entwicklung ist die Qualität der Eltern-Kind-Beziehung, nicht das Geschlecht der Eltern</li>
+                                <li>In vielen Kulturen und auch im Tierreich gibt es gleichgeschlechtliche Paarbindungen</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="statistik" class="section">
+            <h2>Familie statistisch betrachtet</h2>
+            <p>Kinder leben in unterschiedlichen Familientypen: bei Ehepaaren, in Lebensgemeinschaften und bei alleinerziehenden Elternteilen.</p>
+            
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <h3>Haushalte mit Kindern</h3>
+                    <p>In Deutschland leben etwa 8,2 Millionen Familien mit minderjährigen Kindern.</p>
+                </div>
+                
+                <div class="stat-item">
+                    <h3>Alleinerziehende</h3>
+                    <p>Rund 20 % aller Familien mit minderjährigen Kindern sind Ein-Eltern-Familien (2023: 19,9 %). In rund 82 % davon erzieht die Mutter allein (Statistisches Bundesamt, Mikrozensus 2023).</p>
+                </div>
+                
+                <div class="stat-item">
+                    <h3>Patchworkfamilien</h3>
+                    <p>Etwa 10% der Familien sind Patchworkfamilien, wo mindestens ein Kind nicht von beiden Partnern stammt.</p>
+                </div>
+                
+                <div class="stat-item">
+                    <h3>Regenbogenfamilien</h3>
+                    <p>2024 lebten in Deutschland rund 31.000 gleichgeschlechtliche Paare mit minderjährigen Kindern, insgesamt etwa 50.000 Kinder (Statistisches Bundesamt, Mikrozensus 2024).</p>
+                </div>
+            </div>
+            
+            <div class="interactive">
+                <h3>Datenanalyse: Familien im Wandel</h3>
+                <p>Betrachten Sie die folgenden statistischen Aussagen und überlegen Sie, welche gesellschaftlichen Entwicklungen dahinterstecken könnten:</p>
+                <ol>
+                    <li>Die Zahl der Alleinerziehenden ist in den letzten 30 Jahren deutlich gestiegen.</li>
+                    <li>Patchworkfamilien werden immer häufiger.</li>
+                    <li>Die Zahl der Regenbogenfamilien hat nach der Einführung der "Ehe für alle" 2017 zugenommen.</li>
+                    <li>Der Anteil der Ehepaare mit Kindern ist rückläufig.</li>
+                </ol>
+                <textarea id="statistik-analyse" rows="6" placeholder="Ihre Analyse..."></textarea>
+                <button onclick="showSolutions('statistik')">Mögliche Erklärungen</button>
+                <div id="statistik-solutions" class="hidden">
+                    <p><strong>Mögliche Erklärungen:</strong></p>
+                    <ul>
+                        <li>Zunahme von Trennungen und Scheidungen</li>
+                        <li>Größere gesellschaftliche Akzeptanz verschiedener Lebensformen</li>
+                        <li>Rechtliche Gleichstellung gleichgeschlechtlicher Partnerschaften</li>
+                        <li>Veränderte Wertvorstellungen und Prioritäten</li>
+                        <li>Größere individuelle Freiheiten in der Lebensgestaltung</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="wandel" class="section">
+            <h2>Gesellschaftlicher Wandel der Familie</h2>
+            
+            <div class="grid">
+                <div class="info-card">
+                    <h3>Individualisierung</h3>
+                    <p>Freisetzung aus traditionellen Bindungen und mehr Wahlmöglichkeiten in der Lebensgestaltung.</p>
+                    <p><strong>Beispiel:</strong> Frauen müssen nicht mehr heiraten, um gesellschaftlich akzeptiert zu sein.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Pluralisierung</h3>
+                    <p>Zunahme verschiedener Lebens- und Familienformen neben dem traditionellen Modell.</p>
+                    <p><strong>Beispiel:</strong> Akzeptanz von Patchwork- und Regenbogenfamilien.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Globalisierung</h3>
+                    <p>Internationaler Austausch führt zu kultureller Vielfalt auch in Familienstrukturen.</p>
+                    <p><strong>Beispiel:</strong> Familien mit Migrationshintergrund bringen unterschiedliche Traditionen ein.</p>
+                </div>
+            </div>
+            
+            <div class="timeline">
+                <h3>Meilensteine des Wandels</h3>
+                
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>1949</h3>
+                        <p>Grundgesetz: "Männer und Frauen sind gleichberechtigt" (Artikel 3)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>1961</h3>
+                        <p>Einführung der Antibabypille in Deutschland</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>1977</h3>
+                        <p>Reform des Ehe- und Familienrechts: Aufhebung des Hausfrauenehe-Prinzips</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>2001</h3>
+                        <p>Einführung der eingetragenen Lebenspartnerschaft für gleichgeschlechtliche Paare</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>2017</h3>
+                        <p>Einführung der "Ehe für alle" (gleichgeschlechtliche Ehe)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="interactive">
+                <h3>Checkliste: Mein Lernfortschritt</h3>
+                <p>Markieren Sie die Punkte, die Sie bereits verstanden haben:</p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1" onchange="updateProgress()">
+                    <label for="check1">Ich kann verschiedene Familienformen benennen und beschreiben.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2" onchange="updateProgress()">
+                    <label for="check2">Ich kenne die statistische Verteilung der Familienformen in Deutschland.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3" onchange="updateProgress()">
+                    <label for="check3">Ich verstehe die Begriffe Individualisierung, Pluralisierung und Globalisierung im Zusammenhang mit Familie.</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check4" onchange="updateProgress()">
+                    <label for="check4">Ich kann die wichtigsten Meilensteile des gesellschaftlichen Wandels der Familie nennen.</label>
+                </div>
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <p id="progress-text">0% abgeschlossen</p>
+            </div>
+        </section>
+
+        <section id="quiz" class="section">
+            <h2>Wissenstest: Familie im Wandel</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    <p>1. Welche Definition von Familie trifft am besten zu?</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="q1" value="a"> Eine Familie besteht immer aus Vater, Mutter und mindestens einem Kind.</label>
+                        <label><input type="radio" name="q1" value="b"> Familie ist da, wo Kinder sind - unabhängig von der konkreten Zusammensetzung.</label>
+                        <label><input type="radio" name="q1" value="c"> Familie bezeichnet nur verheiratete Paare mit leiblichen Kindern.</label>
+                    </div>
+                    <div id="feedback-q1" class="feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>2. Welcher Anteil der Familien in Deutschland sind Alleinerziehende?</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="q2" value="a"> Etwa 5%</label>
+                        <label><input type="radio" name="q2" value="b"> Etwa 20%</label>
+                        <label><input type="radio" name="q2" value="c"> Etwa 50%</label>
+                    </div>
+                    <div id="feedback-q2" class="feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>3. Was ist eine typische Herausforderung für Patchworkfamilien?</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="q3" value="a"> Komplexe Familienstrukturen mit Kindern aus früheren Beziehungen</label>
+                        <label><input type="radio" name="q3" value="b"> Fehlende rechtliche Anerkennung</label>
+                        <label><input type="radio" name="q3" value="c"> Höhere Scheidungsraten als bei anderen Familienformen</label>
+                    </div>
+                    <div id="feedback-q3" class="feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>4. Was sagt die Forschung über die Entwicklung von Kindern in Regenbogenfamilien?</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="q4" value="a"> Sie entwickeln sich genauso gut wie Kinder in anderen Familienformen</label>
+                        <label><input type="radio" name="q4" value="b"> Sie haben häufiger psychische Probleme</label>
+                        <label><input type="radio" name="q4" value="c"> Sie werden mit höherer Wahrscheinlichkeit selbst homosexuell</label>
+                    </div>
+                    <div id="feedback-q4" class="feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>5. Welches Ereignis war ein wichtiger Meilenstein für die Gleichstellung gleichgeschlechtlicher Paare?</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="q5" value="a"> Die Einführung der "Ehe für alle" 2017</label>
+                        <label><input type="radio" name="q5" value="b"> Die Abschaffung des Hausfrauenmodells 1977</label>
+                        <label><input type="radio" name="q5" value="c"> Die Einführung der Pille 1961</label>
+                    </div>
+                    <div id="feedback-q5" class="feedback"></div>
+                </div>
+                
+                <button onclick="checkQuiz()">Ergebnisse überprüfen</button>
+                <div id="quiz-result" style="margin-top: 20px; font-weight: bold;"></div>
+            </div>
+        </section>
+
+        <section id="praxis" class="section">
+            <h2>Pädagogische Praxis: Umgang mit Familienvielfalt</h2>
+            
+            <div class="info-card">
+                <h3>Wichtige Grundsätze</h3>
+                <ul>
+                    <li>Vielfaltsbewusste Familienleitbilder entwickeln</li>
+                    <li>Eigene Vorstellungen und Vorurteile reflektieren</li>
+                    <li>Unterschiedliche Bedürfnisse der Familienformen wahrnehmen</li>
+                    <li>Kitas als identitätsstiftende Orte gestalten</li>
+                </ul>
+            </div>
+            
+            <div class="interactive">
+                <h3>Konkrete Ideen für die Praxis</h3>
+                <div class="form-container">
+                    <form id="practice-form">
+                        <label for="practice-area">Bereich:</label>
+                        <select id="practice-area">
+                            <option value="spielmaterial">Spielmaterial</option>
+                            <option value="bilderbuecher">Bilderbücher</option>
+                            <option value="raumgestaltung">Raumgestaltung</option>
+                            <option value="projekte">Projekte</option>
+                            <option value="elternarbeit">Elternarbeit</option>
+                            <option value="festtage">Festtage</option>
+                        </select>
+                        
+                        <label for="practice-idea">Ihre Idee:</label>
+                        <textarea id="practice-idea" rows="4" required></textarea>
+                        
+                        <label for="practice-family">Welche Familienform adressiert die Idee?</label>
+                        <select id="practice-family" multiple>
+                            <option value="alleinerziehende">Alleinerziehende</option>
+                            <option value="patchwork">Patchworkfamilien</option>
+                            <option value="regenbogen">Regenbogenfamilien</option>
+                            <option value="migrationshintergrund">Familien mit Migrationshintergrund</option>
+                            <option value="alle">Alle Familienformen</option>
+                        </select>
+                        
+                        <button type="button" onclick="addPracticeIdea()">Idee hinzufügen</button>
+                    </form>
+                </div>
+                
+                <div id="practice-ideas-list"></div>
+                
+                <div class="info-card">
+                    <h3>Beispiele aus der Praxis</h3>
+                    <ul>
+                        <li><strong>Spielmaterial:</strong> Puppen mit verschiedenen Hautfarben, Familien-Sets mit gleichgeschlechtlichen Eltern</li>
+                        <li><strong>Bilderbücher:</strong> Geschichten, die verschiedene Familienformen darstellen, ohne stereotype Rollen</li>
+                        <li><strong>Raumgestaltung:</strong> Fotos verschiedener Familien an den Wänden, inklusive Regenbogen- und Patchworkfamilien</li>
+                        <li><strong>Projekte:</strong> "Das ist meine Familie" - Kinder stellen ihre Familien vor</li>
+                        <li><strong>Elternarbeit:</strong> Mehrsprachige Briefe, neutrale Ansprachen (nicht "Liebe Eltern", sondern "Liebe Familien")</li>
+                        <li><                            <strong>Festtage:</strong> Sensibler Umgang mit Mutter- und Vatertag (z.B. "Elterntag" oder individuelle Lösungen)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="quote">
+                <p>"Wichtig für Kinder ist, dass sie die Kita als identitätsstiftenden Ort erleben, an dem ihre Familie anerkannt wird und sie dadurch die Zugehörigkeit zu dieser Bezugsgruppe positiv in ihr Selbstbild integrieren können."</p>
+            </div>
+        </section>
+    </div>
+
+    <footer style="background-color: var(--primary); color: white; text-align: center; padding: 1.5rem; margin-top: 2rem;">
+        <p>© 2023 Lernplattform "Familie im Wandel" | Erstellt für pädagogische Fachkräfte</p>
+        <p>Quellen: Bundeszentrale für politische Bildung, Familienreport der Bundesregierung, Soziologische Studien</p>
+    </footer>
+
+    <script>
+        // Tab-Funktionalität
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbuttons;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            
+            tabbuttons = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Definition-Beispiele anzeigen
+        function showDefinitionExamples() {
+            var x = document.getElementById("definition-examples");
+            if (x.className.indexOf("hidden") == -1) {
+                x.className += " hidden";
+            } else {
+                x.className = x.className.replace(" hidden", "");
+            }
+        }
+        
+        // Lösungen anzeigen
+        function showSolutions(type) {
+            var x = document.getElementById(type + "-solutions");
+            if (x.className.indexOf("hidden") == -1) {
+                x.className += " hidden";
+            } else {
+                x.className = x.className.replace(" hidden", "");
+            }
+        }
+        
+        // Reflexion speichern
+        function saveReflection(textareaId, outputId) {
+            var text = document.getElementById(textareaId).value;
+            document.getElementById(outputId).innerHTML = "<h4>Ihre gespeicherte Reflexion:</h4><p>" + text + "</p>";
+        }
+        
+        // Quiz überprüfen
+        function checkQuiz() {
+            var answers = {
+                q1: "b",
+                q2: "b",
+                q3: "a",
+                q4: "a",
+                q5: "a"
+            };
+            
+            var score = 0;
+            
+            for (var i = 1; i <= 5; i++) {
+                var question = "q" + i;
+                var selected = document.querySelector('input[name="' + question + '"]:checked');
+                var feedback = document.getElementById("feedback-" + question);
+                
+                if (selected) {
+                    if (selected.value == answers[question]) {
+                        feedback.innerHTML = "Richtig!";
+                        feedback.className = "feedback correct";
+                        score++;
+                    } else {
+                        feedback.innerHTML = "Falsch. Die richtige Antwort ist: " + answers[question];
+                        feedback.className = "feedback incorrect";
+                    }
+                } else {
+                    feedback.innerHTML = "Bitte wählen Sie eine Antwort aus.";
+                    feedback.className = "feedback incorrect";
+                }
+                
+                feedback.style.display = "block";
+            }
+            
+            var result = document.getElementById("quiz-result");
+            result.innerHTML = "Sie haben " + score + " von 5 Fragen richtig beantwortet (" + Math.round(score/5*100) + "%).";
+            
+            if (score == 5) {
+                result.style.color = "green";
+            } else if (score >= 3) {
+                result.style.color = "orange";
+            } else {
+                result.style.color = "red";
+            }
+        }
+        
+        // Praxisidee hinzufügen
+        function addPracticeIdea() {
+            var area = document.getElementById("practice-area").value;
+            var idea = document.getElementById("practice-idea").value;
+            var family = document.getElementById("practice-family");
+            var selectedFamilies = [];
+            
+            for (var i = 0; i < family.options.length; i++) {
+                if (family.options[i].selected) {
+                    selectedFamilies.push(family.options[i].text);
+                }
+            }
+            
+            if (idea.trim() === "") {
+                alert("Bitte geben Sie eine Idee ein.");
+                return;
+            }
+            
+            if (selectedFamilies.length === 0) {
+                alert("Bitte wählen Sie mindestens eine Familienform aus.");
+                return;
+            }
+            
+            var areaNames = {
+                "spielmaterial": "Spielmaterial",
+                "bilderbuecher": "Bilderbücher",
+                "raumgestaltung": "Raumgestaltung",
+                "projekte": "Projekte",
+                "elternarbeit": "Elternarbeit",
+                "festtage": "Festtage"
+            };
+            
+            var list = document.getElementById("practice-ideas-list");
+            var newIdea = document.createElement("div");
+            newIdea.className = "info-card";
+            newIdea.innerHTML = `
+                <h3>${areaNames[area]}</h3>
+                <p><strong>Ihre Idee:</strong> ${idea}</p>
+                <p><strong>Für:</strong> ${selectedFamilies.join(", ")}</p>
+            `;
+            
+            list.appendChild(newIdea);
+            
+            // Formular zurücksetzen
+            document.getElementById("practice-idea").value = "";
+            for (var i = 0; i < family.options.length; i++) {
+                family.options[i].selected = false;
+            }
+        }
+        
+        // Fortschrittsbalken aktualisieren
+        function updateProgress() {
+            var checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            var checked = 0;
+            
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    checked++;
+                    checkbox.nextElementSibling.className = "completed";
+                } else {
+                    checkbox.nextElementSibling.className = "";
+                }
+            });
+            
+            var progress = (checked / checkboxes.length) * 100;
+            document.getElementById("progress-bar").style.width = progress + "%";
+            document.getElementById("progress-text").innerHTML = Math.round(progress) + "% abgeschlossen";
+        }
+        
+        // Smooth Scrolling für Ankerlinks
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

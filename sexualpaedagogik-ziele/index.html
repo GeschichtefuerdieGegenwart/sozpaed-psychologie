@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zentrale Pädagogische Ziele der Sexualpädagogik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .intro {
+            padding: 40px;
+            text-align: center;
+            background: #f8f9fa;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .intro h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .intro p {
+            font-size: 1.2em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 50px;
+            background: #ffffff;
+        }
+
+        .goal-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .goal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .goal-card.active {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+        }
+
+        .goal-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .goal-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .goal-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.3);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .detail-modal.show {
+            display: flex;
+        }
+
+        .detail-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            position: relative;
+        }
+
+        .detail-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .detail-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            font-size: 2em;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.5);
+            transform: rotate(90deg);
+        }
+
+        .detail-body {
+            padding: 40px;
+        }
+
+        .detail-section {
+            margin-bottom: 30px;
+        }
+
+        .detail-section h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .detail-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .detail-section li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .detail-section li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .example-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            margin-top: 15px;
+        }
+
+        .example-box strong {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .goals-grid {
+                grid-template-columns: 1fr;
+                padding: 30px 20px;
+            }
+            .detail-body {
+                padding: 25px;
+            }
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Zentrale Pädagogische Ziele</h1>
+            <p>der Sexualpädagogik in der Kita</p>
+        </div>
+
+        <div class="intro">
+            <h2>Gelingende Sexualpädagogik</h2>
+            <p>Klicken Sie auf ein Ziel, um mehr darüber zu erfahren</p>
+        </div>
+
+        <div class="goals-grid">
+            <!-- Ziel 1 -->
+            <div class="goal-card" onclick="showDetail(1)">
+                <div class="goal-number">1</div>
+                <div class="goal-icon">🧍</div>
+                <div class="goal-title">Den eigenen Körper kennen und wertschätzen lernen</div>
+            </div>
+
+            <!-- Ziel 2 -->
+            <div class="goal-card" onclick="showDetail(2)">
+                <div class="goal-number">2</div>
+                <div class="goal-icon">💭</div>
+                <div class="goal-title">Gefühle wahrnehmen, benennen und ausdrücken</div>
+            </div>
+
+            <!-- Ziel 3 -->
+            <div class="goal-card" onclick="showDetail(3)">
+                <div class="goal-number">3</div>
+                <div class="goal-icon">🛡️</div>
+                <div class="goal-title">Eigene Grenzen spüren und Grenzen anderer respektieren</div>
+            </div>
+
+            <!-- Ziel 4 -->
+            <div class="goal-card" onclick="showDetail(4)">
+                <div class="goal-number">4</div>
+                <div class="goal-icon">🙈</div>
+                <div class="goal-title">Ein gesundes Schamgefühl entwickeln</div>
+            </div>
+
+            <!-- Ziel 5 -->
+            <div class="goal-card" onclick="showDetail(5)">
+                <div class="goal-number">5</div>
+                <div class="goal-icon">✋</div>
+                <div class="goal-title">Selbstbestimmung über den eigenen Körper erleben</div>
+            </div>
+
+            <!-- Ziel 6 -->
+            <div class="goal-card" onclick="showDetail(6)">
+                <div class="goal-number">6</div>
+                <div class="goal-icon">👫</div>
+                <div class="goal-title">Geschlechtsidentität frei von Stereotypen entfalten</div>
+            </div>
+
+            <!-- Ziel 7 -->
+            <div class="goal-card" onclick="showDetail(7)">
+                <div class="goal-number">7</div>
+                <div class="goal-icon">👨‍👩‍👧‍👦</div>
+                <div class="goal-title">Vielfalt von Familienformen kennenlernen</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal für Details -->
+    <div class="detail-modal" id="detailModal" onclick="closeModal(event)">
+        <div class="detail-content" onclick="event.stopPropagation()">
+            <div class="detail-header">
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <div class="detail-icon" id="modalIcon"></div>
+                <h2 class="detail-title" id="modalTitle"></h2>
+            </div>
+            <div class="detail-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const goals = {
+            1: {
+                icon: "🧍",
+                title: "Den eigenen Körper kennen und wertschätzen lernen",
+                content: `
+                    <div class="detail-section">
+                        <h3>📌 Kernziel</h3>
+                        <p>Kinder sollen ihren Körper als wertvoll, schön und schützenswert erleben – einschließlich korrekter Benennung aller Körperteile.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🎯 Was bedeutet das konkret?</h3>
+                        <ul>
+                            <li>Alle Körperteile haben einen Namen: Penis, Hoden, Vulva, Scheide, Vagina</li>
+                            <li>Kinder lernen: "Mein Körper ist in Ordnung, so wie er ist"</li>
+                            <li>Positive Körperwahrnehmung statt Scham und Abwertung</li>
+                            <li>Unterschiede zwischen Körpern sind normal und gut</li>
+                            <li>Alle Körperteile dürfen benannt werden – ohne Tabus</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>💡 Praktische Umsetzung</h3>
+                        <div class="example-box">
+                            <strong>Beispiel:</strong> Bei Wickelsituationen oder beim Umziehen nutzen Fachkräfte die korrekten Begriffe: 
+                            "Ich wasche jetzt deine Vulva" statt "dein Pipimann" oder verniedlichende Ausdrücke.
+                        </div>
+                        <div class="example-box">
+                            <strong>Materialien:</strong> Bilderbücher wie "Das bin ich – von Kopf bis Fuß" oder anatomisch korrekte Puppen 
+                            helfen Kindern, ihren Körper kennenzulernen.
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🌟 Warum ist das wichtig?</h3>
+                        <p>Kinder, die ihren Körper kennen und benennen können, sind besser geschützt vor sexueller Gewalt. 
+                        Sie können klarer kommunizieren, wenn ihre Grenzen überschritten werden.</p>
+                    </div>
+                `
+            },
+            2: {
+                icon: "💭",
+                title: "Gefühle wahrnehmen, benennen und ausdrücken können",
+                content: `
+                    <div class="detail-section">
+                        <h3>📌 Kernziel</h3>
+                        <p>Kinder entwickeln eine emotionale Kompetenz: Sie lernen, ihre Gefühle zu erkennen, zu benennen und auszudrücken.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🎯 Was bedeutet das konkret?</h3>
+                        <ul>
+                            <li>Gefühle wie Freude, Wut, Angst, Ekel, Scham bewusst wahrnehmen</li>
+                            <li>Worte finden für das, was im Inneren passiert</li>
+                            <li>Verstehen: Alle Gefühle sind erlaubt und wichtig</li>
+                            <li>Unterscheiden zwischen angenehmen und unangenehmen Gefühlen</li>
+                            <li>Gefühle zeigen dürfen, ohne dafür beschämt zu werden</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>💡 Praktische Umsetzung</h3>
+                        <div class="example-box">
+                            <strong>Beispiel:</strong> "Ich sehe, dass du wütend bist. Ist dir etwas passiert?" 
+                            Fachkräfte spiegeln Gefühle und helfen bei der Benennung.
+                        </div>
+                        <div class="example-box">
+                            <strong>Methoden:</strong> Gefühlskarten, Stimmungsbarometer, Geschichten über Emotionen, 
+                            Rollenspiele zu Konfliktlösungen.
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🌟 Warum ist das wichtig?</h3>
+                        <p>Emotionale Kompetenz ist die Basis für Selbstschutz. Kinder, die ihre Gefühle ausdrücken können, 
+                        können auch sagen: "Das fühlt sich komisch an" oder "Das mag ich nicht".</p>
+                    </div>
+                `
+            },
+            3: {
+                icon: "🛡️",
+                title: "Eigene Grenzen spüren und Grenzen anderer respektieren",
+                content: `
+                    <div class="detail-section">
+                        <h3>📌 Kernziel</h3>
+                        <p>Kinder lernen, ihre persönlichen Grenzen wahrzunehmen, zu kommunizieren und die Grenzen anderer Menschen zu respektieren.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🎯 Was bedeutet das konkret?</h3>
+                        <ul>
+                            <li>"Nein" sagen dürfen – und gehört werden</li>
+                            <li>Erkennen: "Das fühlt sich für mich nicht gut an"</li>
+                            <li>"Stopp!" sagen bei unerwünschten Berührungen</li>
+                            <li>Das "Nein" anderer Kinder akzeptieren lernen</li>
+                            <li>Grenzen sind individuell und dürfen sich ändern</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>💡 Praktische Umsetzung</h3>
+                        <div class="example-box">
+                            <strong>Beispiel Doktorspiele:</strong> "Du darfst 'Nein' sagen, wenn du nicht mehr spielen willst. 
+                            Dann hören wir sofort auf." – Regeln für Doktorspiele vermitteln.
+                        </div>
+                        <div class="example-box">
+                            <strong>Alltagssituation:</strong> "Möchtest du umarmt werden?" statt Kind ungefragt zu umarmen. 
+                            Auch Erwachsene respektieren Grenzen der Kinder.
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🌟 Warum ist das wichtig?</h3>
+                        <p>Kinder, die gelernt haben, Grenzen zu setzen und "Nein" zu sagen, sind weniger anfällig für Übergriffe. 
+                        Sie wissen: "Meine Grenzen zählen!"</p>
+                    </div>
+                `
+            },
+            4: {
+                icon: "🙈",
+                title: "Ein gesundes Schamgefühl entwickeln",
+                content: `
+                    <div class="detail-section">
+                        <h3>📌 Kernziel</h3>
+                        <p>Kinder entwickeln ein altersgemäßes, gesundes Schamgefühl – ohne übermäßige Beschämung oder Schamlosigkeit.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🎯 Was bedeutet das konkret?</h3>
+                        <ul>
+                            <li>Scham ist ein wichtiges Schutzgefühl</li>
+                            <li>Kinder lernen: Es gibt öffentliche und private Orte</li>
+                            <li>Intimität braucht geschützte Räume</li>
+                            <li>Nacktheit ist okay – aber nicht überall</li>
+                            <li>Scham entwickelt sich individuell und in Phasen</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>💡 Praktische Umsetzung</h3>
+                        <div class="example-box">
+                            <strong>Beispiel:</strong> "Dein Körper ist schön! Wenn du nackt sein möchtest, kannst du das 
+                            in der Kuschelecke machen – nicht im Gruppenraum, wo alle sind."
+                        </div>
+                        <div class="example-box">
+                            <strong>Raumgestaltung:</strong> Sichtschutz beim Wickeln, geschützte Bereiche für Rückzug, 
+                            Toiletten mit Türen, die Kinder selbst schließen können.
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🌟 Warum ist das wichtig?</h3>
+                        <p>Ein gesundes Schamgefühl schützt Kinder. Sie lernen: "Manche Dinge gehören nur mir" 
+                        und können unangemessene Situationen besser einschätzen.</p>
+                    </div>
+                `
+            },
+            5: {
+                icon: "✋",
+                title: "Selbstbestimmung über den eigenen Körper erleben",
+                content: `
+                    <div class="detail-section">
+                        <h3>📌 Kernziel</h3>
+                        <p>Kinder erleben: "Mein Körper gehört mir!" Sie lernen, selbst zu bestimmen, wer sie wie berühren darf.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🎯 Was bedeutet das konkret?</h3>
+                        <ul>
+                            <li>"Mein Körper gehört mir" – niemand darf mich gegen meinen Willen berühren</li>
+                            <li>Ich entscheide, wer mich anfassen darf und wie</li>
+                            <li>Auch Erwachsene müssen mein "Nein" respektieren</li>
+                            <li>Gute, schlechte und komische Berührungen unterscheiden lernen</li>
+                            <li>Bei unangenehmen Gefühlen Hilfe holen dürfen</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>💡 Praktische Umsetzung</h3>
+                        <div class="example-box">
+                            <strong>Beispiel:</strong> "Du musst Oma nicht küssen, wenn du nicht willst. 
+                            Du darfst ihr auch die Hand geben oder winken."
+                        </div>
+                        <div class="example-box">
+                            <strong>Präventionsprogramme:</strong> "Mein Körper gehört mir!" (theaterpädagogisches Programm), 
+                            Bilderbücher wie "Das gehört mir!" von Pro Familia.
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🌟 Warum ist das wichtig?</h3>
+                        <p>Selbstbestimmung ist der zentrale Schutzfaktor gegen sexuelle Gewalt. 
+                        Kinder, die gelernt haben "Nein" zu sagen, sind besser geschützt.</p>
+                    </div>
+                `
+            },
+            6: {
+                icon: "👫",
+                title: "Geschlechtsidentität frei von stereotypen Rollenzuschreibungen entfalten",
+                content: `
+                    <div class="detail-section">
+                        <h3>📌 Kernziel</h3>
+                        <p>Kinder können ihre Geschlechtsidentität frei entfalten – ohne starre Rollenbilder oder Stereotypen.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🎯 Was bedeutet das konkret?</h3>
+                        <ul>
+                            <li>Mädchen dürfen wild sein, Jungen dürfen weinen</li>
+                            <li>Alle Farben, Spielzeuge, Aktivitäten stehen allen Kindern offen</li>
+                            <li>Es gibt viele Arten, ein Mädchen oder ein Junge zu sein</li>
+                            <li>Geschlechtsidentität ist vielfältig und entwickelt sich</li>
+                            <li>Keine Abwertung aufgrund von Geschlecht</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>💡 Praktische Umsetzung</h3>
+                        <div class="example-box">
+                            <strong>Beispiel:</strong> "Natürlich darfst du als Junge ein Kleid anziehen!" oder 
+                            "Mädchen können genauso gut Fußball spielen wie Jungen!"
+                        </div>
+                        <div class="example-box">
+                            <strong>Reflexion:</strong> Welche Rollenbilder vermittle ich selbst? 
+                            Sage ich "Die starken Jungs helfen mir"? Nutze ich Farben geschlechtsneutral?
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🌟 Warum ist das wichtig?</h3>
+                        <p>Geschlechterstereotype schränken alle Kinder ein. Eine freie Entfaltung 
+                        ermöglicht Kindern, ihre Persönlichkeit authentisch zu entwickeln.</p>
+                    </div>
+                `
+            },
+            7: {
+                icon: "👨‍👩‍👧‍👦",
+                title: "Vielfalt von Familienformen und Beziehungsmodellen kennenlernen",
+                content: `
+                    <div class="detail-section">
+                        <h3>📌 Kernziel</h3>
+                        <p>Kinder lernen: Es gibt viele verschiedene Familienformen – und alle sind gleichwertig.</p>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🎯 Was bedeutet das konkret?</h3>
+                        <ul>
+                            <li>Alleinerziehende Eltern, Patchworkfamilien, Regenbogenfamilien sind normal</li>
+                            <li>Manche Kinder leben bei Oma und Opa, in Pflegefamilien oder Wohngruppen</li>
+                            <li>Familie ist dort, wo Menschen sich lieben und füreinander sorgen</li>
+                            <li>Vielfalt wird als Bereicherung erlebt, nicht als Problem</li>
+                            <li>Keine Familie wird abgewertet oder als "unnormal" dargestellt</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>💡 Praktische Umsetzung</h3>
+                        <div class="example-box">
+                            <strong>Beispiel:</strong> "Emma hat zwei Mamas. Tim lebt die eine Woche bei Papa, die andere bei Mama. 
+                            Sarah wohnt bei ihrer Oma. Alle Familien sind unterschiedlich – und das ist gut so!"
+                        </div>
+                        <div class="example-box">
+                            <strong>Materialien:</strong> Bilderbücher wie "Alles Familie!" von Alexandra Maxeiner, 
+                            vielfältige Spielfiguren und Puppen, die verschiedene Familienformen darstellen.
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3>🌟 Warum ist das wichtig?</h3>
+                        <p>Kinder sollen sich mit ihrer eigenen Familienform gesehen und wertgeschätzt fühlen. 
+                        Vielfalt als Normalität zu erleben, fördert Toleranz und Akzeptanz.</p>
+                    </div>
+                `
+            }
+        };
+
+        function showDetail(goalNumber) {
+            const goal = goals[goalNumber];
+            document.getElementById('modalIcon').textContent = goal.icon;
+            document.getElementById('modalTitle').textContent = goal.title;
+            document.getElementById('modalBody').innerHTML = goal.content;
+            document.getElementById('detailModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if(!event || event.target.id === 'detailModal') {
+                document.getElementById('detailModal').classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // ESC-Taste zum Schließen
+        document.addEventListener('keydown', function(event) {
+            if(event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

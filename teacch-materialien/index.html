@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TEACCH – Visualisierte Materialien für Kinder mit frühkindlichem Autismus</title>
+<style>
+:root,[data-theme="light"]{
+  --text-xs:clamp(0.72rem,.65rem + .3vw,.85rem);
+  --text-sm:clamp(0.875rem,.8rem + .35vw,1rem);
+  --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
+  --text-lg:clamp(1.15rem,1rem + .75vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --text-2xl:clamp(2rem,1.1rem + 2.8vw,3.2rem);
+  --sp1:.25rem;--sp2:.5rem;--sp3:.75rem;--sp4:1rem;--sp5:1.25rem;
+  --sp6:1.5rem;--sp8:2rem;--sp10:2.5rem;--sp12:3rem;--sp16:4rem;
+  --bg:#f5f3ee;--surf:#faf9f6;--surf2:#fcfcfa;--offset:#edeae3;
+  --border:#d2cfc8;--divider:#dcdad3;
+  --text:#26231c;--muted:#6b6860;--faint:#a09d97;
+  --primary:#01696f;--primary-h:#0c4e54;--primary-hi:#cfe8e4;
+  --orange:#c95f00;--orange-hi:#f5e0cc;
+  --blue:#005f8a;--blue-hi:#cfe1ee;
+  --green:#3a6f1a;--green-hi:#d3e8c8;
+  --purple:#6e35b5;--purple-hi:#e2d4f5;
+  --red:#b0223a;--red-hi:#f2d4d8;
+  --gold:#a07200;--gold-hi:#f0e5c0;
+  --r-sm:.4rem;--r-md:.75rem;--r-lg:1rem;--r-xl:1.4rem;--r-full:9999px;
+  --sh-sm:0 1px 3px rgba(38,35,28,.07);
+  --sh-md:0 4px 14px rgba(38,35,28,.09);
+  --sh-lg:0 12px 36px rgba(38,35,28,.13);
+  --font-body:'Satoshi',system-ui,sans-serif;
+  --font-disp:'Zodiak',Georgia,serif;
+  --tr:180ms cubic-bezier(.16,1,.3,1);
+}
+[data-theme="dark"]{
+  --bg:#161512;--surf:#1b1a17;--surf2:#1f1e1b;--offset:#232119;
+  --border:#3a3834;--divider:#2a2926;
+  --text:#e8e2d8;--muted:#a8a49e;--faint:#6e6b65;
+  --primary:#4d97a2;--primary-h:#6db3bd;--primary-hi:#1e3538;
+  --orange:#f09640;--orange-hi:#4a2e12;
+  --blue:#5d9fc9;--blue-hi:#1a3548;
+  --green:#72ae50;--green-hi:#213615;
+  --purple:#a872e8;--purple-hi:#352060;
+  --red:#e05e78;--red-hi:#3e1525;
+  --gold:#d4aa45;--gold-hi:#3a2c08;
+  --sh-sm:0 1px 3px rgba(0,0,0,.25);
+  --sh-md:0 4px 14px rgba(0,0,0,.35);
+  --sh-lg:0 12px 36px rgba(0,0,0,.45);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){
+  --bg:#161512;--surf:#1b1a17;--surf2:#1f1e1b;--offset:#232119;
+  --border:#3a3834;--divider:#2a2926;
+  --text:#e8e2d8;--muted:#a8a49e;--faint:#6e6b65;
+  --primary:#4d97a2;--primary-h:#6db3bd;--primary-hi:#1e3538;
+  --orange:#f09640;--orange-hi:#4a2e12;
+  --blue:#5d9fc9;--blue-hi:#1a3548;
+  --green:#72ae50;--green-hi:#213615;
+  --purple:#a872e8;--purple-hi:#352060;
+  --red:#e05e78;--red-hi:#3e1525;
+  --gold:#d4aa45;--gold-hi:#3a2c08;
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:none;text-size-adjust:none;-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);line-height:1.65;color:var(--text);background:var(--bg)}
+img,svg{display:block;max-width:100%;height:auto}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:var(--r-sm)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ── LAYOUT ──────────────────────────────── */
+.wrap{width:min(calc(100% - 2rem),1120px);margin-inline:auto}
+.wrap-sm{width:min(calc(100% - 2rem),760px);margin-inline:auto}
+section{padding-block:clamp(var(--sp8),6vw,var(--sp16))}
+.grid-2{display:grid;gap:var(--sp6)}
+@media(min-width:720px){.grid-2{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp5)}}
+
+/* ── HEADER ──────────────────────────────── */
+header{position:sticky;top:0;z-index:60;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(16px);border-bottom:1px solid color-mix(in srgb,var(--border) 70%,transparent)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;min-height:4.25rem;gap:var(--sp4)}
+.brand{display:inline-flex;align-items:center;gap:var(--sp3);text-decoration:none;font-weight:700;font-size:var(--text-sm)}
+.logo-mark{width:2.4rem;height:2.4rem;border-radius:.85rem;background:linear-gradient(135deg,var(--primary),var(--blue));display:grid;place-items:center;color:#fff;box-shadow:var(--sh-sm);flex-shrink:0}
+.toggle-btn{min-width:44px;min-height:44px;display:grid;place-items:center;border-radius:var(--r-full);border:1px solid var(--border);background:var(--surf);transition:background var(--tr)}
+.toggle-btn:hover{background:var(--surf2)}
+nav{display:flex;gap:var(--sp2);align-items:center;flex-wrap:wrap}
+nav a{font-size:var(--text-sm);color:var(--muted);text-decoration:none;padding:.3rem .6rem;border-radius:var(--r-md);transition:color var(--tr),background var(--tr)}
+nav a:hover{color:var(--text);background:var(--offset)}
+
+/* ── HERO ──────────────────────────────── */
+.hero{padding-block:clamp(var(--sp10),8vw,var(--sp16))}
+.hero-inner{display:grid;gap:var(--sp8);align-items:center}
+@media(min-width:760px){.hero-inner{grid-template-columns:1.2fr .8fr}}
+.eyebrow{display:inline-flex;align-items:center;gap:var(--sp2);padding:.4rem .85rem;border-radius:var(--r-full);background:var(--primary-hi);color:var(--primary);font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:var(--sp4)}
+h1{font-family:var(--font-disp);font-size:var(--text-2xl);line-height:1.08;max-width:13ch;margin-bottom:var(--sp5)}
+.lead{color:var(--muted);max-width:54ch;font-size:var(--text-base)}
+.hero-chips{display:flex;flex-wrap:wrap;gap:var(--sp3);margin-top:var(--sp6)}
+.chip{display:inline-flex;align-items:center;gap:var(--sp2);padding:.4rem .9rem;border-radius:var(--r-full);font-size:var(--text-sm);font-weight:600;border:1px solid}
+.chip-teal{background:var(--primary-hi);color:var(--primary);border-color:color-mix(in srgb,var(--primary) 25%,transparent)}
+.chip-orange{background:var(--orange-hi);color:var(--orange);border-color:color-mix(in srgb,var(--orange) 25%,transparent)}
+.chip-blue{background:var(--blue-hi);color:var(--blue);border-color:color-mix(in srgb,var(--blue) 25%,transparent)}
+
+/* Hero-illustration: TEACCH-Prinzipien Kreis */
+.prinzip-vis{background:var(--surf);border:1px solid var(--border);border-radius:var(--r-xl);padding:var(--sp6);box-shadow:var(--sh-md);display:flex;flex-direction:column;gap:var(--sp4)}
+.prinzip-row{display:flex;align-items:center;gap:var(--sp4);padding:var(--sp4);border-radius:var(--r-lg);background:var(--bg)}
+.prinzip-icon{width:3rem;height:3rem;border-radius:var(--r-md);display:grid;place-items:center;font-size:1.6rem;flex-shrink:0}
+.prinzip-row h3{font-size:var(--text-sm);margin-bottom:.15rem}
+.prinzip-row p{font-size:var(--text-xs);color:var(--muted)}
+
+/* ── SECTION TITLES ──────────────────────── */
+.sec-head{margin-bottom:var(--sp8)}
+.sec-head h2{font-family:var(--font-disp);font-size:var(--text-xl);margin-bottom:var(--sp3)}
+.sec-head p{color:var(--muted);max-width:60ch}
+.sec-label{display:inline-flex;align-items:center;gap:var(--sp2);padding:.3rem .75rem;border-radius:var(--r-full);font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:var(--sp4)}
+
+/* ── MATERIAL CARDS ──────────────────────── */
+.mat-card{background:var(--surf);border:1px solid color-mix(in srgb,var(--border) 80%,transparent);border-radius:var(--r-xl);box-shadow:var(--sh-sm);overflow:hidden;display:flex;flex-direction:column}
+.mat-card-head{padding:var(--sp5) var(--sp6) var(--sp4);border-bottom:1px solid var(--divider)}
+.mat-card-body{padding:var(--sp5) var(--sp6);flex:1}
+.mat-card-foot{padding:var(--sp4) var(--sp6);background:var(--offset);border-top:1px solid var(--divider);font-size:var(--text-xs);color:var(--muted);display:flex;align-items:center;gap:var(--sp2);flex-wrap:wrap}
+.mat-title{display:flex;align-items:center;gap:var(--sp3);margin-bottom:var(--sp2)}
+.mat-title h3{font-size:var(--text-base);font-weight:700}
+.mat-icon{width:2.4rem;height:2.4rem;border-radius:var(--r-md);display:grid;place-items:center;font-size:1.3rem;flex-shrink:0}
+.mat-desc{font-size:var(--text-sm);color:var(--muted);margin-bottom:var(--sp4)}
+.badge{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .6rem;border-radius:var(--r-full);font-size:var(--text-xs);font-weight:700;letter-spacing:.03em}
+.bd-teal{background:var(--primary-hi);color:var(--primary)}
+.bd-orange{background:var(--orange-hi);color:var(--orange)}
+.bd-blue{background:var(--blue-hi);color:var(--blue)}
+.bd-green{background:var(--green-hi);color:var(--green)}
+.bd-purple{background:var(--purple-hi);color:var(--purple)}
+.bd-red{background:var(--red-hi);color:var(--red)}
+.bd-gold{background:var(--gold-hi);color:var(--gold)}
+
+/* ── TAGESPLAN VISUAL ──────────────────────── */
+.tagesplan{display:flex;flex-direction:column;gap:var(--sp3);padding:var(--sp4);background:var(--bg);border-radius:var(--r-lg)}
+.tp-row{display:grid;grid-template-columns:2.8rem 1fr;gap:var(--sp3);align-items:center}
+.tp-time{font-size:var(--text-xs);color:var(--faint);font-weight:600;text-align:right}
+.tp-steps{display:flex;gap:var(--sp2);flex-wrap:wrap}
+.tp-step{display:flex;flex-direction:column;align-items:center;gap:var(--sp2);width:4.5rem;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tp-img{width:4.5rem;height:4.5rem;border-radius:var(--r-lg);background:var(--surf);border:2px solid var(--border);display:grid;place-items:center;font-size:2rem;transition:border-color var(--tr),box-shadow var(--tr);position:relative;overflow:hidden}
+.tp-step.done .tp-img{border-color:var(--green);background:var(--green-hi)}
+.tp-step.done .tp-img::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;font-size:.95rem;color:var(--green);background:color-mix(in srgb,var(--green-hi) 90%,transparent);font-weight:700}
+.tp-step.active .tp-img{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 30%,transparent)}
+.tp-label{font-size:var(--text-xs);color:var(--muted);text-align:center;line-height:1.2;font-weight:500}
+.tp-hint{font-size:var(--text-xs);color:var(--faint);margin-top:var(--sp2);text-align:center;font-style:italic}
+
+/* ── HANDLUNGSSTREIFEN ──────────────────────── */
+.hstreifen{display:flex;align-items:stretch;gap:0;overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--border);background:var(--bg)}
+.hs-step{flex:1;min-width:5.5rem;display:flex;flex-direction:column;align-items:center;padding:var(--sp4) var(--sp3);border-right:1px solid var(--border);gap:var(--sp3);transition:background var(--tr)}
+.hs-step:last-child{border-right:none}
+.hs-step:hover{background:var(--surf)}
+.hs-num{width:1.5rem;height:1.5rem;border-radius:var(--r-full);background:var(--primary);color:#fff;font-size:var(--text-xs);font-weight:700;display:grid;place-items:center;flex-shrink:0}
+.hs-icon{font-size:2.2rem}
+.hs-text{font-size:var(--text-xs);color:var(--muted);text-align:center;line-height:1.3;font-weight:500}
+.hs-arrow{display:flex;align-items:center;color:var(--faint);padding:0 var(--sp2);font-size:1.2rem}
+
+/* ── EMOTION SCALE ──────────────────────── */
+.emo-scale{display:flex;gap:var(--sp3);flex-wrap:wrap}
+.emo-item{flex:1;min-width:4.5rem;display:flex;flex-direction:column;align-items:center;gap:var(--sp3);padding:var(--sp5) var(--sp3);border-radius:var(--r-xl);border:2px solid transparent;cursor:pointer;transition:border-color var(--tr),background var(--tr)}
+.emo-item:hover,.emo-item.selected{border-color:currentColor}
+.emo-face{width:3.8rem;height:3.8rem;border-radius:var(--r-full);border:3px solid;display:grid;place-items:center;font-size:2rem;transition:transform var(--tr)}
+.emo-item:hover .emo-face,.emo-item.selected .emo-face{transform:scale(1.12)}
+.emo-label{font-size:var(--text-xs);text-align:center;font-weight:600;line-height:1.2}
+.emo-1{color:#437a22;background:var(--green-hi)}.emo-1 .emo-face{border-color:#437a22;background:var(--green-hi)}
+.emo-2{color:#006494;background:var(--blue-hi)}.emo-2 .emo-face{border-color:#006494;background:var(--blue-hi)}
+.emo-3{color:#a07200;background:var(--gold-hi)}.emo-3 .emo-face{border-color:#a07200;background:var(--gold-hi)}
+.emo-4{color:#c95f00;background:var(--orange-hi)}.emo-4 .emo-face{border-color:#c95f00;background:var(--orange-hi)}
+.emo-5{color:#b0223a;background:var(--red-hi)}.emo-5 .emo-face{border-color:#b0223a;background:var(--red-hi)}
+.emo-feedback{margin-top:var(--sp4);padding:var(--sp4);border-radius:var(--r-lg);background:var(--offset);border-left:4px solid var(--primary);font-size:var(--text-sm);color:var(--muted);min-height:3.2rem;transition:opacity var(--tr)}
+
+/* ── AUFRÄUMPLAN ──────────────────────────── */
+.aufraum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(7rem,1fr));gap:var(--sp4)}
+.ar-kiste{display:flex;flex-direction:column;align-items:center;gap:var(--sp3);padding:var(--sp4) var(--sp3);border-radius:var(--r-xl);border:2px solid var(--border);background:var(--bg);cursor:pointer;transition:border-color var(--tr),background var(--tr);-webkit-tap-highlight-color:transparent}
+.ar-kiste:hover,.ar-kiste.done{background:var(--green-hi);border-color:var(--green)}
+.ar-box{width:4.5rem;height:3.5rem;border-radius:var(--r-md);border:2px dashed;display:grid;place-items:center;font-size:2rem;position:relative;transition:border-color var(--tr)}
+.ar-kiste.done .ar-box{border-style:solid;border-color:var(--green)}
+.ar-label{font-size:var(--text-xs);text-align:center;font-weight:600;color:var(--muted)}
+.ar-kiste.done .ar-label{color:var(--green)}
+.ar-check{position:absolute;top:-0.4rem;right:-0.5rem;width:1.3rem;height:1.3rem;border-radius:var(--r-full);background:var(--green);color:#fff;font-size:.7rem;display:none;place-items:center;font-weight:700}
+.ar-kiste.done .ar-check{display:grid}
+
+/* ── TIME-TIMER ──────────────────────────── */
+.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:var(--sp6)}
+.timer-canvas-wrap{position:relative;width:min(280px,100%);aspect-ratio:1}
+.timer-svg{width:100%;height:100%}
+.timer-display{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.timer-min{font-size:clamp(2.2rem,8vw,3.2rem);font-weight:700;font-family:var(--font-disp);line-height:1;color:var(--text)}
+.timer-sec-disp{font-size:var(--text-sm);color:var(--muted);margin-top:.2rem}
+.timer-label-disp{font-size:var(--text-xs);color:var(--faint);margin-top:.3rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+.timer-controls{display:flex;gap:var(--sp3);flex-wrap:wrap;justify-content:center}
+.timer-preset{min-height:44px;padding:.5rem 1rem;border-radius:var(--r-full);border:1px solid var(--border);background:var(--surf);font-size:var(--text-sm);font-weight:600;transition:background var(--tr),border-color var(--tr),color var(--tr);color:var(--text)}
+.timer-preset:hover,.timer-preset.active{background:var(--primary-hi);border-color:var(--primary);color:var(--primary)}
+.timer-start-btn{min-height:44px;padding:.6rem 1.8rem;border-radius:var(--r-full);background:var(--primary);color:#fff;font-size:var(--text-sm);font-weight:700;transition:background var(--tr),transform var(--tr)}
+.timer-start-btn:hover{background:var(--primary-h);transform:translateY(-1px)}
+.timer-info{font-size:var(--text-xs);color:var(--faint);text-align:center;max-width:30ch}
+
+/* ── RUHEPLATZ VISUAL ──────────────────────── */
+.ruheplatz{display:grid;gap:var(--sp4)}
+.rp-card{border-radius:var(--r-xl);border:1px solid var(--border);background:var(--bg);padding:var(--sp5);display:flex;gap:var(--sp4);align-items:flex-start}
+.rp-icon{width:3.5rem;height:3.5rem;border-radius:var(--r-lg);display:grid;place-items:center;font-size:2rem;flex-shrink:0}
+.rp-body h4{font-size:var(--text-sm);font-weight:700;margin-bottom:var(--sp2)}
+.rp-body p{font-size:var(--text-xs);color:var(--muted);line-height:1.5}
+.signal-row{display:flex;gap:var(--sp4);flex-wrap:wrap;margin-top:var(--sp4);padding:var(--sp4);background:var(--primary-hi);border-radius:var(--r-lg);align-items:center}
+.signal-icon{font-size:2.5rem}
+.signal-text{font-size:var(--text-sm);color:var(--primary);font-weight:600}
+.signal-sub{font-size:var(--text-xs);color:var(--muted);margin-top:.15rem}
+
+/* ── TISCH-SET ──────────────────────────── */
+.tischset{width:min(420px,100%);margin:0 auto;background:var(--surf);border:2px solid var(--border);border-radius:var(--r-xl);padding:var(--sp6);position:relative;box-shadow:var(--sh-md)}
+.ts-title{text-align:center;font-size:var(--text-xs);font-weight:700;color:var(--faint);text-transform:uppercase;letter-spacing:.07em;margin-bottom:var(--sp5)}
+.ts-layout{display:grid;grid-template-areas:"links rechts" "unten unten";grid-template-columns:1fr 1fr;gap:var(--sp4)}
+.ts-left{grid-area:links;display:flex;flex-direction:column;gap:var(--sp4)}
+.ts-right{grid-area:rechts;display:flex;flex-direction:column;gap:var(--sp4)}
+.ts-bottom{grid-area:unten}
+.ts-item{display:flex;flex-direction:column;align-items:center;gap:var(--sp2)}
+.ts-circle{border-radius:var(--r-full);border:3px dashed var(--border);display:grid;place-items:center;font-size:2rem;background:var(--offset)}
+.ts-rect{border-radius:var(--r-md);border:3px dashed var(--border);display:grid;place-items:center;font-size:2rem;background:var(--offset)}
+.ts-label{font-size:var(--text-xs);color:var(--faint);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+
+/* ── STEMPEL/LOB ──────────────────────────── */
+.stempel-grid{display:flex;flex-wrap:wrap;gap:var(--sp4)}
+.stempel{display:flex;flex-direction:column;align-items:center;gap:var(--sp3);padding:var(--sp5) var(--sp4);border-radius:var(--r-xl);border:2.5px dashed;min-width:7rem;cursor:pointer;transition:background var(--tr),border-color var(--tr),transform var(--tr);-webkit-tap-highlight-color:transparent}
+.stempel:hover{transform:scale(1.06)}
+.stempel .s-icon{font-size:2.8rem;transition:transform var(--tr)}
+.stempel:hover .s-icon{transform:rotate(-6deg) scale(1.1)}
+.stempel .s-label{font-size:var(--text-xs);font-weight:700;text-align:center;line-height:1.2}
+.stempel-boom{display:none;position:fixed;inset:0;pointer-events:none;z-index:999;align-items:center;justify-content:center}
+.stempel-boom.show{display:flex}
+.stempel-boom span{font-size:clamp(2rem,8vw,4rem);animation:boom .6s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes boom{0%{opacity:0;transform:scale(.4) rotate(-10deg)}50%{opacity:1;transform:scale(1.2) rotate(4deg)}100%{opacity:0;transform:scale(1.5) rotate(0deg)}}
+
+/* ── ALLGEMEIN ──────────────────────────── */
+.callout{background:linear-gradient(160deg,color-mix(in srgb,var(--primary-hi) 60%,var(--surf)),var(--surf));border:1px solid color-mix(in srgb,var(--primary) 25%,var(--border));border-radius:var(--r-xl);padding:var(--sp6)}
+.callout h3{font-size:var(--text-base);font-weight:700;margin-bottom:var(--sp3)}
+.callout p,.callout li{font-size:var(--text-sm);color:var(--muted)}
+.callout ul{padding-left:1.2rem;display:flex;flex-direction:column;gap:var(--sp2)}
+.info-strip{background:var(--surf);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp4) var(--sp5);display:flex;gap:var(--sp3);align-items:flex-start;font-size:var(--text-sm);color:var(--muted)}
+.info-strip strong{color:var(--text)}
+footer{padding-block:var(--sp8) var(--sp12);border-top:1px solid color-mix(in srgb,var(--border) 70%,transparent);color:var(--muted);font-size:var(--text-sm)}
+</style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="M8 9h8M8 13h5"/></svg>
+      </span>
+      TEACCH-Materialien
+    </a>
+    <nav aria-label="Seitennavigation">
+      <a href="#tagesplan">Tagesplan</a>
+      <a href="#haendewaschen">Schritte</a>
+      <a href="#emotionen">Gefühle</a>
+      <a href="#aufraeum">Aufräumen</a>
+      <a href="#timer">Time-Timer</a>
+      <a href="#ruheplatz">Ruheort</a>
+    </nav>
+    <button class="toggle-btn" data-theme-toggle aria-label="Darstellungsmodus wechseln">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <div class="eyebrow">Visualisierte TEACCH-Materialien</div>
+      <h1>Sehen. Verstehen. Handeln.</h1>
+      <p class="lead">Konkrete, interaktive Materialien für Kinder mit frühkindlichem Autismus – direkt einsetzbar in Kita, Schule und pädagogischer Förderung.</p>
+      <div class="hero-chips">
+        <span class="chip chip-teal">🗂 Strukturierung</span>
+        <span class="chip chip-orange">🖼 Visualisierung</span>
+        <span class="chip chip-blue">👤 Individualisierung</span>
+      </div>
+    </div>
+    <div class="prinzip-vis" aria-label="Überblick der drei TEACCH-Prinzipien">
+      <div class="prinzip-row">
+        <div class="prinzip-icon" style="background:var(--primary-hi)">🗂</div>
+        <div>
+          <h3>Strukturierung</h3>
+          <p>Klare Räume, feste Abläufe, vorhersehbare Übergänge</p>
+        </div>
+      </div>
+      <div class="prinzip-row">
+        <div class="prinzip-icon" style="background:var(--orange-hi)">🖼</div>
+        <div>
+          <h3>Visualisierung</h3>
+          <p>Bilder, Symbole und Sequenzen statt reine Sprache</p>
+        </div>
+      </div>
+      <div class="prinzip-row">
+        <div class="prinzip-icon" style="background:var(--blue-hi)">👤</div>
+        <div>
+          <h3>Individualisierung</h3>
+          <p>Material und Abstraktion an das einzelne Kind anpassen</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────
+  MATERIAL 1 – VISUELLER TAGESPLAN
+──────────────────────────────────────────────────── -->
+<section id="tagesplan" style="background:var(--surf)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label bd-teal">Material 1</div>
+      <h2>Visueller Tagesplan</h2>
+      <p>Der Tagesplan zeigt dem Kind, was als Nächstes kommt. Jede Aktivität wird als Bild oder Symbol dargestellt. Abgehakte Schritte geben sofortiges Feedback.</p>
+    </div>
+
+    <div class="mat-card">
+      <div class="mat-card-head">
+        <div class="mat-title">
+          <div class="mat-icon" style="background:var(--primary-hi)">📋</div>
+          <h3>Morgenroutine in der Kita – interaktiv</h3>
+        </div>
+        <p class="mat-desc">Klicke oder tippe auf einen Schritt, um ihn als „erledigt" zu markieren. So können Kinder ihren eigenen Fortschritt sehen.</p>
+        <div style="display:flex;gap:var(--sp2);flex-wrap:wrap">
+          <span class="badge bd-teal">Zeitstruktur</span>
+          <span class="badge bd-orange">Visualisierung</span>
+          <span class="badge bd-green">Selbstständigkeit</span>
+        </div>
+      </div>
+      <div class="mat-card-body">
+        <div class="tagesplan" role="list" aria-label="Tagesplan">
+
+          <div class="tp-row">
+            <div class="tp-time">Früh</div>
+            <div class="tp-steps" role="group" aria-label="Morgen">
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Ankommen">
+                <div class="tp-img" aria-hidden="true">🏠</div>
+                <span class="tp-label">Ankommen</span>
+              </button>
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Jacke ausziehen">
+                <div class="tp-img" aria-hidden="true">🧥</div>
+                <span class="tp-label">Jacke aus</span>
+              </button>
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Hausschuhe anziehen">
+                <div class="tp-img" aria-hidden="true">👟</div>
+                <span class="tp-label">Hausschuhe an</span>
+              </button>
+              <button class="tp-step active" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Morgenkreis">
+                <div class="tp-img" aria-hidden="true">⭕</div>
+                <span class="tp-label">Morgen&shy;kreis</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="tp-row">
+            <div class="tp-time">Vor&shy;mittag</div>
+            <div class="tp-steps" role="group" aria-label="Vormittag">
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Frühstück">
+                <div class="tp-img" aria-hidden="true">🍞</div>
+                <span class="tp-label">Frühstück</span>
+              </button>
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Hände waschen">
+                <div class="tp-img" aria-hidden="true">🤲</div>
+                <span class="tp-label">Hände waschen</span>
+              </button>
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Spielzeit drinnen">
+                <div class="tp-img" aria-hidden="true">🧩</div>
+                <span class="tp-label">Spielzeit</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="tp-row">
+            <div class="tp-time">Mittag</div>
+            <div class="tp-steps" role="group" aria-label="Mittag">
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Aufräumen">
+                <div class="tp-img" aria-hidden="true">📦</div>
+                <span class="tp-label">Aufräumen</span>
+              </button>
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Mittagessen">
+                <div class="tp-img" aria-hidden="true">🍽️</div>
+                <span class="tp-label">Mittag&shy;essen</span>
+              </button>
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Ruhezeit">
+                <div class="tp-img" aria-hidden="true">😴</div>
+                <span class="tp-label">Ruhezeit</span>
+              </button>
+              <button class="tp-step" role="listitem" aria-pressed="false" onclick="toggleStep(this)" aria-label="Abholung">
+                <div class="tp-img" aria-hidden="true">🚗</div>
+                <span class="tp-label">Abholung</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="tp-hint">💡 Tipp für die Praxis: Einen Pfeil oder Magneten nutzen, der den aktuellen Schritt markiert. Das gibt zusätzliche räumliche Orientierung.</p>
+      </div>
+      <div class="mat-card-foot">
+        <span>🕐 Ganztägig</span>
+        <span>👁 Visuell</span>
+        <span>🎯 Übergänge ankündigen</span>
+        <span>✅ Fortschritt sichtbar machen</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────
+  MATERIAL 2 – HANDLUNGSSTREIFEN: HÄNDE WASCHEN
+──────────────────────────────────────────────────── -->
+<section id="haendewaschen">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label bd-orange">Material 2</div>
+      <h2>Schritt-für-Schritt-Streifen</h2>
+      <p>Handlungen werden in kleine, klare Schritte aufgeteilt und visuell sequenziert. Das Kind sieht genau, was jetzt zu tun ist – ohne mündliche Anweisung.</p>
+    </div>
+
+    <div class="grid-2" style="gap:var(--sp8)">
+
+      <div class="mat-card">
+        <div class="mat-card-head">
+          <div class="mat-title">
+            <div class="mat-icon" style="background:var(--blue-hi)">🤲</div>
+            <h3>Hände waschen</h3>
+          </div>
+          <p class="mat-desc">Gilt als klassisches TEACCH-Beispiel: klare, überschaubare Schritte am Ort der Handlung sichtbar machen.</p>
+          <span class="badge bd-blue">Badezimmer / Waschbecken</span>
+        </div>
+        <div class="mat-card-body">
+          <div class="hstreifen" role="list" aria-label="Schritte: Hände waschen">
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">1</div>
+              <div class="hs-icon" aria-hidden="true">🚰</div>
+              <div class="hs-text">Wasser anmachen</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">2</div>
+              <div class="hs-icon" aria-hidden="true">🤲</div>
+              <div class="hs-text">Hände nass machen</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">3</div>
+              <div class="hs-icon" aria-hidden="true">🧴</div>
+              <div class="hs-text">Seife nehmen</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">4</div>
+              <div class="hs-icon" aria-hidden="true">👐</div>
+              <div class="hs-text">Hände einreiben</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">5</div>
+              <div class="hs-icon" aria-hidden="true">💧</div>
+              <div class="hs-text">Abspülen</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">6</div>
+              <div class="hs-icon" aria-hidden="true">🏻🧻</div>
+              <div class="hs-text">Abtrocknen</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">7</div>
+              <div class="hs-icon" aria-hidden="true">✅</div>
+              <div class="hs-text">Fertig!</div>
+            </div>
+          </div>
+        </div>
+        <div class="mat-card-foot">
+          <span>📍 Am Waschbecken aufhängen</span>
+          <span>🔢 Einzelne Schritte umklappen</span>
+        </div>
+      </div>
+
+      <div class="mat-card">
+        <div class="mat-card-head">
+          <div class="mat-title">
+            <div class="mat-icon" style="background:var(--orange-hi)">🧥</div>
+            <h3>Anziehen / Garderobe</h3>
+          </div>
+          <p class="mat-desc">An der Garderobe zeigt dieser Streifen, was in welcher Reihenfolge passiert – reduziert Druck und erleichtert Selbstständigkeit.</p>
+          <span class="badge bd-orange">Garderobe / Eingangsbereich</span>
+        </div>
+        <div class="mat-card-body">
+          <div class="hstreifen" role="list" aria-label="Schritte: Anziehen beim Hinausgehen">
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">1</div>
+              <div class="hs-icon" aria-hidden="true">🧦</div>
+              <div class="hs-text">Socken anziehen</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">2</div>
+              <div class="hs-icon" aria-hidden="true">👟</div>
+              <div class="hs-text">Schuhe anziehen</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">3</div>
+              <div class="hs-icon" aria-hidden="true">🧥</div>
+              <div class="hs-text">Jacke anziehen</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">4</div>
+              <div class="hs-icon" aria-hidden="true">🤐</div>
+              <div class="hs-text">Reißverschluss zu</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">5</div>
+              <div class="hs-icon" aria-hidden="true">🎒</div>
+              <div class="hs-text">Rucksack nehmen</div>
+            </div>
+            <div class="hs-step" role="listitem">
+              <div class="hs-num" aria-hidden="true">6</div>
+              <div class="hs-icon" aria-hidden="true">🚪</div>
+              <div class="hs-text">Raus gehen</div>
+            </div>
+          </div>
+        </div>
+        <div class="mat-card-foot">
+          <span>📍 An der Garderobe</span>
+          <span>🖼 Fotos aus der echten Einrichtung empfohlen</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-strip" style="margin-top:var(--sp6)">
+      <span style="font-size:1.4rem">💡</span>
+      <div><strong>Tipp:</strong> Die Schrittanzahl an das Kind anpassen. Bei hohem Unterstützungsbedarf: 3–4 große Karten. Bei mehr Selbstständigkeit: feingliedrigere Schritte ohne Nummern.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────
+  MATERIAL 3 – EMOTIONSSKALA
+──────────────────────────────────────────────────── -->
+<section id="emotionen" style="background:var(--surf)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label bd-purple">Material 3</div>
+      <h2>Emotionskarte – Wie geht es mir?</h2>
+      <p>Kinder mit frühkindlichem Autismus haben oft Schwierigkeiten, Gefühle in Sprache zu fassen. Diese Karte macht Zustände sichtbar und kommunizierbar – ohne dass Worte nötig sind.</p>
+    </div>
+
+    <div class="mat-card">
+      <div class="mat-card-head">
+        <div class="mat-title">
+          <div class="mat-icon" style="background:var(--purple-hi)">😊</div>
+          <h3>Interaktive Gefühls-Ampel</h3>
+        </div>
+        <p class="mat-desc">Klicke auf das Bild, das zeigt, wie es dem Kind gerade geht. Das Fachpersonal sieht sofort, ob Unterstützung gebraucht wird.</p>
+        <div style="display:flex;gap:var(--sp2);flex-wrap:wrap">
+          <span class="badge bd-purple">Selbstregulation</span>
+          <span class="badge bd-teal">Kommunikation ohne Sprache</span>
+        </div>
+      </div>
+      <div class="mat-card-body">
+        <div class="emo-scale" role="radiogroup" aria-label="Wie geht es mir?">
+          <button class="emo-item emo-1" role="radio" aria-checked="false" onclick="selectEmo(this,0)" aria-label="Ich fühle mich gut">
+            <div class="emo-face" aria-hidden="true">😊</div>
+            <div class="emo-label">Ich bin<br>gut drauf</div>
+          </button>
+          <button class="emo-item emo-2" role="radio" aria-checked="false" onclick="selectEmo(this,1)" aria-label="Ich bin ruhig">
+            <div class="emo-face" aria-hidden="true">😌</div>
+            <div class="emo-label">Ich bin<br>ruhig</div>
+          </button>
+          <button class="emo-item emo-3" role="radio" aria-checked="false" onclick="selectEmo(this,2)" aria-label="Ich bin unsicher">
+            <div class="emo-face" aria-hidden="true">😐</div>
+            <div class="emo-label">Ich bin<br>unsicher</div>
+          </button>
+          <button class="emo-item emo-4" role="radio" aria-checked="false" onclick="selectEmo(this,3)" aria-label="Ich bin unruhig">
+            <div class="emo-face" aria-hidden="true">😟</div>
+            <div class="emo-label">Ich bin<br>unruhig</div>
+          </button>
+          <button class="emo-item emo-5" role="radio" aria-checked="false" onclick="selectEmo(this,4)" aria-label="Es ist zu viel">
+            <div class="emo-face" aria-hidden="true">😵</div>
+            <div class="emo-label">Es ist<br>zu viel</div>
+          </button>
+        </div>
+        <div class="emo-feedback" id="emo-msg" aria-live="polite">
+          Wähle ein Gesicht aus, das zeigt, wie es dir gerade geht.
+        </div>
+      </div>
+      <div class="mat-card-foot">
+        <span>📍 Immer sichtbar platzieren – z.B. am Eingang der Gruppe</span>
+        <span>🎯 Früherkennung von Overload</span>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:var(--sp6)">
+      <h3>Warum ist das wichtig?</h3>
+      <p>Reizüberflutung (Overload) kündigt sich durch innere Anspannung an, die oft nicht verbalisiert werden kann. Eine sichtbare Gefühlskarte ermöglicht dem Kind, frühzeitig zu kommunizieren – und dem Fachpersonal, rechtzeitig zu reagieren, bevor es zu einem Meltdown kommt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────
+  MATERIAL 4 – AUFRÄUMPLAN
+──────────────────────────────────────────────────── -->
+<section id="aufraeum">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label bd-green">Material 4</div>
+      <h2>Visueller Aufräumplan</h2>
+      <p>Beschriftete Kisten und ein interaktiver Aufräum-Check helfen, Ordnung als klare, vorhersehbare Aufgabe zu erleben – nicht als abstrakte Anforderung.</p>
+    </div>
+
+    <div class="grid-2" style="gap:var(--sp8)">
+      <div class="mat-card">
+        <div class="mat-card-head">
+          <div class="mat-title">
+            <div class="mat-icon" style="background:var(--green-hi)">📦</div>
+            <h3>Aufräum-Checkliste</h3>
+          </div>
+          <p class="mat-desc">Jede Kiste hat ein festes Symbol und einen festen Platz. Klicke auf eine Kiste, wenn sie fertig aufgeräumt ist.</p>
+          <span class="badge bd-green">Raumstruktur</span>
+        </div>
+        <div class="mat-card-body">
+          <div class="aufraum-grid" role="group" aria-label="Aufräumkisten">
+            <button class="ar-kiste" onclick="toggleKiste(this)" aria-pressed="false" aria-label="Bauklötze aufräumen">
+              <div class="ar-box" style="border-color:var(--orange)"><span aria-hidden="true">🧱</span><span class="ar-check" aria-hidden="true">✓</span></div>
+              <div class="ar-label">Bau&shy;klötze</div>
+            </button>
+            <button class="ar-kiste" onclick="toggleKiste(this)" aria-pressed="false" aria-label="Autos aufräumen">
+              <div class="ar-box" style="border-color:var(--blue)"><span aria-hidden="true">🚗</span><span class="ar-check" aria-hidden="true">✓</span></div>
+              <div class="ar-label">Autos</div>
+            </button>
+            <button class="ar-kiste" onclick="toggleKiste(this)" aria-pressed="false" aria-label="Puzzle aufräumen">
+              <div class="ar-box" style="border-color:var(--purple)"><span aria-hidden="true">🧩</span><span class="ar-check" aria-hidden="true">✓</span></div>
+              <div class="ar-label">Puzzle</div>
+            </button>
+            <button class="ar-kiste" onclick="toggleKiste(this)" aria-pressed="false" aria-label="Bücher aufräumen">
+              <div class="ar-box" style="border-color:var(--primary)"><span aria-hidden="true">📚</span><span class="ar-check" aria-hidden="true">✓</span></div>
+              <div class="ar-label">Bücher</div>
+            </button>
+            <button class="ar-kiste" onclick="toggleKiste(this)" aria-pressed="false" aria-label="Malsachen aufräumen">
+              <div class="ar-box" style="border-color:var(--red)"><span aria-hidden="true">🖍️</span><span class="ar-check" aria-hidden="true">✓</span></div>
+              <div class="ar-label">Mal&shy;sachen</div>
+            </button>
+            <button class="ar-kiste" onclick="toggleKiste(this)" aria-pressed="false" aria-label="Bälle aufräumen">
+              <div class="ar-box" style="border-color:var(--gold)"><span aria-hidden="true">⚽</span><span class="ar-check" aria-hidden="true">✓</span></div>
+              <div class="ar-label">Bälle</div>
+            </button>
+          </div>
+          <div id="aufraeum-msg" style="margin-top:var(--sp4);padding:var(--sp3) var(--sp4);border-radius:var(--r-md);font-size:var(--text-sm);color:var(--muted);background:var(--offset);min-height:2.8rem" aria-live="polite">
+            Tippe auf eine Kiste, wenn du sie aufgeräumt hast!
+          </div>
+        </div>
+        <div class="mat-card-foot">
+          <span>📍 Sichtbar im Spielbereich</span>
+          <span>✅ Jede erledigte Kiste sofort markieren</span>
+        </div>
+      </div>
+
+      <div class="mat-card">
+        <div class="mat-card-head">
+          <div class="mat-title">
+            <div class="mat-icon" style="background:var(--orange-hi)">🍽️</div>
+            <h3>Tisch-Set – visuelle Platzhilfe</h3>
+          </div>
+          <p class="mat-desc">Das Tisch-Set zeigt, wo Teller, Becher und Besteck hingehören. Es reduziert Unsicherheit beim Essen und unterstützt das Tischdecken.</p>
+          <span class="badge bd-orange">Essenssituation</span>
+        </div>
+        <div class="mat-card-body">
+          <div class="tischset" role="img" aria-label="Visuelles Tisch-Set mit Platzkennzeichnung">
+            <div class="ts-title">Mein Platz beim Essen</div>
+            <div class="ts-layout">
+              <div class="ts-left">
+                <div class="ts-item">
+                  <div class="ts-circle" style="width:3.5rem;height:3.5rem" aria-hidden="true">🥛</div>
+                  <span class="ts-label">Becher</span>
+                </div>
+                <div class="ts-item">
+                  <div class="ts-rect" style="width:3rem;height:4.5rem" aria-hidden="true">🍴</div>
+                  <span class="ts-label">Gabel</span>
+                </div>
+              </div>
+              <div class="ts-right">
+                <div class="ts-item">
+                  <div class="ts-circle" style="width:5.5rem;height:5.5rem;border-width:3px" aria-hidden="true">🍽️</div>
+                  <span class="ts-label">Teller</span>
+                </div>
+              </div>
+              <div class="ts-bottom">
+                <div class="ts-item">
+                  <div class="ts-rect" style="width:100%;height:2.5rem;justify-content:flex-end;padding-right:var(--sp3);font-size:1.4rem" aria-hidden="true">🥄</div>
+                  <span class="ts-label">Löffel / Messer (unten)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mat-card-foot">
+          <span>📍 Vor dem Essen auflegen</span>
+          <span>🖼 Kann mit echten Fotos aus der Einrichtung gestaltet werden</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────
+  MATERIAL 5 – TIME-TIMER
+──────────────────────────────────────────────────── -->
+<section id="timer" style="background:var(--surf)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label bd-red">Material 5</div>
+      <h2>Interaktiver Time-Timer</h2>
+      <p>Zeit ist für Kinder mit frühkindlichem Autismus oft schwer einzuschätzen. Der Time-Timer macht die verbleibende Zeit sichtbar – die rote Fläche wird kleiner, bis die Zeit abgelaufen ist.</p>
+    </div>
+
+    <div class="mat-card" style="max-width:680px;margin-inline:auto">
+      <div class="mat-card-head">
+        <div class="mat-title">
+          <div class="mat-icon" style="background:var(--red-hi)">⏱️</div>
+          <h3>Digitaler Time-Timer für die Kita</h3>
+        </div>
+        <p class="mat-desc">Wähle eine Zeitvorgabe, starte den Timer und lass das Kind die schrumpfende Fläche beobachten. Das Ende ist stets vorhersehbar.</p>
+        <div style="display:flex;gap:var(--sp2);flex-wrap:wrap">
+          <span class="badge bd-red">Zeitstruktur</span>
+          <span class="badge bd-teal">Übergänge ankündigen</span>
+        </div>
+      </div>
+      <div class="mat-card-body">
+        <div class="timer-wrap">
+          <div class="timer-canvas-wrap" role="timer" aria-live="polite" aria-label="Time-Timer">
+            <svg class="timer-svg" id="timerSvg" viewBox="0 0 200 200" aria-hidden="true">
+              <circle cx="100" cy="100" r="92" fill="var(--offset)" stroke="var(--border)" stroke-width="2"/>
+              <path id="timerArc" d="" fill="var(--red)" opacity="0.82"/>
+              <circle cx="100" cy="100" r="60" fill="var(--surf)"/>
+              <circle cx="100" cy="100" r="92" fill="none" stroke="var(--border)" stroke-width="2"/>
+              <circle cx="100" cy="100" r="60" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+              <!-- Tick marks -->
+              <g id="ticks" stroke="var(--divider)" stroke-width="1.5"/>
+            </svg>
+            <div class="timer-display">
+              <div class="timer-min" id="timerMin">5:00</div>
+              <div class="timer-sec-disp" id="timerSec"></div>
+              <div class="timer-label-disp" id="timerLbl">Bereit</div>
+            </div>
+          </div>
+          <div class="timer-controls" role="group" aria-label="Zeitvorgabe wählen">
+            <button class="timer-preset" onclick="setTime(2)" aria-label="2 Minuten">2 min</button>
+            <button class="timer-preset active" onclick="setTime(5)" aria-label="5 Minuten">5 min</button>
+            <button class="timer-preset" onclick="setTime(10)" aria-label="10 Minuten">10 min</button>
+            <button class="timer-preset" onclick="setTime(15)" aria-label="15 Minuten">15 min</button>
+            <button class="timer-preset" onclick="setTime(20)" aria-label="20 Minuten">20 min</button>
+          </div>
+          <div style="display:flex;gap:var(--sp3)">
+            <button class="timer-start-btn" id="timerBtn" onclick="toggleTimer()" aria-label="Timer starten">▶ Starten</button>
+            <button class="timer-preset" onclick="resetTimer()" aria-label="Timer zurücksetzen">↩ Reset</button>
+          </div>
+          <p class="timer-info">Wenn die rote Fläche weg ist → Zeit ist um!</p>
+        </div>
+      </div>
+      <div class="mat-card-foot">
+        <span>📍 Gut sichtbar aufstellen</span>
+        <span>🎯 Aufräumen, Spielzeit, Wartesituationen</span>
+        <span>🔔 Optional: Ton beim Ablauf</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────
+  MATERIAL 6 – RUHEPLATZ + LOB-STEMPEL
+──────────────────────────────────────────────────── -->
+<section id="ruheplatz">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-label bd-blue">Material 6</div>
+      <h2>Ruheplatz & Lob-Stempel</h2>
+      <p>Ein klar markierter Ruheplatz signalisiert dem Kind: Hier darf ich mich zurückziehen. Lob-Stempel machen positive Rückmeldung greifbar und konkret.</p>
+    </div>
+
+    <div class="grid-2" style="gap:var(--sp8)">
+      <div class="mat-card">
+        <div class="mat-card-head">
+          <div class="mat-title">
+            <div class="mat-icon" style="background:var(--blue-hi)">🪑</div>
+            <h3>Ruheplatz-Signalkarte</h3>
+          </div>
+          <p class="mat-desc">Der Ruheplatz ist fest und für das Kind immer auffindbar. Mit einer Signalkarte kann es selbst kommunizieren, dass es Rückzug braucht.</p>
+          <span class="badge bd-blue">Reizreduktion</span>
+        </div>
+        <div class="mat-card-body">
+          <div class="ruheplatz" role="region" aria-label="Ruheplatz-Materialien">
+            <div class="rp-card">
+              <div class="rp-icon" style="background:var(--blue-hi)">🎧</div>
+              <div class="rp-body">
+                <h4>Ausrüstung am Ruheplatz</h4>
+                <p>Kopfhörer oder Ohrenschützer, weiche Decke oder Kissen, ggf. eine Lieblingsaktivität (z.B. Stein-Sammlung, bestimmtes Bilderbuch)</p>
+              </div>
+            </div>
+            <div class="rp-card">
+              <div class="rp-icon" style="background:var(--primary-hi)">🗺️</div>
+              <div class="rp-body">
+                <h4>Raummarkierung</h4>
+                <p>Fester Teppich, Kissen in einer Ecke, ggf. Sichtschutz (kleines Regal, Vorhang) – der Platz ist immer derselbe und räumlich klar abgegrenzt.</p>
+              </div>
+            </div>
+            <div class="signal-row" role="img" aria-label="Signal-Karte: Ich brauche eine Pause">
+              <span class="signal-icon" aria-hidden="true">🟦</span>
+              <div>
+                <div class="signal-text">Signalkarte: „Ich brauche eine Pause"</div>
+                <div class="signal-sub">Das Kind gibt diese Karte der Fachkraft oder legt sie sichtbar auf den Tisch.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mat-card-foot">
+          <span>📍 Immer an derselben Stelle im Raum</span>
+          <span>🎯 Overload-Prävention</span>
+        </div>
+      </div>
+
+      <div class="mat-card">
+        <div class="mat-card-head">
+          <div class="mat-title">
+            <div class="mat-icon" style="background:var(--gold-hi)">⭐</div>
+            <h3>Lob-Stempel – positives Feedback</h3>
+          </div>
+          <p class="mat-desc">Konkretes, sofortiges Lob nach dem Wiener Interaktionstraining. Klicke auf einen Stempel, um ihn zu „vergeben".</p>
+          <span class="badge bd-gold">Positive Verstärkung</span>
+        </div>
+        <div class="mat-card-body">
+          <div class="stempel-grid" role="list" aria-label="Lob-Stempel">
+            <button class="stempel" style="border-color:var(--gold);color:var(--gold)" role="listitem" onclick="stampIt('⭐ Super gemacht!')" aria-label="Stempel: Gut gemacht">
+              <span class="s-icon">⭐</span>
+              <span class="s-label">Super<br>gemacht!</span>
+            </button>
+            <button class="stempel" style="border-color:var(--green);color:var(--green)" role="listitem" onclick="stampIt('✅ Das hab ich geschafft!')" aria-label="Stempel: Ich hab's geschafft">
+              <span class="s-icon">✅</span>
+              <span class="s-label">Ich hab's<br>geschafft!</span>
+            </button>
+            <button class="stempel" style="border-color:var(--primary);color:var(--primary)" role="listitem" onclick="stampIt('💪 Ich bin mutig!')" aria-label="Stempel: Ich bin mutig">
+              <span class="s-icon">💪</span>
+              <span class="s-label">Ich bin<br>mutig!</span>
+            </button>
+            <button class="stempel" style="border-color:var(--orange);color:var(--orange)" role="listitem" onclick="stampIt('🌟 Ich habe geholfen!')" aria-label="Stempel: Ich habe geholfen">
+              <span class="s-icon">🌟</span>
+              <span class="s-label">Ich hab<br>geholfen!</span>
+            </button>
+            <button class="stempel" style="border-color:var(--purple);color:var(--purple)" role="listitem" onclick="stampIt('🎉 Ich habe es ruhig geschafft!')" aria-label="Stempel: Ich war ruhig">
+              <span class="s-icon">🎉</span>
+              <span class="s-label">Ich war<br>ruhig!</span>
+            </button>
+          </div>
+        </div>
+        <div class="mat-card-foot">
+          <span>🎯 Unmittelbar nach der Handlung einsetzen</span>
+          <span>📝 Kann in ein Lob-Heft eingeklebt werden</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="stempel-boom" id="stampBoom" aria-live="assertive" aria-atomic="true"><span id="stampText"></span></div>
+
+<footer>
+  <div class="wrap">
+    <p>Erstellt für pädagogische Fachkräfte in Ausbildung und Praxis — Klasse 2BKSP2 · LF6 · TEACCH-Ansatz. Alle Materialien können ausgedruckt oder digital genutzt werden.</p>
+  </div>
+</footer>
+
+<script>
+/* Theme Toggle */
+(function(){
+  var root=document.documentElement;
+  var btn=document.querySelector('[data-theme-toggle]');
+  var d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  root.setAttribute('data-theme',d);
+  function icon(m){btn.innerHTML=m==='dark'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'}
+  icon(d);
+  btn&&btn.addEventListener('click',function(){d=d==='dark'?'light':'dark';root.setAttribute('data-theme',d);icon(d)});
+})();
+
+/* Tagesplan */
+function toggleStep(el){
+  el.classList.toggle('done');
+  var p=el.closest('.tp-steps');
+  if(!p)return;
+  var all=[].slice.call(p.querySelectorAll('.tp-step'));
+  var first=all.find(function(s){return!s.classList.contains('done')});
+  all.forEach(function(s){s.classList.remove('active')});
+  if(first)first.classList.add('active');
+}
+
+/* Emotionskarte */
+var emoMsgs=[
+  '😊 Super! Das Kind fühlt sich wohl. Alles ist in Ordnung.',
+  '😌 Das Kind ist ruhig und ausgeglichen. Gute Bedingungen zum Lernen.',
+  '😐 Das Kind ist unsicher. Beobachten und bei Bedarf ansprechen.',
+  '😟 Das Kind ist unruhig. Ruhiger Platz oder kurze Pause anbieten.',
+  '😵 Achtung: Das Kind ist überfordert. Sofort Rückzugsmöglichkeit anbieten – Overload-Prävention!'
+];
+function selectEmo(el,idx){
+  var all=[].slice.call(document.querySelectorAll('.emo-item'));
+  all.forEach(function(e){e.classList.remove('selected');e.setAttribute('aria-checked','false')});
+  el.classList.add('selected');
+  el.setAttribute('aria-checked','true');
+  document.getElementById('emo-msg').textContent=emoMsgs[idx];
+}
+
+/* Aufräumen */
+var kisteCount=0;
+function toggleKiste(el){
+  el.classList.toggle('done');
+  el.setAttribute('aria-pressed',el.classList.contains('done')?'true':'false');
+  kisteCount=[].slice.call(document.querySelectorAll('.ar-kiste.done')).length;
+  var total=[].slice.call(document.querySelectorAll('.ar-kiste')).length;
+  var msg=document.getElementById('aufraeum-msg');
+  if(kisteCount===0)msg.textContent='Tippe auf eine Kiste, wenn du sie aufgeräumt hast!';
+  else if(kisteCount<total)msg.textContent='✅ '+kisteCount+' von '+total+' Kisten fertig – weiter so!';
+  else msg.textContent='🎉 Super! Alles ist aufgeräumt!';
+}
+
+/* Time-Timer */
+var totalSec=300,remainSec=300,timerRunning=false,timerInterval=null;
+function setTime(m){
+  resetTimer();
+  totalSec=m*60;remainSec=totalSec;
+  document.querySelectorAll('.timer-preset').forEach(function(b){b.classList.remove('active')});
+  event.target.classList.add('active');
+  updateTimerDisplay();
+}
+function toggleTimer(){
+  if(timerRunning){clearInterval(timerInterval);timerRunning=false;document.getElementById('timerBtn').textContent='▶ Weiter';}
+  else{if(remainSec<=0)resetTimer();timerRunning=true;document.getElementById('timerBtn').textContent='⏸ Pause';timerInterval=setInterval(tick,1000);}
+  document.getElementById('timerLbl').textContent=timerRunning?'Läuft …':'Pausiert';
+}
+function tick(){
+  if(remainSec>0){remainSec--;updateTimerDisplay();}
+  else{clearInterval(timerInterval);timerRunning=false;document.getElementById('timerBtn').textContent='▶ Starten';document.getElementById('timerLbl').textContent='⏰ Zeit ist um!';document.getElementById('timerArc').setAttribute('d','');}
+}
+function resetTimer(){
+  clearInterval(timerInterval);timerRunning=false;remainSec=totalSec;
+  document.getElementById('timerBtn').textContent='▶ Starten';
+  document.getElementById('timerLbl').textContent='Bereit';
+  updateTimerDisplay();
+}
+function updateTimerDisplay(){
+  var m=Math.floor(remainSec/60),s=remainSec%60;
+  document.getElementById('timerMin').textContent=m+':'+(s<10?'0':'')+s;
+  if(totalSec===0){document.getElementById('timerArc').setAttribute('d','');return;}
+  var frac=remainSec/totalSec;
+  var a=-Math.PI/2,sweep=frac*2*Math.PI,x=100+92*Math.cos(a),y=100+92*Math.sin(a);
+  var ex=100+92*Math.cos(a+sweep),ey=100+92*Math.sin(a+sweep);
+  var large=sweep>Math.PI?1:0;
+  var d=frac<0.005?'':'M100,100 L'+x+','+y+' A92,92 0 '+large+',1 '+ex+','+ey+' Z';
+  document.getElementById('timerArc').setAttribute('d',d);
+}
+(function buildTicks(){
+  var g=document.getElementById('ticks');
+  for(var i=0;i<60;i++){
+    var a=-Math.PI/2+i*(2*Math.PI/60);
+    var r=i%5===0?84:88;
+    var x1=100+92*Math.cos(a),y1=100+92*Math.sin(a),x2=100+r*Math.cos(a),y2=100+r*Math.sin(a);
+    var l=document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',x1.toFixed(2));l.setAttribute('y1',y1.toFixed(2));
+    l.setAttribute('x2',x2.toFixed(2));l.setAttribute('y2',y2.toFixed(2));
+    if(i%5===0)l.setAttribute('stroke-width','2.5');
+    g.appendChild(l);
+  }
+  updateTimerDisplay();
+})();
+
+/* Lob-Stempel */
+function stampIt(text){
+  var boom=document.getElementById('stampBoom');
+  var el=document.getElementById('stampText');
+  el.textContent=text;
+  boom.classList.add('show');
+  setTimeout(function(){boom.classList.remove('show')},750);
+}
+</script>
+</body>
+</html>

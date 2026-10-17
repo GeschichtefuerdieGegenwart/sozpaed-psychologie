@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Multiple Choice Test: Bedeutung von Gruppen</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f9f9f9;
+  }
+  .quiz-container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    padding: 20px 30px;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .question {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  .options label {
+    display: block;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+  .result {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #2e7d32;
+    text-align: center;
+    margin-top: 25px;
+  }
+</style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="mdl-hinweis" role="note"><b>Zur Einordnung:</b> Dieser Selbsttest ist kein wissenschaftliches Messinstrument. Er ist ein Anlass, über die eigene Haltung nachzudenken. Deine Antworten bleiben auf diesem Gerät und werden nirgends gespeichert oder gesendet.</div>
+
+<div class="quiz-container">
+  <h2>Test: Bedeutung von Gruppen für Kinder und Jugendliche</h2>
+  <div id="quiz"></div>
+  <button id="submitBtn">Antworten prüfen</button>
+  <div id="result" class="result"></div>
+</div>
+
+<script>
+const questions = [
+  {
+    question: "1. Welche Gruppe hat in deinem Leben bisher am meisten Einfluss auf dein Verhalten gehabt?",
+    options: ["Familie", "Freundeskreis", "Schulklasse", "Sportverein"],
+    correct: [0,1,2,3] // hier können mehrere als korrekt gelten
+  },
+  {
+    question: "2. Wie fühlst du dich meist, wenn du Teil einer Gruppe bist, zu der du gut dazugehörst?",
+    options: ["Sicher und verstanden", "Unsicher und ausgeschlossen", "Gleichgültig", "Genervt von den anderen"],
+    correct: [0]
+  },
+  {
+    question: "3. Du hast in deiner Gruppe anderer Meinung als die Mehrheit. Wie reagierst du meistens?",
+    options: ["Ich sage meine Meinung offen", "Ich stimme oft zu, um nicht auszuschließen zu werden", "Ich ziehe mich zurück", "Ich diskutiere heftig, um meine Meinung durchzusetzen"],
+    correct: [0]
+  },
+  {
+    question: "4. Deine Gruppe erlebt einen Konflikt. Was hilft am meisten dabei, den Streit zu lösen?",
+    options: ["Reden und gemeinsam nach Lösungen suchen", "Jeder macht sein Ding und meidet die anderen", "Eine starke Führungsperson entscheidet für alle", "Es wird ignoriert, bis der Streit von selbst vorbei geht"],
+    correct: [0]
+  },
+  {
+    question: "5. Wie hast du durch Gruppen deine sozialen Fähigkeiten verbessert?",
+    options: ["Indem ich erfahren habe, wie man Kompromisse findet", "Indem ich gelernt habe, mich durchzusetzen und zu streiten", "Indem ich mich oft anpassen musste, auch wenn es mir nicht passte", "Indem ich mich von anderen abgegrenzt habe"],
+    correct: [0]
+  },
+  {
+    question: "6. Warum ist es wichtig, dass Erzieher*innen oder Lehrer*innen Gruppenprozesse begleiten?",
+    options: ["Damit alle Kinder mitmachen und sich wohlfühlen", "Damit die Pädagog*innen immer alles kontrollieren können", "Damit die Kinder keine eigenen Entscheidungen treffen", "Damit schneller Ruhe herrscht"],
+    correct: [0]
+  },
+  {
+    question: "7. Wenn du eine Rolle in einer Gruppe übernehmen könntest, welche wäre dir am wichtigsten?",
+    options: [
+      "Jemand, der zuhört und hilft, wenn es Streit gibt",
+      "Jemand, der Entscheidungen trifft und führt",
+      "Jemand, der neue Ideen einbringt und motiviert",
+      "Jemand, der eher zurückhaltend ist und nicht auffällt"
+    ],
+    correct: [0,1,2,3] // alle Antworten sind hier gültig, da sie Gruppendynamik unterstützen
+  }
+];
+
+const quizDiv = document.getElementById("quiz");
+const resultDiv = document.getElementById("result");
+const submitBtn = document.getElementById("submitBtn");
+
+function buildQuiz() {
+  const output = [];
+  questions.forEach((currentQuestion, index) => {
+    const options = currentQuestion.options.map((option, i) => 
+      `<label>
+        <input type="radio" name="question${index}" value="${i}" />
+        ${option}
+      </label>`
+    ).join("");
+    output.push(
+      `<div class="question-block">
+        <div class="question">${currentQuestion.question}</div>
+        <div class="options">${options}</div>
+      </div>`
+    );
+  });
+  quizDiv.innerHTML = output.join("");
+}
+
+function showResults() {
+  let score = 0;
+
+  questions.forEach((currentQuestion, index) => {
+    const selected = document.querySelector(`input[name=question${index}]:checked`);
+    if(selected){
+      const answer = parseInt(selected.value);
+      if(currentQuestion.correct.includes(answer)){
+        score++;
+      }
+    }
+  });
+  
+  resultDiv.textContent = `Du hast ${score} von ${questions.length} Fragen richtig beantwortet.`;
+
+  // Optional: individuelle Bewertung
+  let message = "";
+  if(score === questions.length) {
+    message = "Perfekt! Du kennst die Bedeutung von Gruppen sehr gut.";
+  } else if(score >= questions.length * 0.7) {
+    message = "Gut gemacht! Du hast ein solides Verständnis.";
+  } else if(score >= questions.length * 0.4) {
+    message = "Nicht schlecht, aber es gibt noch Luft nach oben.";
+  } else {
+    message = "Du solltest den Stoff noch einmal durchgehen.";
+  }
+  resultDiv.textContent += ` ${message}`;
+}
+
+submitBtn.addEventListener("click", () => {
+  const allAnswered = questions.every((q, i) => {
+    return document.querySelector(`input[name=question${i}]:checked`) !== null;
+  });
+  if(!allAnswered){
+    alert("Bitte beantworte alle Fragen bevor du das Ergebnis siehst!");
+    return;
+  }
+  showResults();
+});
+
+buildQuiz();
+</script>
+
+</body>
+</html>

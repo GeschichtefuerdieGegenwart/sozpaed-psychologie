@@ -1,0 +1,576 @@
+<!-- Interaktive Infografik – Förderung positiven Körperbewusstseins in Kita/Grundschule (erweiterte Version mit Bildern) -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Förderung Körperbewusstsein – Interaktive Infografik</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
+  padding: 20px;
+}
+.container { max-width: 1200px; margin: 0 auto; }
+.header {
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+.header h1 { font-size: 2.5em; margin-bottom: 10px; }
+.header p { font-size: 1.1em; opacity: 0.95; }
+.tab-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+.tab-btn {
+  padding: 12px 20px;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.tab-btn:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+}
+.tab-btn.active {
+  background: #667eea;
+  color: white;
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+}
+.tabcontent {
+  display: none;
+  animation: fadeIn 0.5s;
+}
+.tabcontent.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.content-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-left: 5px solid #667eea;
+}
+.measure-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+.measure-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+.measure-icon {
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+}
+.measure-text h4 {
+  color: #667eea;
+  font-size: 1.3em;
+  margin-bottom: 8px;
+}
+.measure-text .goal {
+  font-size: 0.95em;
+  color: #555;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.measure-text .goal-label {
+  color: #999;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.measure-text .implementation {
+  font-size: 0.95em;
+  color: #666;
+  line-height: 1.6;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  border-left: 3px solid #764ba2;
+}
+.implementation-label {
+  color: #764ba2;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.info-box {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  border-left: 4px solid #f39c12;
+  font-size: 0.9em;
+  color: #333;
+}
+@media (max-width: 768px) {
+  .measure-item { grid-template-columns: 1fr; }
+  .measure-icon { width: 90px; height: 90px; font-size: 40px; }
+  .header h1 { font-size: 1.8em; }
+  .tab-navigation { gap: 5px; }
+  .tab-btn { padding: 10px 15px; font-size: 13px; }
+}
+</style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🌟 Körperbewusstsein fördern in Kita & Grundschule</h1>
+    <p>Wählen Sie einen Bereich aus und erkunden Sie konkrete Fördermaßnahmen für Ihren Praxisfall</p>
+  </div>
+
+  <div class="tab-navigation">
+    <button class="tab-btn active" onclick="switchTab(event, 'Wickeln')">🍼 Wickel-/Umkleidebereich</button>
+    <button class="tab-btn" onclick="switchTab(event, 'Ruhe')">😴 Ruhe-/Schlafphasen</button>
+    <button class="tab-btn" onclick="switchTab(event, 'Bewegung')">🏃 Bewegung/Sport</button>
+    <button class="tab-btn" onclick="switchTab(event, 'Essen')">🍽️ Essen/Trinken</button>
+    <button class="tab-btn" onclick="switchTab(event, 'Bilderbuch')">📚 Bilderbuch/Vorlesen</button>
+    <button class="tab-btn" onclick="switchTab(event, 'Eltern')">👨‍👩‍👧 Elternarbeit</button>
+  </div>
+
+  <!-- WICKEL- UND UMKLEIDEBEREICH -->
+  <div id="Wickeln" class="tabcontent active">
+    <div class="content-card">
+      <h2>🍼 Wickel- und Umkleidebereich (Krippe/Kita)</h2>
+      <p style="color: #666; margin-top: 10px; font-size: 0.95em;">In dieser intimen Pflegesituation lernen Kinder, ihren Körper als wertvoll wahrzunehmen und Grenzen zu setzen.</p>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🤗</div>
+      <div class="measure-text">
+        <h4>Positive Körpersprache</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind erfährt seinen Körper als wertvoll</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Liebevolle Berührungen beim Wickeln, warme Hände, sanftes Streicheln über Arme und Beine, begleitende Worte wie „Dein Körper ist wunderbar"</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">💬</div>
+      <div class="measure-text">
+        <h4>Sprachliche Begleitung</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind entwickelt Körperbewusstsein</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Alle Handlungen kommentieren: „Jetzt ziehe ich deine Hose aus", „Ich wasche jetzt deine Füße", dabei korrekte Begriffe verwenden (Penis, Vulva, Po)</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🚪</div>
+      <div class="measure-text">
+        <h4>Respekt vor Intimsphäre</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind lernt Grenzen wahrzunehmen</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Wickeltür geschlossen halten, anklopfen lassen, nur ein Kind gleichzeitig wickeln, Kind entscheidet wer es wickelt</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">⭐</div>
+      <div class="measure-text">
+        <h4>Autonomieförderung</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind erlebt Selbstwirksamkeit</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Kind mit Treppe selbst hochklettern lassen, Windel aus eigenem Fach holen lassen, beim An- und Ausziehen mithelfen lassen</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🎵</div>
+      <div class="measure-text">
+        <h4>Positive Wickelatmosphäre</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind verbindet Körperpflege mit Geborgenheit</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Lieder singen, Reime sprechen, Bilder gemeinsam betrachten, Zeit nehmen und Blickkontakt halten</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RUHE- UND SCHLAFPHASEN -->
+  <div id="Ruhe" class="tabcontent">
+    <div class="content-card">
+      <h2>😴 Ruhe- und Schlafphasen</h2>
+      <p style="color: #666; margin-top: 10px; font-size: 0.95em;">Stille Momente für bewusste Körperwahrnehmung und entspannte Regeneration.</p>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🧘</div>
+      <div class="measure-text">
+        <h4>Körperwahrnehmung</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind spürt seinen Körper bewusst</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Progressive Muskelentspannung für Kinder: „Mache dich ganz klein wie eine Schnecke, jetzt strecke dich ganz lang wie eine Giraffe"</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">💨</div>
+      <div class="measure-text">
+        <h4>Atemübungen</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind lernt zur Ruhe zu kommen</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">„Lege deine Hand auf den Bauch und spüre, wie er sich hebt und senkt", Bauchatmung mit Kuscheltier auf dem Bauch beobachten</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">✨</div>
+      <div class="measure-text">
+        <h4>Fantasiereisen</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind entspannt durch innere Bilder</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">„Stell dir vor, du liegst auf einer warmen Wiese...", „Du bist ein Schmetterling, der sanft durch die Luft schwebt"</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🌙</div>
+      <div class="measure-text">
+        <h4>Autogenes Training</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind erlebt Entspannung und Körpergefühl</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">„Deine Arme sind ganz schwer und warm", „Dein Bauch ist weich und entspannt", mit ruhiger Musik</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">💆</div>
+      <div class="measure-text">
+        <h4>Körpermassagen</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind erfährt achtsame Berührung</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">„Pizza backen" auf dem Rücken: Teig ausrollen, Zutaten verteilen, dabei sanft über den Rücken streichen</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEWEGUNGS- UND SPORTANGEBOTE -->
+  <div id="Bewegung" class="tabcontent">
+    <div class="content-card">
+      <h2>🏃 Bewegungs- und Sportangebote</h2>
+      <p style="color: #666; margin-top: 10px; font-size: 0.95em;">Aktive Erlebnisse mit dem eigenen Körper und Akzeptanz von Vielfalt.</p>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🎉</div>
+      <div class="measure-text">
+        <h4>Freude am Körper</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kinder erleben Bewegung positiv</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Tierische Bewegungsspiele: „Wir bewegen uns wie Elefanten (schwer stampfen), wie Schmetterlinge (leicht flattern), wie Schlangen (am Boden kriechen)"</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🌈</div>
+      <div class="measure-text">
+        <h4>Vielfalt akzeptieren</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind lernt, dass alle Körper unterschiedlich sind</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Spiegelspiel: Kinder imitieren verschiedene Bewegungen, jedes in seinem Tempo. Betonen: „Jeder Körper kann etwas anderes gut!"</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">👁️</div>
+      <div class="measure-text">
+        <h4>Körperwahrnehmung stärken</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind entwickelt Körperschema</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">„Körperteile-Bingo": Berühre mit deiner Hand dein Knie, mit deinem Ellbogen deinen Bauch; „Statue": In verschiedenen Positionen einfrieren</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">💪</div>
+      <div class="measure-text">
+        <h4>Selbstwirksamkeit erleben</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind traut sich mehr zu</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Hindernisparcours mit unterschiedlichen Schwierigkeitsgraden, jedes Kind wählt seinen Weg. Erfolge feiern statt Vergleiche ziehen</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🤝</div>
+      <div class="measure-text">
+        <h4>Kooperation fördern</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind erfährt Gemeinschaft ohne Leistungsdruck</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Gemeinsam einen Luftballon in der Luft halten ohne dass er den Boden berührt, Partnermassagen nach Bewegungsspielen</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESSEN UND TRINKEN -->
+  <div id="Essen" class="tabcontent">
+    <div class="content-card">
+      <h2>🍽️ Essen und Trinken</h2>
+      <p style="color: #666; margin-top: 10px; font-size: 0.95em;">Lustvolle und entspannte Essenerfahrungen mit Selbstbestimmung.</p>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">👂</div>
+      <div class="measure-text">
+        <h4>Körperbedürfnisse respektieren</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind lernt, eigene Signale wahrzunehmen</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Fragen: „Fühl mal in deinen Bauch – bist du satt?", „Hast du Hunger oder Durst?" Kein Zwang zum Aufessen</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🎯</div>
+      <div class="measure-text">
+        <h4>Selbstbestimmung beim Essen</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind reguliert Hunger und Sättigung selbst</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Kinder schöpfen selbst, entscheiden was und wie viel, „Nein" respektieren, kein Nachtischverbot</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">😋</div>
+      <div class="measure-text">
+        <h4>Lustvolle Erfahrungen</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind verbindet positive Gefühle mit Körperlichkeit</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Gemeinsames Kochen, verschiedene Lebensmittel mit allen Sinnen erforschen (riechen, fühlen, schmecken), positive Atmosphäre</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🔍</div>
+      <div class="measure-text">
+        <h4>Körpersignale deuten lernen</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind unterscheidet Hunger, Durst, Sättigung</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Hungersignale besprechen: „Wie fühlt sich Hunger an?", „Wo spürst du den Hunger?" Individuelle Zeichen beachten</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">☺️</div>
+      <div class="measure-text">
+        <h4>Entspannte Essenszeiten</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind isst ohne Druck und Stress</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Jedes Kind isst im eigenen Tempo, keine „Teller leer"-Regel, vertrauensvolle Atmosphäre schaffen</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BILDERBUCH- UND VORLESEZEITEN -->
+  <div id="Bilderbuch" class="tabcontent">
+    <div class="content-card">
+      <h2>📚 Bilderbuch- und Vorlesezeiten</h2>
+      <p style="color: #666; margin-top: 10px; font-size: 0.95em;">Vielfältige Geschichten für positive Körperwahrnehmung und Selbstbestimmung.</p>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🌍</div>
+      <div class="measure-text">
+        <h4>Diversität zeigen</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind sieht vielfältige Körper</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Bücher mit verschiedenen Körperformen, Hautfarben, Fähigkeiten auswählen: Menschen mit Behinderung, verschiedene Altersgruppen</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">❓</div>
+      <div class="measure-text">
+        <h4>Gespräche ermöglichen</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind kann Fragen zum Körper stellen</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Offene Fragen: „Was siehst du auf dem Bild?", „Was kann dieser Körper alles?" Alle Fragen ernst nehmen und altersgerecht beantworten</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">💝</div>
+      <div class="measure-text">
+        <h4>Körperpositive Botschaften vermitteln</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind lernt, dass alle Körper wertvoll sind</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Beim Vorlesen betonen: „Jeder Körper ist einzigartig und wunderbar!" „Schau mal, wie verschieden alle sind – und das ist toll!"</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🛡️</div>
+      <div class="measure-text">
+        <h4>Prävention integrieren</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind lernt körperliche Selbstbestimmung</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Bücher: „Dein Körper gehört dir", „Du entscheidest, wer dich anfassen darf". Im Gespräch vertiefen</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🪞</div>
+      <div class="measure-text">
+        <h4>Positive Identifikation ermöglichen</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Kind findet sich in Geschichten wieder</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Bücher mit diversen Hauptfiguren, in denen sich alle Kinder repräsentiert fühlen können</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ELTERNARBEIT -->
+  <div id="Eltern" class="tabcontent">
+    <div class="content-card">
+      <h2>👨‍👩‍👧 Kommunikation mit Eltern</h2>
+      <p style="color: #666; margin-top: 10px; font-size: 0.95em;">Partnerschaft mit Eltern für einheitliche positive Botschaften.</p>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">💡</div>
+      <div class="measure-text">
+        <h4>Eltern sensibilisieren</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Einheitliche Botschaften zuhause und in Kita</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Elternabend zum Thema „Positives Körperbewusstsein", Infomaterial über Body Shaming, Tipps für zuhause</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🗣️</div>
+      <div class="measure-text">
+        <h4>Austausch über Körperwahrnehmung</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Eltern verstehen Bedeutung von positivem Körperbild</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Tür- und Angelgespräche, Elternbriefe mit Praxisbeispielen: „Wir achten darauf, keine negativen Kommentare über Körper zu machen"</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🪞</div>
+      <div class="measure-text">
+        <h4>Vorbildfunktion thematisieren</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Eltern reflektieren eigenes Verhalten</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Workshops: „Wie spreche ich über meinen eigenen Körper?", eigene Selbstakzeptanz als wichtigstes Vorbild</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🤲</div>
+      <div class="measure-text">
+        <h4>Gemeinsame Haltung entwickeln</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Eltern und Fachkräfte arbeiten zusammen</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Gemeinsame Vereinbarungen: keine Kommentare zu Körperformen, keine Diät-Gespräche vor Kindern, kein Zwang beim Essen</div>
+      </div>
+    </div>
+
+    <div class="measure-item">
+      <div class="measure-icon">🎁</div>
+      <div class="measure-text">
+        <h4>Ressourcen weitergeben</h4>
+        <div class="goal-label">Ziel</div>
+        <div class="goal">Eltern erhalten Unterstützung</div>
+        <div class="implementation-label">Umsetzung</div>
+        <div class="implementation">Bücherliste mit körperpositiven Kinderbüchern, Bewegungstipps für zuhause, Kontaktdaten von Beratungsstellen</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchTab(evt, tabName) {
+  // Verstecke alle Inhalte
+  const contents = document.querySelectorAll('.tabcontent');
+  contents.forEach(content => content.classList.remove('active'));
+  
+  // Entferne active-Klasse von allen Buttons
+  const buttons = document.querySelectorAll('.tab-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  
+  // Zeige den neuen Inhalt und aktiviere Button
+  document.getElementById(tabName).classList.add('active');
+  evt.currentTarget.classList.add('active');
+}
+</script>
+
+</body>
+</html>

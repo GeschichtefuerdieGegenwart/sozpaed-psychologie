@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chancengleichheits-Fragebogen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        .question {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .scale-option {
+            text-align: center;
+            width: 18%;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #results {
+            display: none;
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .category {
+            margin-bottom: 15px;
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        .progress-bar {
+            height: 20px;
+            background-color: #3498db;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+<style>/* Darstellung auf dem Smartphone */@media (max-width:600px){.scale{flex-wrap:wrap;gap:6px}.scale-option{width:auto;flex:1 1 28%;min-width:0}.scale-option label{overflow-wrap:anywhere;hyphens:auto}}</style>
+</head>
+<body>
+<div class="mdl-hinweis" role="note"><b>Zur Einordnung:</b> Dieser Selbsttest ist kein wissenschaftliches Messinstrument. Er ist ein Anlass, über die eigene Haltung nachzudenken. Deine Antworten bleiben auf diesem Gerät und werden nirgends gespeichert oder gesendet. <b>Alle Angaben sind freiwillig.</b> Niemand muss Antworten oder Ergebnisse zeigen.</div>
+    <h1>Chancengleichheits-Fragebogen</h1>
+    <form id="questionnaire">
+        <h2>1. Soziale Herkunft & Bildung</h2>
+        <div class="question">
+            <p>Wie bewerten Sie den Bildungsgrad Ihrer Eltern/Erziehungsberechtigten?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="1" id="q1_1_1" required>
+                    <label for="q1_1_1">Niedrig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="2" id="q1_1_2">
+                    <label for="q1_1_2">Eher niedrig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="3" id="q1_1_3">
+                    <label for="q1_1_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="4" id="q1_1_4">
+                    <label for="q1_1_4">Eher hoch</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_1" value="5" id="q1_1_5">
+                    <label for="q1_1_5">Hoch</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie stark wurden Sie in Ihrer Kindheit beim Lernen oder bei Hausaufgaben unterstützt?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="1" id="q1_2_1" required>
+                    <label for="q1_2_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="2" id="q1_2_2">
+                    <label for="q1_2_2">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="3" id="q1_2_3">
+                    <label for="q1_2_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="4" id="q1_2_4">
+                    <label for="q1_2_4">Stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_2" value="5" id="q1_2_5">
+                    <label for="q1_2_5">Sehr stark</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie stark hat Ihrer Meinung nach Ihre Herkunft Ihre Bildungschancen beeinflusst?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q1_3" value="1" id="q1_3_1" required>
+                    <label for="q1_3_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_3" value="2" id="q1_3_2">
+                    <label for="q1_3_2">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_3" value="3" id="q1_3_3">
+                    <label for="q1_3_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_3" value="4" id="q1_3_4">
+                    <label for="q1_3_4">Stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q1_3" value="5" id="q1_3_5">
+                    <label for="q1_3_5">Sehr stark</label>
+                </div>
+            </div>
+        </div>
+
+        <h2>2. Einkommen & Vermögen</h2>
+        <div class="question">
+            <p>Wie würden Sie das Einkommen Ihrer Herkunftsfamilie im Vergleich zu anderen einschätzen?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="1" id="q2_1_1" required>
+                    <label for="q2_1_1">Deutlich niedriger</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="2" id="q2_1_2">
+                    <label for="q2_1_2">Etwas niedriger</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="3" id="q2_1_3">
+                    <label for="q2_1_3">Gleich</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="4" id="q2_1_4">
+                    <label for="q2_1_4">Etwas höher</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_1" value="5" id="q2_1_5">
+                    <label for="q2_1_5">Deutlich höher</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie gut hatten Sie Zugang zu Angeboten wie Nachhilfe, Musikunterricht oder Sportvereinen?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="1" id="q2_2_1" required>
+                    <label for="q2_2_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="2" id="q2_2_2">
+                    <label for="q2_2_2">Eingeschränkt</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="3" id="q2_2_3">
+                    <label for="q2_2_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="4" id="q2_2_4">
+                    <label for="q2_2_4">Gut</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_2" value="5" id="q2_2_5">
+                    <label for="q2_2_5">Sehr gut</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie stark haben finanzielle Sorgen Ihren Alltag in der Kindheit beeinflusst?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q2_3" value="1" id="q2_3_1" required>
+                    <label for="q2_3_1">Sehr stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_3" value="2" id="q2_3_2">
+                    <label for="q2_3_2">Stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_3" value="3" id="q2_3_3">
+                    <label for="q2_3_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_3" value="4" id="q2_3_4">
+                    <label for="q2_3_4">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q2_3" value="5" id="q2_3_5">
+                    <label for="q2_3_5">Gar nicht</label>
+                </div>
+            </div>
+        </div>
+
+        <h2>3. Berufliche Chancen</h2>
+        <div class="question">
+            <p>Wie hoch schätzen Sie den beruflichen Status Ihrer Eltern/Erziehungsberechtigten ein?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="1" id="q3_1_1" required>
+                    <label for="q3_1_1">Niedrig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="2" id="q3_1_2">
+                    <label for="q3_1_2">Eher niedrig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="3" id="q3_1_3">
+                    <label for="q3_1_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="4" id="q3_1_4">
+                    <label for="q3_1_4">Eher hoch</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_1" value="5" id="q3_1_5">
+                    <label for="q3_1_5">Hoch</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie stark hatten Sie berufliche Vorbilder in Ihrem Umfeld?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="1" id="q3_2_1" required>
+                    <label for="q3_2_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="2" id="q3_2_2">
+                    <label for="q3_2_2">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="3" id="q3_2_3">
+                    <label for="q3_2_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="4" id="q3_2_4">
+                    <label for="q3_2_4">Stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_2" value="5" id="q3_2_5">
+                    <label for="q3_2_5">Sehr stark</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie frei fühlten Sie sich in Ihrer Berufswahl?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q3_3" value="1" id="q3_3_1" required>
+                    <label for="q3_3_1">Sehr eingeschränkt</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_3" value="2" id="q3_3_2">
+                    <label for="q3_3_2">Eher eingeschränkt</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_3" value="3" id="q3_3_3">
+                    <label for="q3_3_3">Teils/teils</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_3" value="4" id="q3_3_4">
+                    <label for="q3_3_4">Eher frei</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q3_3" value="5" id="q3_3_5">
+                    <label for="q3_3_5">Völlig frei</label>
+                </div>
+            </div>
+        </div>
+
+        <h2>4. Gesundheit & Lebensbedingungen</h2>
+        <div class="question">
+            <p>Wie würden Sie Ihre gesundheitliche Situation in der Kindheit beschreiben?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="1" id="q4_1_1" required>
+                    <label for="q4_1_1">Schlecht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="2" id="q4_1_2">
+                    <label for="q4_1_2">Durchschnittlich</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="3" id="q4_1_3">
+                    <label for="q4_1_3">Gut</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="4" id="q4_1_4">
+                    <label for="q4_1_4">Sehr gut</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_1" value="5" id="q4_1_5">
+                    <label for="q4_1_5">Ausgezeichnet</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie gut war Ihr Zugang zu Vorsorgeuntersuchungen und Freizeitangeboten?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="1" id="q4_2_1" required>
+                    <label for="q4_2_1">Sehr schlecht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="2" id="q4_2_2">
+                    <label for="q4_2_2">Eingeschränkt</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="3" id="q4_2_3">
+                    <label for="q4_2_3">Ausreichend</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="4" id="q4_2_4">
+                    <label for="q4_2_4">Gut</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_2" value="5" id="q4_2_5">
+                    <label for="q4_2_5">Sehr gut</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie stark haben Wohnsituation oder Infrastruktur Ihre Kindheit beeinflusst?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q4_3" value="1" id="q4_3_1" required>
+                    <label for="q4_3_1">Sehr stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_3" value="2" id="q4_3_2">
+                    <label for="q4_3_2">Stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_3" value="3" id="q4_3_3">
+                    <label for="q4_3_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_3" value="4" id="q4_3_4">
+                    <label for="q4_3_4">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q4_3" value="5" id="q4_3_5">
+                    <label for="q4_3_5">Gar nicht</label>
+                </div>
+            </div>
+        </div>
+
+        <h2>5. Geschlecht, Migration, Diskriminierung</h2>
+        <div class="question">
+            <p>Wie häufig haben Sie Diskriminierungserfahrungen gemacht?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="1" id="q5_1_1" required>
+                    <label for="q5_1_1">Sehr häufig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="2" id="q5_1_2">
+                    <label for="q5_1_2">Häufig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="3" id="q5_1_3">
+                    <label for="q5_1_3">Manchmal</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="4" id="q5_1_4">
+                    <label for="q5_1_4">Selten</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_1" value="5" id="q5_1_5">
+                    <label for="q5_1_5">Nie</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie stark hat Ihrer Meinung nach Ihr Geschlecht oder Ihre Herkunft Ihre Chancen beeinflusst?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="1" id="q5_2_1" required>
+                    <label for="q5_2_1">Sehr stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="2" id="q5_2_2">
+                    <label for="q5_2_2">Stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="3" id="q5_2_3">
+                    <label for="q5_2_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="4" id="q5_2_4">
+                    <label for="q5_2_4">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_2" value="5" id="q5_2_5">
+                    <label for="q5_2_5">Gar nicht</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie oft haben Sie sich in Ihrer Biografie benachteiligt gefühlt?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q5_3" value="1" id="q5_3_1" required>
+                    <label for="q5_3_1">Sehr oft</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_3" value="2" id="q5_3_2">
+                    <label for="q5_3_2">Oft</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_3" value="3" id="q5_3_3">
+                    <label for="q5_3_3">Manchmal</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_3" value="4" id="q5_3_4">
+                    <label for="q5_3_4">Selten</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q5_3" value="5" id="q5_3_5">
+                    <label for="q5_3_5">Nie</label>
+                </div>
+            </div>
+        </div>
+
+        <h2>6. Soziale Netzwerke & Unterstützung</h2>
+        <div class="question">
+            <p>Wie gut war Ihr Zugang zu unterstützenden Netzwerken in der Kindheit?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="1" id="q6_1_1" required>
+                    <label for="q6_1_1">Sehr schlecht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="2" id="q6_1_2">
+                    <label for="q6_1_2">Eingeschränkt</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="3" id="q6_1_3">
+                    <label for="q6_1_3">Ausreichend</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="4" id="q6_1_4">
+                    <label for="q6_1_4">Gut</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_1" value="5" id="q6_1_5">
+                    <label for="q6_1_5">Sehr gut</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie gut waren Sie in schwierigen Lebenslagen unterstützt?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="1" id="q6_2_1" required>
+                    <label for="q6_2_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="2" id="q6_2_2">
+                    <label for="q6_2_2">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="3" id="q6_2_3">
+                    <label for="q6_2_3">Ausreichend</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="4" id="q6_2_4">
+                    <label for="q6_2_4">Gut</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_2" value="5" id="q6_2_5">
+                    <label for="q6_2_5">Sehr gut</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie sehr haben Sie sich in Ihrer Kindheit zugehörig gefühlt?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q6_3" value="1" id="q6_3_1" required>
+                    <label for="q6_3_1">Gar nicht</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_3" value="2" id="q6_3_2">
+                    <label for="q6_3_2">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_3" value="3" id="q6_3_3">
+                    <label for="q6_3_3">Teils/teils</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_3" value="4" id="q6_3_4">
+                    <label for="q6_3_4">Oft</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q6_3" value="5" id="q6_3_5">
+                    <label for="q6_3_5">Sehr oft</label>
+                </div>
+            </div>
+        </div>
+
+        <h2>7. Reflexion & Transfer</h2>
+        <div class="question">
+            <p>Wie stark wurde Ihnen in Ihrer Kindheit bewusst, dass nicht alle Kinder die gleichen Chancen haben?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q7_1" value="1" id="q7_1_1" required>
+                    <label for="q7_1_1">Sehr stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q7_1" value="2" id="q7_1_2">
+                    <label for="q7_1_2">Stark</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q7_1" value="3" id="q7_1_3">
+                    <label for="q7_1_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q7_1" value="4" id="q7_1_4">
+                    <label for="q7_1_4">Wenig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q7_1" value="5" id="q7_1_5">
+                    <label for="q7_1_5">Gar nicht</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Wie wichtig ist Ihnen Chancengleichheit für Kinder in Ihrer heutigen Rolle?</p>
+            <div class="scale">
+                <div class="scale-option">
+                    <input type="radio" name="q7_2" value="1" id="q7_2_1" required>
+                    <label for="q7_2_1">Unwichtig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q7_2" value="2" id="q7_2_2">
+                    <label for="q7_2_2">Eher unwichtig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q7_2" value="3" id="q7_2_3">
+                    <label for="q7_2_3">Mittel</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q7_2" value="4" id="q7_2_4">
+                    <label for="q7_2_4">Wichtig</label>
+                </div>
+                <div class="scale-option">
+                    <input type="radio" name="q7_2" value="5" id="q7_2_5">
+                    <label for="q7_2_5">Sehr wichtig</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" onclick="calculateResults()">Ergebnisse anzeigen</button>
+    </form>
+
+    <div id="results">
+        <h2>Ihre Ergebnisse</h2>
+        <div class="category">
+            <h3>1. Soziale Herkunft & Bildung: <span id="score1">0</span>/15</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress1" style="width: 0%">0%</div>
+            </div>
+        </div>
+        <div class="category">
+            <h3>2. Einkommen & Vermögen: <span id="score2">0</span>/15</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress2" style="width: 0%">0%</div>
+            </div>
+        </div>
+        <div class="category">
+            <h3>3. Berufliche Chancen: <span id="score3">0</span>/15</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress3" style="width: 0%">0%</div>
+            </div>
+        </div>
+        <div class="category">
+            <h3>4. Gesundheit & Lebensbedingungen: <span id="score4">0</span>/15</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress4" style="width: 0%">0%</div>
+            </div>
+        </div>
+        <div class="category">
+            <h3>5. Geschlecht, Migration, Diskriminierung: <span id="score5">0</span>/15</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress5" style="width: 0%">0%</div>
+            </div>
+        </div>
+        <div class="category">
+            <h3>6. Soziale Netzwerke & Unterstützung: <span id="score6">0</span>/15</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress6" style="width: 0%">0%</div>
+            </div>
+        </div>
+        <div class="category">
+            <h3>7. Reflexion & Transfer: <span id="score7">0</span>/10</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress7" style="width: 0%">0%</div>
+            </div>
+        </div>
+        <div class="category">
+            <h3>Gesamtpunktzahl: <span id="totalScore">0</span>/100</h3>
+            <div class="progress-container">
+                <div class="progress-bar" id="totalProgress" style="width: 0%">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateResults() {
+            // Check if all questions are answered
+            const allQuestions = document.querySelectorAll('input[type="radio"]:required');
+            let allAnswered = true;
+            
+            for (let i = 0; i < allQuestions.length; i++) {
+                const name = allQuestions[i].name;
+                if (!document.querySelector(`input[name="${name}"]:checked`)) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+            
+            if (!allAnswered) {
+                alert("Bitte beantworten Sie alle Fragen, bevor Sie die Ergebnisse anzeigen.");
+                return;
+            }
+            
+            // Calculate scores for each category
+            const scores = [0, 0, 0, 0, 0, 0, 0];
+            
+            // Category 1
+            for (let i = 1; i <= 3; i++) {
+                const selected = document.querySelector(`input[name="q1_${i}"]:checked`);
+                scores[0] += parseInt(selected.value);
+            }
+            
+            // Category 2
+            for (let i = 1; i <= 3; i++) {
+                const selected = document.querySelector(`input[name="q2_${i}"]:checked`);
+                scores[1] += parseInt(selected.value);
+            }
+            
+            // Category 3
+            for (let i = 1; i <= 3; i++) {
+                const selected = document.querySelector(`input[name="q3_${i}"]:checked`);
+                scores[2] += parseInt(selected.value);
+            }
+            
+            // Category 4
+            for (let i = 1; i <= 3; i++) {
+                const selected = document.querySelector(`input[name="q4_${i}"]:checked`);
+                scores[3] += parseInt(selected.value);
+            }
+            
+            // Category 5
+            for (let i = 1; i <= 3; i++) {
+                const selected = document.querySelector(`input[name="q5_${i}"]:checked`);
+                scores[4] += parseInt(selected.value);
+            }
+            
+            // Category 6
+            for (let i = 1; i <= 3; i++) {
+                const selected = document.querySelector(`input[name="q6_${i}"]:checked`);
+                scores[5] += parseInt(selected.value);
+            }
+            
+            // Category 7 (only 2 questions)
+            for (let i = 1; i <= 2; i++) {
+                const selected = document.querySelector(`input[name="q7_${i}"]:checked`);
+                scores[6] += parseInt(selected.value);
+            }
+            
+            // Calculate total score
+            const totalScore = scores.reduce((a, b) => a + b, 0);
+            
+            // Display results
+            for (let i = 0; i < 6; i++) {
+                document.getElementById(`score${i+1}`).textContent = scores[i];
+                const percentage = (scores[i] / 15) * 100;
+                document.getElementById(`progress${i+1}`).style.width = `${percentage}%`;
+                document.getElementById(`progress${i+1}`).textContent = `${Math.round(percentage)}%`;
+            }
+            
+            // Special handling for category 7 (max 10 points)
+            document.getElementById('score7').textContent = scores[6];
+            const percentage7 = (scores[6] / 10) * 100;
+            document.getElementById('progress7').style.width = `${percentage7}%`;
+            document.getElementById('progress7').textContent = `${Math.round(percentage7)}%`;
+            
+            // Total score
+            document.getElementById('totalScore').textContent = totalScore;
+            const totalPercentage = (totalScore / 100) * 100;
+            document.getElementById('totalProgress').style.width = `${totalPercentage}%`;
+            document.getElementById('totalProgress').textContent = `${Math.round(totalPercentage)}%`;
+            
+            // Show results
+            document.getElementById('results').style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    </script>
+</body>
+</html>

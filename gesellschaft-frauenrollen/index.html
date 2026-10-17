@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesellschaftlicher Wandel - Frauenrollen im Wandel der Zeit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .generation-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+        .generation {
+            width: 30%;
+            min-width: 300px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 10px;
+            padding: 15px;
+            transition: transform 0.3s;
+        }
+        .generation:hover {
+            transform: translateY(-5px);
+        }
+        .generation h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 10px;
+        }
+        .concept-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            padding: 20px;
+        }
+        .concept-section h2 {
+            color: #2c3e50;
+        }
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .concept-card {
+            background: #f9f9f9;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .interactive-section {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+        .hidden {
+            display: none;
+        }
+        #new-generation-form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #e74c3c;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
+            background-color: white;
+            border: 4px solid #e74c3c;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .left {
+            left: 0;
+        }
+        .right {
+            left: 50%;
+        }
+        .right::after {
+            left: -12px;
+        }
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-item::after {
+                left: 18px;
+            }
+            .left::after, .right::after {
+                left: 18px;
+            }
+            .right {
+                left: 0%;
+            }
+            .generation {
+                width: 100%;
+            }
+        }
+    </style>
+<style id="moodle-anpassung">
+/* Überarbeitung Oktober 2026: Barrierearmut und Moodle */
+:focus-visible{outline:3px solid #1d4ed8 !important;outline-offset:2px !important}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+.mdl-hinweis{max-width:900px;margin:12px auto;padding:12px 16px;border-left:4px solid #1d4ed8;background:#eef3fb;color:#1f2a37;border-radius:6px;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:left}
+.mdl-hinweis b{font-weight:700}
+.mdl-bildquellen{max-width:900px;margin:24px auto;padding:8px 16px;font:13px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#444;text-align:left}
+.mdl-bildquellen a{color:#1d4ed8;word-break:break-all}
+</style>
+</head>
+<body>
+    <header>
+        <h1>Gesellschaftlicher Wandel: Frauenrollen im Wandel der Zeit</h1>
+        <p>Eine interaktive Darstellung des sozialen Wandels anhand der Familie Singer</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>Die Familie Singer - Drei Generationen im Vergleich</h2>
+            <p>Die Biografien der drei Frauen aus unterschiedlichen Generationen zeigen den gesellschaftlichen Wandel in Deutschland, insbesondere die Veränderung der Frauenrolle.</p>
+            
+            <div class="generation-container">
+                <div class="generation">
+                    <h3>Katharina Singer (geb. 1927)</h3>
+                    <p><strong>Lebensmodell:</strong> Hausfrau und Mutter von vier Kindern</p>
+                    <p><strong>Beruf:</strong> Keine Berufstätigkeit (vom Ehemann verboten)</p>
+                    <p><strong>Familienleben:</strong> Streng organisierter Haushalt, feste Rollenverteilung</p>
+                    <p><strong>Besonderheiten:</strong> Keine Emanzipation, traditionelles Familienbild</p>
+                    <button onclick="showDetails('katharina-details')">Mehr erfahren</button>
+                    <div id="katharina-details" class="hidden">
+                        <p>"Meine Frau braucht nicht zu arbeiten" - auf diesem Standpunkt beharrte der Ehemann und verbot seiner Frau, eine Stelle anzunehmen. "Jede Diskussion war zwecklos und das, obwohl wir manchmal jeden Pfennig zweimal umgedreht haben", sagt Katharina und schüttelt den Kopf.</p>
+                    </div>
+                </div>
+                
+                <div class="generation">
+                    <h3>Steffi Singer (geb. 1949)</h3>
+                    <p><strong>Lebensmodell:</strong> Friseurin und Mutter von zwei Kindern</p>
+                    <p><strong>Beruf:</strong> Berufsausbildung, später Teilzeitarbeit</p>
+                    <p><strong>Familienleben:</strong> Scheidung, zweite Ehe, Beibehaltung des Mädchennamens</p>
+                    <p><strong>Besonderheiten:</strong> Beginnende Emanzipation, aber noch starke Bindung an traditionelle Rollen</p>
+                    <button onclick="showDetails('steffi-details')">Mehr erfahren</button>
+                    <div id="steffi-details" class="hidden">
+                        <p>"Ich wollte auf jeden Fall eine berufliche Grundlage, für mich selbst und damit man sich mal etwas Besonderes leisten kann", erzählt die 53-Jährige. "Ich habe erkannt, dass ich ich selbst bleiben muss. Ich habe meinen Mädchennamen wieder angenommen."</p>
+                    </div>
+                </div>
+                
+                <div class="generation">
+                    <h3>Nina Singer (geb. 1973)</h3>
+                    <p><strong>Lebensmodell:</strong> Sekretärin und Mutter von zwei Kindern</p>
+                    <p><strong>Beruf:</strong> Berufsausbildung, schnelle Rückkehr in den Beruf nach Mutterschaft</p>
+                    <p><strong>Familienleben:</strong> Spätere Heirat, Karriereambitionen, Fremdbetreuung der Kinder</p>
+                    <p><strong>Besonderheiten:</strong> Selbstbestimmte Lebensführung, Gleichberechtigung</p>
+                    <button onclick="showDetails('nina-details')">Mehr erfahren</button>
+                    <div id="nina-details" class="hidden">
+                        <p>"Wir mussten ja nicht gleich heiraten, bloß weil wir ein Kind erwarteten." Beim ersten Kind ist sie noch ein Jahr zu Hause geblieben, beim zweiten hat sie gleich nach dem Mutterschaftsurlaub wieder angefangen zu arbeiten. "Mein Gehalt können wir gut gebrauchen, denn die Eigentumswohnung muss abbezahlt werden."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="interactive-section">
+            <h2>Die vierte Generation: Ninas Tochter im Jahr 2023</h2>
+            <p>Nina Singers älteste Tochter war 2002 zum Zeitpunkt der Interviews vier Jahre alt und ist somit heute 24 Jahre. Wie könnte ihre Biografie aussehen?</p>
+            
+            <div id="suggested-biography" class="hidden">
+                <h3>Lena Singer (geb. 1998)</h3>
+                <p><strong>Lebensmodell:</strong> Selbstständige Digital-Marketing-Expertin</p>
+                <p><strong>Ausbildung:</strong> Studium der Medienwissenschaften mit Schwerpunkt Digital Marketing</p>
+                <p><strong>Beruf:</strong> Remote-Arbeit für internationale Kunden, flexible Arbeitszeiten</p>
+                <p><strong>Familienleben:</strong> Nicht verheiratet, in einer Partnerschaft, Kinderwunsch unsicher</p>
+                <p><strong>Besonderheiten:</strong> Globale Perspektive, Work-Life-Blending statt Work-Life-Balance, Nutzung digitaler Technologien für alle Lebensbereiche</p>
+                <p>"Ich schätze die Freiheit, von überall arbeiten zu können. Ob ich Kinder haben möchte, weiß ich noch nicht - die Welt steht mir offen, und ich möchte erst meine Karriere festigen. Meine Großmutter Steffi findet das unverantwortlich, aber für mich ist es selbstverständlich, dass ich mein Leben nach meinen Vorstellungen gestalte."</p>
+            </div>
+            
+            <button onclick="showBiography()">Vorschlag anzeigen</button>
+            <button onclick="showForm()">Eigene Version erstellen</button>
+            
+            <div id="new-generation-form" class="hidden">
+                <h3>Erstellen Sie eine Biografie für Ninas Tochter</h3>
+                <form id="biography-form">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" required>
+                    
+                    <label for="job">Beruf:</label>
+                    <input type="text" id="job" required>
+                    
+                    <label for="education">Ausbildung:</label>
+                    <input type="text" id="education" required>
+                    
+                    <label for="family">Familienleben:</label>
+                    <input type="text" id="family" required>
+                    
+                    <label for="special">Besonderheiten:</label>
+                    <textarea id="special" rows="3" required></textarea>
+                    
+                    <label for="quote">Zitat:</label>
+                    <textarea id="quote" rows="3" required></textarea>
+                    
+                    <button type="button" onclick="createBiography()">Biografie erstellen</button>
+                </form>
+            </div>
+            
+            <div id="custom-biography" class="hidden"></div>
+        </section>
+
+        <section class="concept-section">
+            <h2>Konzepte des gesellschaftlichen Wandels</h2>
+            <p>Seit Katharina Singer 1927 das Licht der Welt erblickt hat, hat sich nicht nur das Frauenbild und die damit verbundene Rolle der Frau gewandelt. Insgesamt hat unsere Gesellschaft einen enormen Wandel vollzogen.</p>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Individualisierung</h3>
+                    <p>Der Prozess, bei dem Menschen aus traditionellen sozialen Bindungen (wie Klasse, Familie, Geschlechterrollen) herausgelöst werden und ihre Biografie selbst gestalten müssen.</p>
+                    <button onclick="showConceptDetails('individualisierung-details')">Details</button>
+                    <div id="individualisierung-details" class="hidden">
+                        <p><strong>Merkmale:</strong></p>
+                        <ul>
+                            <li>Freisetzung aus traditionellen Bindungen</li>
+                            <li>Zunahme von Wahlmöglichkeiten</li>
+                            <li>Selbstgestaltung der Biografie</li>
+                            <li>Abnahme vorgegebener Lebenswege</li>
+                        </ul>
+                        <p>An den Frauen der Familie Singer zeigt sich: Von der festgelegten Rolle als Hausfrau (Katharina) über die teilweise selbstbestimmte Lebensführung (Steffi) bis zur weitgehenden Selbstbestimmung (Nina) wird der Individualisierungsprozess deutlich.</p>
+                    </div>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>Pluralisierung</h3>
+                    <p>Die zunehmende Vielfalt von Lebensstilen, Werten und Lebensformen in der Gesellschaft.</p>
+                    <button onclick="showConceptDetails('pluralisierung-details')">Details</button>
+                    <div id="pluralisierung-details" class="hidden">
+                        <p><strong>Merkmale:</strong></p>
+                        <ul>
+                            <li>Vielfalt der Lebensstile</li>
+                            <li>Akzeptanz unterschiedlicher Lebensformen</li>
+                            <li>Relativierung von Normen</li>
+                            <li>Wahl zwischen verschiedenen Optionen</li>
+                        </ul>
+                        <p>Die Singer-Frauen zeigen: Von der einzig akzeptierten Kleinfamilie (Katharina) über die Scheidung und zweite Ehe (Steffi) bis zur selbstbestimmten Familienplanung (Nina) wird die zunehmende Pluralisierung sichtbar.</p>
+                    </div>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>Globalisierung</h3>
+                    <p>Ein weltumspannender Prozess, der die Bedeutung nationalstaatlicher Grenzen einschränkt und damit die Handlungsräume vergrößert.</p>
+                    <button onclick="showConceptDetails('globalisierung-details')">Details</button>
+                    <div id="globalisierung-details" class="hidden">
+                        <p><strong>Merkmale:</strong></p>
+                        <ul>
+                            <li>Weltweite Vernetzung</li>
+                            <li>Internationaler Austausch</li>
+                            <li>Globaler Arbeitsmarkt</li>
+                            <li>Kultureller Austausch</li>
+                        </ul>
+                        <p>Während Katharina in einer lokal begrenzten Welt lebte und Steffi erste Reisen unternahm, ist für Nina und ihre Tochter die globale Perspektive selbstverständlich - sei es durch internationale Geschäftskontakte oder die Möglichkeit, von überall zu arbeiten.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline">
+            <h2>Zeitleiste: Wandel der Frauenrolle in Deutschland</h2>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>1949</h3>
+                    <p>Grundgesetz: "Männer und Frauen sind gleichberechtigt" (Artikel 3)</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>1958</h3>
+                    <p>Gesetz über die Gleichberechtigung von Mann und Frau: Aufhebung des Letztentscheidungsrechts des Mannes in allen Eheangelegenheiten</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>1961</h3>
+                    <p>Einführung der Antibabypille in Deutschland</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>1977</h3>
+                    <p>Reform des Ehe- und Familienrechts: Aufhebung des Hausfrauenehe-Prinzips, Frauen dürfen ohne Zustimmung des Ehemanns arbeiten</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>1994</h3>
+                    <p>Artikel 3 GG wird ergänzt: "Der Staat fördert die tatsächliche Durchsetzung der Gleichberechtigung von Frauen und Männern und wirkt auf die Beseitigung bestehender Nachteile hin."</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>2001</h3>
+                    <p>Einführung der eingetragenen Lebenspartnerschaft für gleichgeschlechtliche Paare</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>2015</h3>
+                    <p>Einführung der Frauenquote für Aufsichtsräte großer Unternehmen</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>2017</h3>
+                    <p>Einführung der "Ehe für alle" (gleichgeschlechtliche Ehe)</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="concept-section">
+            <h2>Schattenseiten des gesellschaftlichen Wandels</h2>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Zunahme der Entscheidungszumutungen</h3>
+                    <p>Die Explosion der Wahlmöglichkeiten führt zu Überforderung und dem Gefühl, immer die falsche Entscheidung zu treffen.</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>Selbstverantwortung</h3>
+                    <p>Der Einzelne wird für sein Scheitern selbst verantwortlich gemacht, auch wenn äußere Umstände eine Rolle spielen.</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>Verlust traditioneller Stabilitäten</h3>
+                    <p>Traditionelle Bindungen gaben auch Halt und Sicherheit, deren Wegfall kann zu Orientierungslosigkeit führen.</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>Globalisierungsverlierer</h3>
+                    <p>Nicht alle profitieren gleichermaßen von der Globalisierung - soziale Ungleichheit, Umweltprobleme und kulturelle Konflikte nehmen zu.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="interactive-section">
+            <h2>Reflexion: Vorbereitung auf eine individualisierte, pluralisierte und globalisierte Welt</h2>
+            <p>Überlegen Sie, wie Sie Kinder auf ein Leben in einer sich wandelnden Gesellschaft vorbereiten wollen. Was ist Ihnen dabei wichtig?</p>
+            
+            <textarea id="reflection" rows="5" style="width: 100%; margin: 10px 0;"></textarea>
+            <button onclick="saveReflection()">Meine Überlegungen speichern</button>
+            <div id="saved-reflection"></div>
+        </section>
+    </div>
+
+    <script>
+        function showDetails(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === 'none' || element.style.display === '') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+        
+        function showConceptDetails(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === 'none' || element.style.display === '') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+        
+        function showBiography() {
+            const element = document.getElementById('suggested-biography');
+            if (element.style.display === 'none' || element.style.display === '') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+        
+        function showForm() {
+            const element = document.getElementById('new-generation-form');
+            if (element.style.display === 'none' || element.style.display === '') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+        
+        function createBiography() {
+            const name = document.getElementById('name').value;
+            const job = document.getElementById('job').value;
+            const education = document.getElementById('education').value;
+            const family = document.getElementById('family').value;
+            const special = document.getElementById('special').value;
+            const quote = document.getElementById('quote').value;
+            
+            const biography = `
+                <h3>${name}</h3>
+                <p><strong>Lebensmodell:</strong> ${job}</p>
+                <p><strong>Ausbildung:</strong> ${education}</p>
+                <p><strong>Familienleben:</strong> ${family}</p>
+                <p><strong>Besonderheiten:</strong> ${special}</p>
+                <p>"${quote}"</p>
+            `;
+            
+            document.getElementById('custom-biography').innerHTML = biography;
+            document.getElementById('custom-biography').style.display = 'block';
+            document.getElementById('new-generation-form').style.display = 'none';
+        }
+        
+        function saveReflection() {
+            const reflection = document.getElementById('reflection').value;
+            document.getElementById('saved-reflection').innerHTML = `
+                <h3>Ihre gespeicherten Überlegungen:</h3>
+                <p>${reflection}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
